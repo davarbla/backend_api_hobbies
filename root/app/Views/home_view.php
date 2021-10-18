@@ -1,0 +1,195 @@
+<?php require_once 'header_view.php';?>
+<meta http-equiv="refresh" content="120"> <!-- 120 seconds -->
+
+<body class="has-sidebar has-fixed-sidebar-and-header">
+    <!-- Header -->
+    <?php require_once 'header_body_view.php';?>
+    <!-- End Header -->
+
+    <main class="main">
+        <!-- Sidebar Nav -->
+        <?php require_once 'menu_left.php';?>
+        <!-- End Sidebar Nav -->
+
+        <div class="content">
+            <div class="py-4 px-3 px-md-4">
+
+                <div class="mb-3 mb-md-4 d-flex justify-content-between">
+                    <div class="h3 mb-0">Dashboard</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 col-xl-4 mb-3 mb-xl-4">
+                        <!-- Widget -->
+                        <div class="card flex-row align-items-center p-3 p-md-4">
+                            <div class="icon icon-lg bg-soft-primary rounded-circle mr-3">
+                                <i class="gd-bar-chart icon-text d-inline-block text-primary"></i>
+                            </div>
+                            <div>
+                                <h4 class="lh-1 mb-1"><?php echo number_format($total_install);?></h4>
+                                <h6 class="mb-0">Total Installed</h6>
+                            </div>
+                            <i class="gd-arrow-up icon-text d-flex text-success ml-auto"></i>
+                        </div>
+                        <!-- End Widget -->
+                    </div>
+
+                    <div class="col-md-6 col-xl-4 mb-3 mb-xl-4">
+                        <!-- Widget -->
+                        <div class="card flex-row align-items-center p-3 p-md-4">
+                            <div class="icon icon-lg bg-soft-secondary rounded-circle mr-3">
+                                <i class="gd-user icon-text d-inline-block text-secondary"></i>
+                            </div>
+                            <div>
+                                <h4 class="lh-1 mb-1"><?php echo number_format($total_member);?></h4>
+                                <h6 class="mb-0">Total Member</h6>
+                            </div>
+                            <i class="gd-arrow-up icon-text d-flex text-danger ml-auto"></i>
+                        </div>
+                        <!-- End Widget -->
+                    </div>
+
+                    <div class="col-md-6 col-xl-4 mb-3 mb-xl-4">
+                        <!-- Widget -->
+                        <div class="card flex-row align-items-center p-3 p-md-4">
+                            <div class="icon icon-lg bg-soft-warning rounded-circle mr-3">
+                                <i class="gd-camera icon-text d-inline-block text-warning"></i>
+                            </div>
+                            <div>
+                                <h4 class="lh-1 mb-1"><?php echo number_format($total_post);?></h4>
+                                <h6 class="mb-0">Total Post</h6>
+                            </div>
+                            <i class="gd-arrow-up icon-text d-flex text-success ml-auto"></i>
+                        </div>
+                        <!-- End Widget -->
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 col-xl-4 mb-3 mb-xl-4">
+                        <!-- Widget -->
+                        <div class="card flex-row align-items-center p-3 p-md-4">
+                            <div class="icon icon-lg bg-soft-primary rounded-circle mr-3">
+                                <i class="gd-download icon-text d-inline-block text-primary"></i>
+                            </div>
+                            <div>
+                                <h4 class="lh-1 mb-1"><?php echo number_format($total_download);?></h4>
+                                <h6 class="mb-0">Total Download</h6>
+                            </div>
+                            <i class="gd-arrow-up icon-text d-flex text-success ml-auto"></i>
+                        </div>
+                        <!-- End Widget -->
+                    </div>
+
+                    <div class="col-md-6 col-xl-4 mb-3 mb-xl-4">
+                        <!-- Widget -->
+                        <div class="card flex-row align-items-center p-3 p-md-4">
+                            <div class="icon icon-lg bg-soft-secondary rounded-circle mr-3">
+                                <i class="gd-rss icon-text d-inline-block text-secondary"></i>
+                            </div>
+                            <div>
+                                <h4 class="lh-1 mb-1"><?php echo number_format($total_country);?></h4>
+                                <h6 class="mb-0">Total Country</h6>
+                            </div>
+                            <i class="gd-arrow-up icon-text d-flex text-danger ml-auto"></i>
+                        </div>
+                        <!-- End Widget -->
+                    </div>
+
+                    <div class="col-md-6 col-xl-4 mb-3 mb-xl-4">
+                        <!-- Widget -->
+                        <div class="card flex-row align-items-center p-3 p-md-4">
+                            <div class="icon icon-lg bg-soft-warning rounded-circle mr-3">
+                                <i class="gd-book icon-text d-inline-block text-warning"></i>
+                            </div>
+                            <div>
+                                <h4 class="lh-1 mb-1"><?php echo number_format($total_category);?></h4>
+                                <h6 class="mb-0">Total Category</h6>
+                            </div>
+                            <i class="gd-arrow-up icon-text d-flex text-success ml-auto"></i>
+                        </div>
+                        <!-- End Widget -->
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card mb-3 mb-md-4">
+                            <div class="card-header">
+                                <h5 class="font-weight-semi-bold mb-0">Recent Feedback</h5>
+                            </div>
+
+                            <div class="card-body pt-0">
+                                <div class="table-responsive-xl">
+                                    <table class="table text-nowrap mb-0" id="table1">
+                                        <thead>
+                                            <tr>
+                                                <th class="font-weight-semi-bold border-top-0 py-2">Fullname</th>
+                                                <th class="font-weight-semi-bold border-top-0 py-2">Image</th>
+                                                <th class="font-weight-semi-bold border-top-0 py-2">Feedback</th>
+                                                <th class="font-weight-semi-bold border-top-0 py-2">Rating</th>
+                                                <th class="font-weight-semi-bold border-top-0 py-2">Update Date</th>
+                                                <th class="font-weight-semi-bold border-top-0 py-2">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($result_feedback as $row) {
+                                        $id = $row['id_feedback'];
+                                        $sta = '<span class="badge bg-danger">Inactive</span>';
+                                        if ($row['status'] == '1') {
+                                            $sta = '<span class="badge bg-success">Active</span>';
+                                        }
+
+                                        $img = '<a href="'.$row['image'].'" target="_blank">
+                                            <img src="'.$row['image'].'" border="0" style="width: 30px; height: 30px;"/></a>';
+                                        
+                                        echo '<tr>
+                                                <td>'.$row['fullname'].'</td>
+                                                <td>'.$img.'</td>
+                                                <td>'.$row['desc_feedback'].'</td>
+                                                <td>'.number_format($row['rating']).'</td>
+                                                <td>'.$row['date_updated'].'</td>
+                                                <td>'.$sta.'</td>
+                                            </tr>';
+                                    } ?>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <?php require_once 'footer_view.php';?>
+            <!-- End Footer -->
+        </div>
+    </main>
+
+    <?php require_once 'script_view.php';?>
+
+    <script src="graindashboard/js/graindashboard.js"></script>
+    <script src="graindashboard/js/graindashboard.vendor.js"></script>
+    <script src="graindashboard/js/graindashboard.custom.js"></script>
+
+    <!-- DEMO CHARTS -->
+    <script src="demo/resizeSensor.js"></script>
+    <script src="demo/chartist.js"></script>
+    <script src="demo/chartist-plugin-tooltip.js"></script>
+
+    <script src="vendors/simple-datatables/simple-datatables.js"></script>
+
+    <script>
+    // Simple Datatable
+    let table1 = document.querySelector('#table1');
+    let dataTable = new simpleDatatables.DataTable(table1);
+    </script>
+
+
+</body>
+
+</html>
