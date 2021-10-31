@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\CategoryModel;
 use App\Models\UserCategoryModel;
+use App\Models\UserPostModel;
 use App\Models\AuthHeaderModel;
 
 use App\Models\UserModel;
@@ -20,8 +21,10 @@ class Api extends BaseController
     protected $authModel;
     protected $categModel;
     
+    
     protected $postModel;
     protected $userCategModel;
+    protected $userPostModel;
     protected $userModel;
 
     protected $followModel;
@@ -34,7 +37,9 @@ class Api extends BaseController
     {
         $this->authModel = new AuthHeaderModel(); //Consider using CI's way of initialising models
         $this->categModel = new CategoryModel();
+                
         $this->userCategModel = new UserCategoryModel();
+        $this->userPostModel = new UserPostModel();
 
         $this->postModel = new PostModel();    
         $this->userModel = new UserModel();
@@ -69,6 +74,9 @@ class Api extends BaseController
         $dataUserCateg = $this->userCategModel->categUserByLimit($idUser , $limit, $offset);
         //print_r($dataUserCateg);
 
+        //get user post
+        $dataUserPost = $this->userPostModel->categUserByLimit($idUser , $limit, $offset);
+
         //get my post
         $dataMyPost = $this->postModel->getAllByIdUser($idUser, $limit, $offset);
 
@@ -87,6 +95,7 @@ class Api extends BaseController
         $results = array();
         $results['category'] = $dataCateg;  
         $results['mycategory'] = $dataUserCateg;  
+        $results['myuserpost'] = $dataUserPost;  
         $results['mypost'] = $dataMyPost;  
         $results['latest_post'] = $dataLatestPost;  
         $results['all_user'] = $dataUser;  
@@ -462,6 +471,72 @@ class Api extends BaseController
             );
         }
 
+        //add the header here
+        header('Content-Type: application/json');
+        echo json_encode($json);
+        die();
+    }
+    
+    public function join_unjoin_post()
+    {
+        $this->postBody = $this->authModel->authHeader($this->request);
+        
+        
+        $idUser = $this->postBody['iu'];
+        $idPost = $this->postBody['ic'];
+        
+        $dataCateg = array();
+        
+        if ($idUser != '' && $idPost != '') {
+            $dataCateg = [$this->userPostModel->join_unjoin($this->postBody)];
+            
+            $masterCateg = $this->postModel->getById($idPost);
+            $checkExist = $this->userPostModel->getByUserPost($idUser, $idPost);
+            
+            $isJoined = false;
+            if ($checkExist['id_user_post'] != '' && $checkExist['status'] == '1') {
+                $isJoined = true;
+            }
+            //TODO
+            //send notif
+          /*  if ($masterCateg['subscribe_fcm'] != '') {
+                $actionUser = $this->userModel->getTokenById($idUser);
+                $titleNotif = $isJoined ? "Category join by " . $actionUser['fullname'] : "Category unjoin by " . $actionUser['fullname'];
+                
+                $desc = $masterCateg['description'];
+                $image = $masterCateg['image'];
+                $dataFcm = array(
+                    'title'   => $titleNotif,
+                    'body'    => $desc . "\n#" . $masterCateg['title'],
+                    "image"   => $image,
+                    'payload' => array(
+                        "keyname" => $isJoined ? 'join_category' : 'unjoin_category',
+                        "categ" => $masterCateg,
+                        "image"   => $image
+                    ),
+                );
+                
+                $this->userModel->sendFCMMessage('/topics/' . $masterCateg['subscribe_fcm'], $dataFcm);
+            }
+            */
+        }
+        
+        $arr = $dataCateg;
+        if (count($arr) < 1) {
+            $json = array(
+                "result" => $arr,
+                "code" => "201",
+                "message" => "Required data parameter",
+            );
+        }
+        else {
+            $json = array(
+                "result" => $arr,
+                "code" => "200",
+                "message" => "Success",
+            );
+        }
+        
         //add the header here
         header('Content-Type: application/json');
         echo json_encode($json);
