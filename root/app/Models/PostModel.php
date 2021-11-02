@@ -200,7 +200,7 @@ class PostModel extends Model
             AND up.id_user = b.id_user
             AND a.status='".$status."' 
             AND a.id_post=".$row['id_post']."
-            AND up.status=1
+            AND up.status IN (1,3)
             AND b.status=1 ");
             $result2 = $query2->getResultArray();
             $row['other_users'] =  $result2;
@@ -271,7 +271,7 @@ class PostModel extends Model
             AND up.id_user = b.id_user
             AND a.status='".$status."' 
             AND a.id_post=".$row['id_post']."
-            AND up.status=1
+            AND up.status IN (1,3)
             AND b.status=1 ");
             $result2 = $query2->getResultArray();
             $row['other_users'] =  $result2;
@@ -326,7 +326,7 @@ class PostModel extends Model
             AND up.id_user = b.id_user
             AND a.status='".$status."' 
             AND a.id_post=".$row['id_post']."     
-            AND up.status=1       
+            AND up.status IN (1,3)
             AND b.status=1 ");
             $result2 = $query2->getResultArray();
             $row['other_users'] =  $result2;
@@ -427,7 +427,7 @@ class PostModel extends Model
             AND up.id_user = b.id_user
             AND a.status='".$status."' 
             AND a.id_post=".$row['id_post']."
-            AND up.status=1
+            AND up.status IN (1,3)
             AND b.status=1 ");
             $result2 = $query2->getResultArray();
             $row['other_users'] =  $result2;
@@ -550,7 +550,7 @@ class PostModel extends Model
             AND a.status='".$status."' 
             AND a.id_user != '".$row['id_user']."'
             AND a.id_category='".$idCateg."'
-            AND up.status=1
+            AND up.status IN (1,3)
             AND b.status=1 ");
             $result2 = $query2->getResultArray();
             $row['other_users'] =  $result2;
@@ -608,7 +608,7 @@ class PostModel extends Model
             AND up.id_user = b.id_user
             AND a.status='".$status."' 
             AND a.id_post=".$row['id_post']."
-            AND up.status=1
+            AND up.status IN (1,3)
             AND b.status=1 ");
             $result2 = $query2->getResultArray();
             $row['other_users'] =  $result2;
@@ -665,7 +665,7 @@ class PostModel extends Model
             AND up.id_user = b.id_user            
             AND a.status='".$status."' 
             AND a.id_post=".$row['id_post']."
-            AND up.status=1
+            AND up.status IN (1,3)
             AND b.status=1 ");
             $result2 = $query2->getResultArray();
             $row['other_users'] =  $result2;
@@ -729,7 +729,7 @@ class PostModel extends Model
             AND a.status='".$status."' 
             AND a.id_post=".$row['id_post']."
             AND b.status=1
-            AND up.status=1
+            AND up.status IN (1,3)
             AND a.id_category='".$idCateg."' ");
             $result2 = $query2->getResultArray();
             $row['other_users'] =  $result2;
