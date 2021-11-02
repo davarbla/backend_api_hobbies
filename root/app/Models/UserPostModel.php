@@ -90,8 +90,8 @@ class UserPostModel extends Model
                         'id_post'  => $idPost,
                     ];
 
-                    //update post
-                    $sqlUpdate2 = " UPDATE tb_post SET total_user=total_user+1 WHERE id_post='".$idPost."' ";
+                    //update post (INUTIL! SUPRIMIR)
+                    $sqlUpdate2 = " UPDATE tb_post SET total_user=total_user WHERE id_post='".$idPost."' ";
                 }
                 
                 $this->save($data);
@@ -107,8 +107,8 @@ class UserPostModel extends Model
                 ];
 
                 
-                //update post
-                $sqlUpdate2 = " UPDATE tb_post SET total_user=total_user+1 WHERE id_post='".$idPost."' ";
+                //update post (INUTIL! SUPRIMIR)
+                $sqlUpdate2 = " UPDATE tb_post SET total_user=total_user WHERE id_post='".$idPost."' ";
 
                 $this->save($data);
                 $this->query($sqlUpdate2);
