@@ -184,6 +184,44 @@ class UserPostModel extends Model
         return $this->getByUserPost($idUser, $idPost);
     }
 
+    public function unjoin($array) {
+       
+        $idUser = $array['iu'];
+        $idPost = $array['ic'];
+        
+        if ($idUser != '' && $idPost != '') {
+            $checkExist = $this->getByUserPost($idUser, $idPost);
+            
+            $data = array();
+            $sqlUpdate2 = "";
+
+            if ($checkExist['id_user_post'] != '') {
+
+
+                if ($checkExist['status'] != '0') {
+                    // exist do unjoin
+                    $data = [
+                        'id_user_post' => $checkExist['id_user_post'],
+                        'id_user'   => $idUser,
+                        'count_interest' => $checkExist['count_interest']-1,
+                        'status' => 0,
+                        'id_post'  => $idPost
+                    ];
+
+                    //update post
+                    $sqlUpdate2 = " UPDATE tb_post SET total_user=total_user-1 WHERE id_post='".$idPost."' ";
+                }
+                
+                
+                $this->save($data);
+                $this->query($sqlUpdate2);
+            }
+            
+        }
+
+        return $this->getByUserPost($idUser, $idPost);
+    }
+
     public function getByUserId($id) {
         return $this->where('id_user', $id)
                     ->findAll();

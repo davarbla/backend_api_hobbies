@@ -560,9 +560,73 @@ class Api extends BaseController
             $checkExist = $this->userPostModel->getByUserPost($idUser, $idPost);
             
             $isJoined = false;
-            if ($checkExist['id_user_post'] != '' && $checkExist['status'] == '1') {
+            if ($checkExist['id_user_post'] != '' && $checkExist['status'] != '0') {
                 $isJoined = true;
             }
+            //TODO
+            //send notif
+          /*  if ($masterCateg['subscribe_fcm'] != '') {
+                $actionUser = $this->userModel->getTokenById($idUser);
+                $titleNotif = $isJoined ? "Category join by " . $actionUser['fullname'] : "Category unjoin by " . $actionUser['fullname'];
+                
+                $desc = $masterCateg['description'];
+                $image = $masterCateg['image'];
+                $dataFcm = array(
+                    'title'   => $titleNotif,
+                    'body'    => $desc . "\n#" . $masterCateg['title'],
+                    "image"   => $image,
+                    'payload' => array(
+                        "keyname" => $isJoined ? 'join_category' : 'unjoin_category',
+                        "categ" => $masterCateg,
+                        "image"   => $image
+                    ),
+                );
+                
+                $this->userModel->sendFCMMessage('/topics/' . $masterCateg['subscribe_fcm'], $dataFcm);
+            }
+            */
+        }
+        
+        $arr = $dataCateg;
+        if (count($arr) < 1) {
+            $json = array(
+                "result" => $arr,
+                "code" => "201",
+                "message" => "Required data parameter",
+            );
+        }
+        else {
+            $json = array(
+                "result" => $arr,
+                "code" => "200",
+                "message" => "Success",
+            );
+        }
+        
+        //add the header here
+        header('Content-Type: application/json');
+        echo json_encode($json);
+        die();
+    }
+
+    public function unjoin_post()
+    {
+        $this->postBody = $this->authModel->authHeader($this->request);
+        
+        
+        $idUser = $this->postBody['iu'];
+        $idPost = $this->postBody['ic'];
+        
+        $dataCateg = array();
+        
+        if ($idUser != '' && $idPost != '') {
+            $dataCateg = [$this->userPostModel->unjoin($this->postBody)];
+            
+            $masterCateg = $this->postModel->getById($idPost);
+            $checkExist = $this->userPostModel->getByUserPost($idUser, $idPost);
+            
+            $isJoined = true;
+
             //TODO
             //send notif
           /*  if ($masterCateg['subscribe_fcm'] != '') {
