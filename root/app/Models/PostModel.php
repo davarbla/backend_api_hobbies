@@ -17,7 +17,7 @@ class PostModel extends Model
     protected $allowedFields = ['title', 'description', 'id_category', 'id_user', 'latitude', 'location', 'image', 
     'image2', 'image3', 'total_like', 'total_comment', 
     'total_user', 'total_download', 'total_view', 'total_report', 
-    'timestamp', 'flag', 'status', 'date_created', 'date_updated'];
+    'timestamp', 'flag', 'status', 'date_created', 'date_updated', 'address_detail','bring', 'max_people','price'];
 
     protected $useTimestamps = true;
     protected $createdField  = 'date_created';
@@ -398,13 +398,17 @@ class PostModel extends Model
         if ($array['iu'] != '0') {
             $data = [
                 'id_post'       => $array['id'],
-                'title'         => 'Post_Title', //$array['ds'],
+                'title'   => htmlspecialchars(strip_tags($array['title'])),
                 'description'   => htmlspecialchars(strip_tags($array['ds'])),
                 'id_category'   => $array['ic'],
                 'id_user'       => $array['iu'],
                 'latitude'      => $array['lat'],
                 'location'      => $array['loc'],
                 'image'         => $array['img'],
+                'address_detail'   => htmlspecialchars(strip_tags($array['address_detail'])),
+                'bring'   => htmlspecialchars(strip_tags($array['bring'])),
+                'max_people'     => $array['max_people'],
+                'price'     => $array['price'],
             ];
             $this->save($data);
         }
@@ -877,5 +881,5 @@ class PostModel extends Model
 id_post, title, description, id_category, id_user, image, 
 image2, image3, total_like, total_comment, 
 total_user, total_download, total_view, 
-timestamp, flag, status, date_created, date_updated
+timestamp, flag, status, date_created, date_updated, address_detail, bring, max_people, price
  */

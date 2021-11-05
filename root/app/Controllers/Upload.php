@@ -68,7 +68,8 @@ class Upload extends BaseController
         //print_r($this->postBody);
         //die();
         $dataPost = array();
-        if ($this->postBody['img'] != '' && $this->postBody['iu'] != '' && $this->postBody['ic'] != '' && $this->postBody['ds'] != '') {
+        //if ($this->postBody['img'] != '' && $this->postBody['iu'] != '' && $this->postBody['ic'] != '' && $this->postBody['ds'] != '') {
+        if ( $this->postBody['iu'] != '' && $this->postBody['ic'] != '' ) {
             $dataPost = $this->postModel->saveUpdate($this->postBody);
         }
 
@@ -116,6 +117,7 @@ class Upload extends BaseController
             //send notif fcm to topics
             //check file theme.dart  var fcmTopicName
             $desc = $this->postBody['ds'];
+
             $image = $this->postBody['img'];
             $dataFcm = array(
                 'title'   => "New Post to Share " . $dataUser['fullname'],
