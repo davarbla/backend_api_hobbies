@@ -306,6 +306,9 @@ class Api extends BaseController
                     'about'  => $this->postBody['ab'],
                     'latitude'  => $this->postBody['lat'],
                     'location'  => $this->postBody['loc'],
+                    'height'  => $this->postBody['height'],
+                    'wheight'  => $this->postBody['wheight'],
+                    'age'  => $this->postBody['age'],
                 ];
                 $this->userModel->save($data);
             }
