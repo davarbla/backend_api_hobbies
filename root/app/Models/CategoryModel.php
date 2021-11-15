@@ -13,7 +13,7 @@ class CategoryModel extends Model
     protected $returnType     = 'array';
     protected $useSoftDeletes = false;
     
-    protected $allowedFields = ['title', 'description', 'image', 'subscribe_fcm', 'total_interest', 'total_post', 'total_like', 'flag', 'status'];
+    protected $allowedFields = ['title', 'description', 'image', 'subscribe_fcm', 'total_interest', 'total_post', 'total_like', 'flag', 'status','id_category_up','group','private', 'latitude','location'];
     
     protected $useTimestamps = true;
     protected $createdField  = 'date_created';
