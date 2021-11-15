@@ -309,6 +309,14 @@ class Api extends BaseController
                     'height'  => $this->postBody['height'],
                     'weight'  => $this->postBody['weight'],
                     'age'  => $this->postBody['age'],
+                    'position'  => $this->postBody['position'],
+                    'protection'  => $this->postBody['protection'],
+                    'relationship'  => $this->postBody['relationship'],
+                    'bodyColor'  => $this->postBody['bodyColor'],
+                    'bodyShape'  => $this->postBody['bodyShape'],
+                    'hair'  => $this->postBody['hair'],
+
+                    
                 ];
                 $this->userModel->save($data);
             }
