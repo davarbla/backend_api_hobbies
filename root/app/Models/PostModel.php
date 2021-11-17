@@ -41,7 +41,7 @@ class PostModel extends Model
         if ($status != '' && $report != '') {
             $sql = " SELECT a.*, b.fullname FROM tb_post a, tb_user b
             WHERE a.id_user=b.id_user 
-            AND a.status='".$status."'
+            AND a.status >='".$status."'
             AND a.total_report > 0 
             ORDER BY a.id_post DESC 
             LIMIT ".$getlimit." ";
@@ -49,7 +49,7 @@ class PostModel extends Model
         else if ($status != '') {
             $sql = " SELECT a.*, b.fullname FROM tb_post a, tb_user b
             WHERE a.id_user=b.id_user 
-            AND a.status='".$status."'
+            AND a.status >='".$status."'
             ORDER BY a.id_post DESC 
             LIMIT ".$getlimit." ";
         }  
@@ -174,7 +174,7 @@ class PostModel extends Model
         //die();
         
         $query   = $this->query(" SELECT a.* FROM tb_post a 
-            WHERE a.status='".$status."' 
+            WHERE a.status >='".$status."' 
             ORDER BY a.id_post DESC, a.total_like DESC, a.total_comment DESC, a.title ASC 
             LIMIT ".$getlimit." ");
 
@@ -198,10 +198,10 @@ class PostModel extends Model
             $query2   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
             AND up.id_user = b.id_user
-            AND a.status='".$status."' 
+            AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
-            AND up.status = 1
-            AND b.status=1 ");
+            AND up.status >= 1
+            AND b.status >=1 ");
             $result2 = $query2->getResultArray();
             $row['other_users'] =  $result2;
 
@@ -209,16 +209,16 @@ class PostModel extends Model
             $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
             AND up.id_user = b.id_user
-            AND a.status='".$status."' 
+            AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
             AND up.status IN (1,3)
-            AND b.status=1 ");
+            AND b.status >=1 ");
             $result20 = $query20->getResultArray();
             $row['request_users'] =  $result20;
             
             //get comment by idpost
             $query3   = $this->query(" SELECT b.* FROM tb_comment b
-            WHERE b.status='".$status."' 
+            WHERE b.status >='".$status."' 
             AND b.id_post='".$row['id_post']."' ORDER BY b.id_comment DESC LIMIT 0,10 ");
             $result3 = $query3->getResultArray();
             
@@ -256,7 +256,7 @@ class PostModel extends Model
         //die();
         
         $query   = $this->query(" SELECT a.* FROM tb_post a 
-            WHERE a.status='".$status."' 
+            WHERE a.status >='".$status."' 
             ORDER BY a.id_post DESC, a.total_like DESC, a.total_comment DESC, a.title ASC 
             LIMIT ".$getlimit." ");
 
@@ -280,10 +280,10 @@ class PostModel extends Model
             $query2   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
             AND up.id_user = b.id_user
-            AND a.status='".$status."' 
+            AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
-            AND up.status = 1
-            AND b.status=1 ");
+            AND up.status >= 1
+            AND b.status >=1 ");
             $result2 = $query2->getResultArray();
             $row['other_users'] =  $result2;
 
@@ -291,16 +291,16 @@ class PostModel extends Model
             $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
             AND up.id_user = b.id_user
-            AND a.status='".$status."' 
+            AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
             AND up.status IN (1,3)
-            AND b.status=1 ");
+            AND b.status >=1 ");
             $result20 = $query20->getResultArray();
             $row['request_users'] =  $result20;
             
             //get comment by idpost
             $query3   = $this->query(" SELECT b.* FROM tb_comment b
-            WHERE b.status='".$status."' 
+            WHERE b.status >='".$status."' 
             AND b.id_post='".$row['id_post']."' ORDER BY b.id_comment DESC LIMIT 0,10 ");
             $result3 = $query3->getResultArray();
             
@@ -346,10 +346,10 @@ class PostModel extends Model
             $query2   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
             AND up.id_user = b.id_user
-            AND a.status='".$status."' 
+            AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."     
-            AND up.status = 1
-            AND b.status=1 ");
+            AND up.status >= 1
+            AND b.status >=1 ");
             $result2 = $query2->getResultArray();
             $row['other_users'] =  $result2;
 
@@ -357,16 +357,16 @@ class PostModel extends Model
             $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
             AND up.id_user = b.id_user
-            AND a.status='".$status."' 
+            AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
             AND up.status IN (1,3)
-            AND b.status=1 ");
+            AND b.status >=1 ");
             $result20 = $query20->getResultArray();
             $row['request_users'] =  $result20;            
             
             //get comment by idpost
             $query3   = $this->query(" SELECT b.* FROM tb_comment b
-            WHERE b.status='".$status."' 
+            WHERE b.status >='".$status."' 
             AND b.id_post='".$row['id_post']."' ORDER BY b.id_comment DESC LIMIT 0,10 ");
             $result3 = $query3->getResultArray();
             
@@ -436,7 +436,7 @@ class PostModel extends Model
         $getlimit = "$offset,$limit";
         $sql = " SELECT a.* FROM tb_post a, tb_category b  
             WHERE a.id_category=b.id_category
-            AND a.status='".$status."' 
+            AND a.status >='".$status."' 
             AND (a.description LIKE '%".$query."%' OR b.title LIKE '%".$query."%' OR b.description LIKE '%".$query."%') 
             ORDER BY a.id_post DESC, a.total_like DESC, a.total_comment DESC, a.title ASC 
             LIMIT ".$getlimit." ";
@@ -467,10 +467,10 @@ class PostModel extends Model
             $query2   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
             AND up.id_user = b.id_user
-            AND a.status='".$status."' 
+            AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
-            AND up.status = 1
-            AND b.status=1 ");
+            AND up.status >= 1
+            AND b.status >=1 ");
             $result2 = $query2->getResultArray();
             $row['other_users'] =  $result2;
 
@@ -478,16 +478,16 @@ class PostModel extends Model
             $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
             AND up.id_user = b.id_user
-            AND a.status='".$status."' 
+            AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
             AND up.status IN (1,3)
-            AND b.status=1 ");
+            AND b.status >=1 ");
             $result20 = $query20->getResultArray();
             $row['request_users'] =  $result20;
             
             //get comment by idpost
             $query3   = $this->query(" SELECT b.* FROM tb_comment b
-            WHERE b.status='".$status."' 
+            WHERE b.status >='".$status."' 
             AND b.id_post='".$row['id_post']."' ORDER BY b.id_comment DESC LIMIT 0,10 ");
             $result3 = $query3->getResultArray();
             
@@ -515,7 +515,7 @@ class PostModel extends Model
     public function getAllByIdUser($idUser, $limit=100, $offset=0, $status=1) {
         $getlimit = "$offset,$limit";
         $query   = $this->query(" SELECT a.* FROM tb_post a 
-            WHERE a.status='".$status."' 
+            WHERE a.status >='".$status."' 
             AND a.id_user='".$idUser."'
             ORDER BY a.id_post DESC, a.total_like DESC, a.total_comment DESC, a.title ASC 
             LIMIT ".$getlimit." ");
@@ -542,15 +542,15 @@ class PostModel extends Model
             $query2   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
             AND up.id_user = b.id_user
-            AND a.status='".$status."' 
+            AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
-            AND b.status=1 ");
+            AND b.status >=1 ");
             $result2 = $query2->getResultArray();
             $row[''] =  $result2;
             
             //get comment by idpost
             $query3   = $this->query(" SELECT b.* FROM tb_comment b
-            WHERE b.status='".$status."' 
+            WHERE b.status >='".$status."' 
             AND b.id_post='".$row['id_post']."' ORDER BY b.id_comment DESC LIMIT 0,10 ");
             $result3 = $query3->getResultArray();
             
@@ -575,7 +575,7 @@ class PostModel extends Model
         $getlimit = "$offset,$limit";
         
         $sql = " SELECT a.* FROM tb_post a 
-        WHERE a.status='".$status."' 
+        WHERE a.status >='".$status."' 
         AND a.id_category='".$idCateg."'
         ORDER BY a.id_post DESC, a.total_like DESC, a.total_comment DESC, a.title ASC 
         LIMIT ".$getlimit." ";
@@ -600,11 +600,11 @@ class PostModel extends Model
             //get other user post
             $query2   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b
             WHERE a.id_user=b.id_user
-            AND a.status='".$status."' 
+            AND a.status >='".$status."' 
             AND a.id_user != '".$row['id_user']."'
             AND a.id_category='".$idCateg."'
-            AND up.status = 1
-            AND b.status=1 ");
+            AND up.status >= 1
+            AND b.status >=1 ");
             $result2 = $query2->getResultArray();
             $row['other_users'] =  $result2;
 
@@ -612,16 +612,16 @@ class PostModel extends Model
             $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
             AND up.id_user = b.id_user
-            AND a.status='".$status."' 
+            AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
             AND up.status IN (1,3)
-            AND b.status=1 ");
+            AND b.status >=1 ");
             $result20 = $query20->getResultArray();
             $row['request_users'] =  $result20;
             
            //get comment by idpost
            $query3   = $this->query(" SELECT b.* FROM tb_comment b
-           WHERE b.status='".$status."' 
+           WHERE b.status >='".$status."' 
            AND b.id_post='".$row['id_post']."' ORDER BY b.id_comment DESC LIMIT 0,10 ");
            $result3 = $query3->getResultArray();
            
@@ -646,7 +646,7 @@ class PostModel extends Model
         $getlimit = "$offset,$limit";
         
         $sql = " SELECT a.* FROM tb_post a 
-        WHERE a.status='".$status."' 
+        WHERE a.status >='".$status."' 
         AND a.id_post='".$idPost."' ";
 
         $query   = $this->query($sql);
@@ -670,10 +670,10 @@ class PostModel extends Model
             $query2   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
             AND up.id_user = b.id_user
-            AND a.status='".$status."' 
+            AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
-            AND up.status = 1
-            AND b.status=1 ");
+            AND up.status >= 1
+            AND b.status >=1 ");
             $result2 = $query2->getResultArray();
             $row['other_users'] =  $result2;
 
@@ -681,16 +681,16 @@ class PostModel extends Model
             $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
             AND up.id_user = b.id_user
-            AND a.status='".$status."' 
+            AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
             AND up.status IN (1,3)
-            AND b.status=1 ");
+            AND b.status >=1 ");
             $result20 = $query20->getResultArray();
             $row['request_users'] =  $result20;
             
            //get comment by idpost
            $query3   = $this->query(" SELECT b.* FROM tb_comment b
-           WHERE b.status='".$status."' 
+           WHERE b.status >='".$status."' 
            AND b.id_post='".$row['id_post']."' ORDER BY b.id_comment DESC LIMIT $getlimit ");
            $result3 = $query3->getResultArray();
            
@@ -715,7 +715,7 @@ class PostModel extends Model
         $getlimit = "$offset,$limit";
         
         $sql = " SELECT a.* FROM tb_post a 
-        WHERE a.status='".$status."' 
+        WHERE a.status >='".$status."' 
         AND a.id_post='".$idPost."' ";
 
         $query   = $this->query($sql);
@@ -738,10 +738,10 @@ class PostModel extends Model
             $query2   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
             AND up.id_user = b.id_user            
-            AND a.status='".$status."' 
+            AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
-            AND up.status = 1
-            AND b.status=1 ");
+            AND up.status >= 1
+            AND b.status >=1 ");
             $result2 = $query2->getResultArray();
             $row['other_users'] =  $result2;
 
@@ -749,16 +749,16 @@ class PostModel extends Model
             $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
             AND up.id_user = b.id_user
-            AND a.status='".$status."' 
+            AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
             AND up.status IN (1,3)
-            AND b.status=1 ");
+            AND b.status >=1 ");
             $result20 = $query20->getResultArray();
             $row['request_users'] =  $result20;
             
            //get comment by idpost
            $query3   = $this->query(" SELECT b.* FROM tb_comment b
-           WHERE b.status='".$status."' 
+           WHERE b.status >='".$status."' 
            AND b.id_post='".$row['id_post']."' ORDER BY b.id_comment DESC LIMIT $getlimit ");
            $result3 = $query3->getResultArray();
            
@@ -786,7 +786,7 @@ class PostModel extends Model
         $getlimit = "$offset,$limit";
         //print($getlimit);
         $query   = $this->query(" SELECT a.* FROM tb_post a 
-            WHERE a.status='".$status."' 
+            WHERE a.status >='".$status."' 
             AND a.id_category='".$idCateg."'
             ORDER BY a.id_post DESC, a.total_like DESC, a.total_comment DESC, a.title ASC 
             LIMIT ".$getlimit." ");
@@ -812,10 +812,10 @@ class PostModel extends Model
             $query2   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
             AND up.id_user = b.id_user
-            AND a.status='".$status."' 
+            AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
-            AND b.status=1
-            AND up.status = 1
+            AND b.status >=1
+            AND up.status >= 1
             AND a.id_category='".$idCateg."' ");
             $result2 = $query2->getResultArray();
             $row['other_users'] =  $result2;
@@ -824,17 +824,17 @@ class PostModel extends Model
             $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
             AND up.id_user = b.id_user
-            AND a.status='".$status."' 
+            AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
             AND up.status IN (1,3)
-            AND b.status=1 ");
+            AND b.status >=1 ");
             $result20 = $query20->getResultArray();
             $row['request_users'] =  $result20;
         
 
             //get comment by idpost
             $query3   = $this->query(" SELECT b.* FROM tb_comment b
-            WHERE b.status='".$status."' 
+            WHERE b.status >='".$status."' 
             AND b.id_post='".$row['id_post']."' ORDER BY b.id_comment DESC LIMIT 0,10 ");
             $result3 = $query3->getResultArray();
 
@@ -861,7 +861,7 @@ class PostModel extends Model
 
         //get comment by idpost
         $query3   = $this->query(" SELECT b.* FROM tb_comment b
-        WHERE b.status='".$status."' 
+        WHERE b.status >='".$status."' 
         AND b.id_post='".$idPost."' 
         ORDER BY b.id_comment DESC LIMIT $getlimit ");
         $result3 = $query3->getResultArray();
