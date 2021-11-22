@@ -83,15 +83,16 @@ class LikedModel extends Model
             $result0 = $query0->getResultArray();
             $row['is_liked'] =  $result0[0]['is_liked'];
 
-            //get other user post
-            $query2   = $this->query(" SELECT b.* FROM tb_post a, tb_user b
-            WHERE a.id_user=b.id_user
-            AND a.status='".$status."' 
-            AND a.id_user != '".$row['id_user']."'
-            AND a.id_category='".$row['id_category']."'
-            AND b.status=1 ");
-            $result2 = $query2->getResultArray();
-            $row['other_users'] =  $result2;
+              //get other user post
+              $query2   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
+              WHERE a.id_post = up.id_post
+              AND up.id_user = b.id_user
+              AND a.status >='".$status."' 
+              AND a.id_post=".$row['id_post']."
+              AND up.status = 1
+              AND b.status >=1 ");
+              $result2 = $query2->getResultArray();
+              $row['other_users'] =  $result2;
 
             //get request user post
             $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
@@ -160,15 +161,16 @@ class LikedModel extends Model
             $result0 = $query0->getResultArray();
             $row['is_liked'] =  $result0[0]['is_liked'];
             
-            //get other user post
-            $query2   = $this->query(" SELECT b.* FROM tb_post a, tb_user b
-            WHERE a.id_user=b.id_user
-            AND a.status='".$status."' 
-            AND a.id_user != '".$row['id_user']."'
-            AND a.id_category='".$idCateg."'
-            AND b.status=1 ");
-            $result2 = $query2->getResultArray();
-            $row['other_users'] =  $result2;
+           //get other user post
+           $query2   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
+           WHERE a.id_post = up.id_post
+           AND up.id_user = b.id_user
+           AND a.status >='".$status."' 
+           AND a.id_post=".$row['id_post']."
+           AND up.status = 1
+           AND b.status >=1 ");
+           $result2 = $query2->getResultArray();
+           $row['other_users'] =  $result2;
 
             //get request user post
             $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
