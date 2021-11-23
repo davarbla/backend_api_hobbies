@@ -174,5 +174,8 @@ class User extends BaseController
         die();
     }
 
+    private function generatePassword($password) {
+        return md5(sha1(hash("sha256", $password)));
+    }
     
 }
