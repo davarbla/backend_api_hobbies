@@ -77,6 +77,13 @@ class UserModel extends Model
                     ->findAll();
     }
 
+    public function loginByPhone2($phone ) {
+        return $this->where('status', '1')
+                    ->where('phone', $phone)                    
+                    ->findAll();
+    }
+
+
     public function getByUserAll($id) {
 
         $query   = $this->query(" SELECT a.*, b.os_platform, b.token_fcm, b.token_forgot

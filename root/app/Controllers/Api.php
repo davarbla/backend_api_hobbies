@@ -686,6 +686,7 @@ class Api extends BaseController
 
     public function login()
     {
+        $arr = array();
         $this->postBody = $this->authModel->authHeader($this->request);
         
         $offset = 0;
@@ -700,8 +701,15 @@ class Api extends BaseController
         }
         
         //123456    cfc5902918296762903710e9c9a65580
+        if ($this->postBody['ps'] != '' &&  $this->postBody['em'] != '') {
         $passwrd = $this->generatePassword($this->postBody['ps']);
         $dataUser = $this->userModel->loginByEmail($this->postBody['em'], $passwrd);
+        }
+
+        if ($this->postBody['ph'] != '') {
+        $dataUser = $this->userModel->loginByPhone2($this->postBody['ph']);
+        }
+
 
         if ($this->postBody['is'] != '' && $dataUser['id_user'] != '') {
             $this->postBody['id'] = $dataUser['id_user'];
