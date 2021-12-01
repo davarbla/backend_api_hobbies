@@ -234,6 +234,7 @@ class Upload extends BaseController
 
         $filename = $this->postBody['filename'];
         $baseEncodeImage = $this->postBody['image'];
+        $imageNumber = $this->postBody['imageNumber'];
 
         $id = $this->postBody['id'];
         $dataUser = $this->userModel->getById($id);
@@ -243,13 +244,13 @@ class Upload extends BaseController
         $ext = pathinfo($namefile, PATHINFO_EXTENSION);
 
         if ($namefile != '') {
-            $target_dir = $this->PATH;
+            $target_dir = $this->PATH . "user/" . $imageNumber ."/";
 
             if (!file_exists($target_dir)) {
                 mkdir($target_dir, 0777, true);
             }
 
-            $url_path = $this->URL_BASE . "upload/";
+            $url_path = $this->URL_BASE . "upload/user/" . $imageNumber ."/";
 
 
             $target_path = $target_dir;
@@ -267,9 +268,10 @@ class Upload extends BaseController
             sleep(1);
 
             //delete old data photo member file
-            $filenm_deleted = basename($dataUser['image']);
+            $filenm_deleted = basename($dataUser['image'. $imageNumber]);
             if ($filenm_deleted != 'avatar.png') {
-                $file_path_to_delete = $this->PATH . $filenm_deleted;
+                $file_path_to_delete = $this->PATH . "user/" . $imageNumber ."/" . $filenm_deleted;
+               
                 unlink($file_path_to_delete);
             }
 
@@ -277,7 +279,7 @@ class Upload extends BaseController
             //update photo member
             $dataUpdate = [
                 "id_user" => $id,
-                "image"   => $foto,
+                "image". $imageNumber   => $foto,
                 "date_updated" => date('YmdHis'),
             ];
 
