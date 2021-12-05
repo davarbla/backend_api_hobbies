@@ -175,13 +175,13 @@ class Upload extends BaseController
 
 
         if ($namefile != '') {
-            $target_dir = $this->PATH;
+            $target_dir = $this->PATH . "post/" ;
 
             if (!file_exists($target_dir)) {
                 mkdir($target_dir, 0777, true);
             }
 
-            $url_path = $this->URL_BASE . "upload/";
+            $url_path = $this->URL_BASE . "upload/post/";
 
 
             $target_path = $target_dir;
@@ -235,6 +235,14 @@ class Upload extends BaseController
         $filename = $this->postBody['filename'];
         $baseEncodeImage = $this->postBody['image'];
         $imageNumber = $this->postBody['imageNumber'];
+        $imageNumberdir = $this->postBody['imageNumber'];
+        if ($imageNumberdir == '' || $imageNumberdir == '2' || $imageNumberdir == '3' || $imageNumberdir == '4') {
+            $imageNumberdir = 'public';
+        } else  if ($imageNumberdir == '5' || $imageNumberdir == '6' || $imageNumberdir == '7' ) {
+            $imageNumberdir = 'event';
+        } else{
+            $imageNumberdir = 'private';
+        }
 
         $id = $this->postBody['id'];
         $dataUser = $this->userModel->getById($id);
@@ -244,13 +252,13 @@ class Upload extends BaseController
         $ext = pathinfo($namefile, PATHINFO_EXTENSION);
 
         if ($namefile != '') {
-            $target_dir = $this->PATH . "user/" . $imageNumber ."/";
+            $target_dir = $this->PATH . "user/" . $imageNumberdir ."/";
 
             if (!file_exists($target_dir)) {
                 mkdir($target_dir, 0777, true);
             }
 
-            $url_path = $this->URL_BASE . "upload/user/" . $imageNumber ."/";
+            $url_path = $this->URL_BASE . "upload/user/" . $imageNumberdir ."/";
 
 
             $target_path = $target_dir;
@@ -270,7 +278,7 @@ class Upload extends BaseController
             //delete old data photo member file
             $filenm_deleted = basename($dataUser['image'. $imageNumber]);
             if ($filenm_deleted != 'avatar.png') {
-                $file_path_to_delete = $this->PATH . "user/" . $imageNumber ."/" . $filenm_deleted;
+                $file_path_to_delete = $this->PATH . "user/" . $imageNumberdir ."/" . $filenm_deleted;
                
                 unlink($file_path_to_delete);
             }
