@@ -880,6 +880,43 @@ class PostModel extends Model
     }
 
     
+    public function cancell($array) {
+       
+        $idUser = $array['iu'];
+        $idPost = $array['ic'];
+        
+        if ( $idPost != '') {
+            $checkExist = $this->getById($idPost);
+            
+            $data = array();
+            //$sqlUpdate2 = "";
+
+            
+
+
+                if ($checkExist['status'] == '1') {
+                    
+                    $data = [      
+                        'status' => 5,
+                        'id_post'  => $idPost
+                    ];
+
+                    //update post
+                    //TODO: INUTIL
+                    //$sqlUpdate2 = " UPDATE tb_post SET total_user=total_user WHERE id_post='".$idPost."' ";
+                }
+                
+                
+                $this->save($data);
+                
+            
+            
+        }
+
+        return $this->getById($idPost);
+    }
+
+    
 }
 
 /*

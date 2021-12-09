@@ -120,7 +120,7 @@ class Upload extends BaseController
 
             $image = $this->postBody['img'];
             $dataFcm = array(
-                'title'   => "New Post to Share " . $dataUser['fullname'],
+                'title'   => "New Event to Share " . $dataUser['fullname'],
                 'body'    => $desc . "\n#" . $dataCateg['title'],
                 "image"   => $image,
                 'payload' => array(

@@ -312,7 +312,7 @@ class Post extends BaseController
             
             $desc = $singlePost['description'];
             $image = $singlePost['image'];
-            $titleNotif = $isLiked ? "Post liked by " . $actionUser['fullname'] : "Post commentted by " . $actionUser['fullname'];
+            $titleNotif = $isLiked ? "Post liked by " . $actionUser['fullname'] : "Post commented by " . $actionUser['fullname'];
             $descNotif =  $comment != '' ?  $comment : $desc;
 
             $dataFcm = array(
@@ -338,7 +338,7 @@ class Post extends BaseController
             $desc = $singlePost['description'];
             $image = $singlePost['image'];
 
-            $titleNotif = $isLiked ? "Post liked by " . $actionUser['fullname'] : "Post commentted by " . $actionUser['fullname'];
+            $titleNotif = $isLiked ? "Post liked by " . $actionUser['fullname'] : "Post commented by " . $actionUser['fullname'];
             $descNotif =  $comment != '' ?  $comment : $desc;
 
 
