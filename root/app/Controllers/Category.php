@@ -106,6 +106,8 @@ class Category extends BaseController
         $private =  $this->postBody['private'];
         $latitude =  $this->postBody['lat'];
         $location =  $this->postBody['loc'];
+        $fun =  $this->postBody['fun'];
+        $idOwner =  $this->postBody['idOwner'];
 
         $dataPost = array();
 
@@ -124,6 +126,8 @@ class Category extends BaseController
                     'private' => ($private == '1') ? 1 : 0,
                     'latitude' => $latitude, 
                     'location' => $location, 
+                    'fun' => ($fun == '1') ? 1 : 0,
+                    'id_owner' => $idOwner,
                 ];
 
                 $dataPost = $this->categModel->save($dataModel);
