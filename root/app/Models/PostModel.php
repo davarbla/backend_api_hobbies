@@ -574,10 +574,16 @@ class PostModel extends Model
     public function getAllByIdCateg($idCateg, $limit=100, $offset=0, $status=1) {
         $getlimit = "$offset,$limit";
         
+        //TODO: remettre ORDER BY
+        //ORDER BY a.id_post DESC, a.total_like DESC, a.total_comment DESC, a.title ASC 
         $sql = " SELECT a.* FROM tb_post a 
         WHERE a.status >='".$status."' 
         AND a.id_category='".$idCateg."'
-        ORDER BY a.id_post DESC, a.total_like DESC, a.total_comment DESC, a.title ASC 
+        UNION
+        SELECT a.* FROM tb_post a , tb_category b   
+        WHERE a.status >='".$status."' 
+        AND a.id_category= b.id_category 
+        AND b.id_category_up ='".$idCateg."'
         LIMIT ".$getlimit." ";
 
         $query   = $this->query($sql);
@@ -785,11 +791,20 @@ class PostModel extends Model
         //AND a.id_user='".$idUser."'
         $getlimit = "$offset,$limit";
         //print($getlimit);
-        $query   = $this->query(" SELECT a.* FROM tb_post a 
-            WHERE a.status >='".$status."' 
-            AND a.id_category='".$idCateg."'
-            ORDER BY a.id_post DESC, a.total_like DESC, a.total_comment DESC, a.title ASC 
-            LIMIT ".$getlimit." ");
+       //TODO: remettre ORDER BY
+        //ORDER BY a.id_post DESC, a.total_like DESC, a.total_comment DESC, a.title ASC 
+        $sql = " SELECT a.* FROM tb_post a 
+        WHERE a.status >='".$status."' 
+        AND a.id_category='".$idCateg."'
+        UNION
+        SELECT a.* FROM tb_post a , tb_category b   
+        WHERE a.status >='".$status."' 
+        AND a.id_category= b.id_category 
+        AND b.id_category_up ='".$idCateg."'
+        LIMIT ".$getlimit." ";
+
+        $query   = $this->query($sql);
+
 
 
         $results = $query->getResultArray();
