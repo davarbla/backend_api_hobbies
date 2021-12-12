@@ -204,12 +204,14 @@ class Post extends BaseController
 
         $idUser = $this->postBody['iu'];
         $idPost = $this->postBody['ip'];
+        $titleNotif = $this->postBody['titleNotif'];
+        $desc = $this->postBody['descNotif'];
 
         if ($this->postBody['act'] == 'like') {
             $this->postModel->do_like($this->postBody);
             $this->likedModel->do_liked_post($this->postBody);
            
-            $this->send_notif_post($idUser, $idPost);
+            $this->send_notif_post($idUser, $idPost, true, $titleNotif, $desc);
 
         }
         else if ($this->postBody['act'] == 'dislike') {
@@ -264,11 +266,13 @@ class Post extends BaseController
         $idUser = $this->postBody['iu'];
         $idPost = $this->postBody['ip'];
         $desc = $this->postBody['ds'];
+        $titleNotif = $this->postBody['titleNotif'];
+        
 
         $getUser = $this->userModel->getById($idUser);
 
         if ($idUser != '' && $idPost != '' && trim($desc) != '' && $getUser['id_user'] != '') {
-            $this->send_notif_post($idUser, $idPost, false, $desc);
+            $this->send_notif_post($idUser, $idPost, false, $desc, $titleNotif);
 
             $this->commentModel->do_comment_post($this->postBody);
             $dataComment = $this->commentModel->allByLimitByIdPost($idPost, $limit, $offset);
@@ -296,7 +300,7 @@ class Post extends BaseController
         die();
     }
 
-    public function send_notif_post($idUser, $idPost, $isLiked = true, $comment = '') {
+    public function send_notif_post($idUser, $idPost, $isLiked = true, $comment = '', $titleNotif = '' ) {
         $singlePost = $this->postModel->getById($idPost);
 
         $idCateg = $singlePost['id_category'];
@@ -308,11 +312,12 @@ class Post extends BaseController
         if ($singlePost['id_user'] != '' && $idUser != '') {
             $actionUser = $this->userModel->getTokenById($idUser);
             $ownerUser = $this->userModel->getTokenById($singlePost['id_user']);
-
             
             $desc = $singlePost['description'];
             $image = $singlePost['image'];
-            $titleNotif = $isLiked ? "Post liked by " . $actionUser['fullname'] : "Post commented by " . $actionUser['fullname'];
+            if ($titleNotif == ''){
+                $titleNotif = $isLiked ? "Post like  " . $actionUser['fullname'] : "Post commented by " . $actionUser['fullname'];
+            }
             $descNotif =  $comment != '' ?  $comment : $desc;
 
             $dataFcm = array(
@@ -331,16 +336,16 @@ class Post extends BaseController
         }
 
         //send notif FCM to category subscription
-        if ($categPost['subscribe_fcm'] != '') {
+        if ($categPost['subscribe_fcm'] != '' && !$isLiked ) {
             $actionUser = $this->userModel->getTokenById($idUser);
             $ownerUser = $this->userModel->getTokenById($singlePost['id_user']);
 
             $desc = $singlePost['description'];
             $image = $singlePost['image'];
-
-            $titleNotif = $isLiked ? "Post liked by " . $actionUser['fullname'] : "Post commented by " . $actionUser['fullname'];
+            if ($titleNotif == ''){
+                $titleNotif = $isLiked ? "Post like " . $actionUser['fullname'] : "Post commented by " . $actionUser['fullname'];
+            }
             $descNotif =  $comment != '' ?  $comment : $desc;
-
 
             $dataFcm = array(
                 'title'   => $titleNotif,

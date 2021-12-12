@@ -430,6 +430,8 @@ class Api extends BaseController
         
         $idUser = $this->postBody['iu'];
         $idCateg = $this->postBody['ic'];
+        $titleNotif = $this->postBody['titleNotif'];
+        $desc = $this->postBody['descNotif'];
 
         $dataCateg = array();
 
@@ -447,9 +449,12 @@ class Api extends BaseController
             //send notif
             if ($masterCateg['subscribe_fcm'] != '') {
                 $actionUser = $this->userModel->getTokenById($idUser);
-                $titleNotif = $isJoined ? "Category join by " . $actionUser['fullname'] : "Category unjoin by " . $actionUser['fullname'];
-                
-                $desc = $masterCateg['description'];
+                if ($titleNotif == ''){
+                    $titleNotif = $isJoined ? "Category join by " . $actionUser['fullname'] : "Category unjoin by " . $actionUser['fullname'];
+                }
+                if ($desc == ''){
+                    $desc = $masterCateg['description'];
+                }
                 $image = $masterCateg['image'];
                 $dataFcm = array(
                     'title'   => $titleNotif,
@@ -497,13 +502,15 @@ class Api extends BaseController
         
         $idUser = $this->postBody['iu'];
         $idPost = $this->postBody['ic'];
+        $titleNotif = $this->postBody['titleNotif'];
+        $descNotif = $this->postBody['descNotif'];
         
         $dataCateg = array();
         
         if ($idUser != '' && $idPost != '') {
             $dataCateg = [$this->userPostModel->request_unjoin($this->postBody)];
             
-            $masterCateg = $this->postModel->getById($idPost);
+          //  $masterCateg = $this->postModel->getById($idPost);
             $checkExist = $this->userPostModel->getByUserPost($idUser, $idPost);
             
             $isJoined = false;
@@ -519,12 +526,15 @@ class Api extends BaseController
                                     
                         $desc = $singlePost['description'];
                         $image = $singlePost['image'];
-                        $titleNotif = $isJoined ? "Event unjoined by " . $actionUser['fullname'] : "Event request join by " . $actionUser['fullname'];                        
-                        $descNotif = $desc;
-            
+                        if ($titleNotif == ''){
+                          $titleNotif = $isJoined ? "Event unjoined by " . $actionUser['fullname'] : "Event request join by " . $actionUser['fullname'];                        
+                        }
+                        if ($descNotif == ''){
+                            $descNotif = $desc . "\n#" . $categPost['title'];
+                        }
                         $dataFcm = array(
                             'title'   => $titleNotif,
-                            'body'    => $descNotif . "\n#" . $categPost['title'],
+                            'body'    => $descNotif ,
                             "image"   => $image,
                             'payload' => array(
                                 "keyname" => $isJoined ? 'unjoin_post' : 'request_post',
@@ -561,7 +571,7 @@ class Api extends BaseController
         die();
     }
 
-    //Join by Admin
+    //Join (validate) by Admin
     public function join_unjoin_post()
     {
         $this->postBody = $this->authModel->authHeader($this->request);
@@ -569,13 +579,15 @@ class Api extends BaseController
         
         $idUser = $this->postBody['iu'];
         $idPost = $this->postBody['ic'];
+        $titleNotif = $this->postBody['titleNotif'];
+        $descNotif = $this->postBody['descNotif'];
         
         $dataCateg = array();
         
         if ($idUser != '' && $idPost != '') {
             $dataCateg = [$this->userPostModel->join_unjoin($this->postBody)];
             
-            $masterCateg = $this->postModel->getById($idPost);
+           // $masterCateg = $this->postModel->getById($idPost);
             $checkExist = $this->userPostModel->getByUserPost($idUser, $idPost);
             
             $isJoined = false;
@@ -591,9 +603,12 @@ class Api extends BaseController
                        
            $desc = $singlePost['description'];
            $image = $singlePost['image'];
+           if ($titleNotif == ''){
            $titleNotif = $isJoined ? "Participation accepted by " . $actionUser['fullname'] : "Event unjoined by " . $actionUser['fullname'];                        
+           }
+           if ($descNotif == ''){
            $descNotif = $desc;
-
+           }
            $dataFcm = array(
                'title'   => $titleNotif,
                'body'    => $descNotif . "\n#" . $categPost['title'],
@@ -636,7 +651,7 @@ class Api extends BaseController
         die();
     }
 
-    //Unjoin by Admin
+    //Unjoin (reject) by Admin
     public function unjoin_post()
     {
         $this->postBody = $this->authModel->authHeader($this->request);
@@ -644,13 +659,15 @@ class Api extends BaseController
         
         $idUser = $this->postBody['iu'];
         $idPost = $this->postBody['ic'];
+        $titleNotif = $this->postBody['titleNotif'];
+        $descNotif = $this->postBody['descNotif'];
         
         $dataCateg = array();
         
         if ($idUser != '' && $idPost != '') {
             $dataCateg = [$this->userPostModel->unjoin($this->postBody)];
             
-            $masterCateg = $this->postModel->getById($idPost);
+          //  $masterCateg = $this->postModel->getById($idPost);
             $checkExist = $this->userPostModel->getByUserPost($idUser, $idPost);
             
             $isJoined = true;
@@ -665,8 +682,14 @@ class Api extends BaseController
                 
                 $desc = $singlePost['description'];
                 $image = $singlePost['image'];
-                $titleNotif =  "Event participation rejected by " . $actionUser['fullname'] ;
-                $descNotif = $desc;
+                
+                if ($titleNotif == ''){
+                    $titleNotif =  "Event participation rejected by " . $actionUser['fullname'] ;
+                }
+                
+                if ($descNotif == ''){
+                    $descNotif = $desc;
+                }
     
                 $dataFcm = array(
                     'title'   => $titleNotif,
@@ -711,52 +734,50 @@ class Api extends BaseController
     {
         $this->postBody = $this->authModel->authHeader($this->request);
         
-        
         $idUser = $this->postBody['iu'];
         $idPost = $this->postBody['ic'];
+        $titleNotif = $this->postBody['titleNotif'];
+        $descNotif = $this->postBody['descNotif'];
         
-        $dataCateg = array();
+        $categPost = array();
         
         if ($idUser != '' && $idPost != '') {
-            $dataCateg = [$this->postModel->cancell($this->postBody)];
+            $singlePost = $this->postModel->cancell($this->postBody);
+
+            $idCateg = $singlePost['id_category'];
+            $categPost = $this->categModel->getById($idCateg);
             
-          //  $masterCateg = $this->postModel->getById($idPost);
-          //  $checkExist = $this->userPostModel->getByUserPost($idUser, $idPost);
-            
-          //  $isJoined = true;
-            
+          
             //send notif
-            //TODO
-            /*
-            $singlePost = $this->postModel->getById($idPost);
+            //$singlePost = $this->postModel->getById($idPost);
             if ($singlePost['id_user'] != '' && $idUser != '') {
-                $actionUser = $this->userModel->getTokenById($idUser);
-                $ownerUser = $this->userModel->getTokenById($singlePost['id_user']);
+            //    $actionUser = $this->userModel->getTokenById($idUser);
+             //   $ownerUser = $this->userModel->getTokenById($singlePost['id_user']);
     
                 
-                $desc = $singlePost['description'];
+               // $desc = $singlePost['description'];
                 $image = $singlePost['image'];
-                $titleNotif =  "Event participation rejected by " . $actionUser['fullname'] ;
-                $descNotif = $desc;
+                
+                
     
                 $dataFcm = array(
                     'title'   => $titleNotif,
                     'body'    => $descNotif . "\n#" . $categPost['title'],
                     "image"   => $image,
                     'payload' => array(
-                        "keyname" => 'unjoin_post' ,
+                        "keyname" => 'cancell_post' ,
                         "post" => $singlePost,
                         "image"   => $image
                     ),
                 );
     
-                $this->userModel->sendFCMMessage($actionUser['token_fcm'], $dataFcm);
+                $this->userModel->sendFCMMessage('/topics/' . $categPost['subscribe_fcm'], $dataFcm);
                 
             }
-            */
+            
         }
         
-        $arr = $dataCateg;
+        $arr = $categPost;
         if (count($arr) < 1) {
             $json = array(
                 "result" => $arr,

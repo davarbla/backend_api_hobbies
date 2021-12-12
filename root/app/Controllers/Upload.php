@@ -76,6 +76,8 @@ class Upload extends BaseController
         if (count($dataPost)>0) {
 
             $idUser = $this->postBody['iu'];
+            $titleNotif = $this->postBody['titleNotif'];
+            $desc = $this->postBody['descNotif'];
             $dataUser = $this->userModel->getById($idUser);
             // update total_post user + 1
             $data = [
@@ -116,11 +118,11 @@ class Upload extends BaseController
 
             //send notif fcm to topics
             //check file theme.dart  var fcmTopicName
-            $desc = $this->postBody['ds'];
+            //$desc = $this->postBody['ds'];
 
             $image = $this->postBody['img'];
             $dataFcm = array(
-                'title'   => "New Event to Share " . $dataUser['fullname'],
+                'title'   => $titleNotif,
                 'body'    => $desc . "\n#" . $dataCateg['title'],
                 "image"   => $image,
                 'payload' => array(

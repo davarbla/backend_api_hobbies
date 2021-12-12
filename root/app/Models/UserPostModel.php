@@ -96,7 +96,9 @@ class UserPostModel extends Model
                 }
                 
                 $this->save($data);
-                $this->query($sqlUpdate2);
+                if ($sqlUpdate2 != '') {
+                    $this->query($sqlUpdate2);
+                }
             }
             else {
 
@@ -109,11 +111,11 @@ class UserPostModel extends Model
 
                 
                 //update post (INUTIL! SUPRIMIR)
-                $sqlUpdate2 = " UPDATE tb_post SET total_user=total_user WHERE id_post='".$idPost."' ";
+                //$sqlUpdate2 = " UPDATE tb_post SET total_user=total_user WHERE id_post='".$idPost."' ";
 
                 $this->save($data);
                 if ($sqlUpdate2 != '') {
-                $this->query($sqlUpdate2);
+                    $this->query($sqlUpdate2);
                 }
             }
         }

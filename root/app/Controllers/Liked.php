@@ -234,11 +234,17 @@ class Liked extends BaseController
     public function send_notif_categ($idUser, $idCateg) {
         $categPost = $this->categModel->getById($idCateg);
         $actionUser = $this->userModel->getTokenById($idUser);
+        $titleNotif = $this->postBody['titleNotif'];
+        $descNotif = $this->postBody['descNotif'];
             
         $desc = $categPost['description'];
         $image = $categPost['image'];
-        $titleNotif = "Category liked by " . $actionUser['fullname'];
-        $descNotif =  $desc;
+        if ($titleNotif == ''){
+            $titleNotif = "Category liked by " . $actionUser['fullname'];
+        }
+        if ($descNotif == ''){
+            $descNotif =  $desc;
+        }
 
         $dataFcm = array(
             'title'   => $titleNotif,

@@ -57,6 +57,8 @@ class Follow extends BaseController
     public function follow_unfollow()
     {
         $this->postBody = $this->authModel->authHeader($this->request);
+        $titleNotif = $this->postBody['titleNotif'];
+        $descNotif = $this->postBody['descNotif'];
 
         $offset = 0;
         $limit = 10;
@@ -81,8 +83,8 @@ class Follow extends BaseController
 
             //send notif fcm to token user
             $dataFcm = array(
-                'title'   => "New follower " . $userNotif['fullname'],
-                'body'    => "You've got a new follower " .$userNotif['fullname'],
+                'title'   => $titleNotif,
+                'body'    => $descNotif,
                 "image"   => $userNotif['image'],
                 'payload' => array(
                     "keyname" => 'new_follower',
@@ -101,8 +103,8 @@ class Follow extends BaseController
 
             //send notif fcm to token user
             $dataFcm = array(
-                'title'   => "Un-follow " . $userNotif['fullname'],
-                'body'    => "One your followers has left " .$userNotif['fullname'],
+                'title'   => $titleNotif,
+                'body'    => $descNotif,
                 "image"   => $userNotif['image'],
                 'payload' => array(
                     "keyname" => 'new_follower',
