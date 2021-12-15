@@ -26,8 +26,8 @@ class UserCategoryModel extends Model
     protected $skipValidation     = true;
 
     public function categUserByLimit($iduser, $limit=100, $offset=0) {
-        return $this->where('status', '1')
-                    ->where('id_user', "$iduser")
+        //return $this->where('status', '1')
+        return $this->where('id_user', "$iduser")
                     ->orderBy('count_interest','desc')
                     ->orderBy('date_created','asc')
                     ->findAll($limit, $offset);
@@ -117,6 +117,71 @@ class UserCategoryModel extends Model
 
         return $this->getByUserCateg($idUser, $idCateg);
     }
+
+    public function join_unjoin_private($array) {
+       
+        $idUser = $array['iu'];
+        $idCateg = $array['ic'];
+        
+        if ($idUser != '' && $idCateg != '') {
+            $checkExist = $this->getByUserCateg($idUser, $idCateg);
+            
+            $data = array();
+            $sqlUpdate2 = "";
+
+            if ($checkExist['id_user_category'] != '') {
+
+
+                if ($checkExist['status'] == '1') {
+                    // exist do unjoin
+                    $data = [
+                        'id_user_category' => $checkExist['id_user_category'],
+                        'id_user'   => $idUser,
+                        'count_interest' => $checkExist['count_interest']-1,
+                        'status' => 0,
+                        'id_category'  => $idCateg
+                    ];
+
+                    //update post
+                    $sqlUpdate2 = " UPDATE tb_category SET total_interest=total_interest-1 WHERE id_category='".$idCateg."' ";
+                    $this->query($sqlUpdate2);
+                }
+                else {
+                    // no exist do join
+
+                    $data = [
+                        'id_user_category' => $checkExist['id_user_category'],
+                        'id_user'   => $idUser,
+                        'count_interest' => $checkExist['count_interest'],
+                        'status' => 3,
+                        'id_category'  => $idCateg,
+                    ];
+
+                    //update post
+                  // $sqlUpdate2 = " UPDATE tb_category SET total_interest=total_interest+1 WHERE id_category='".$idCateg."' ";
+                }
+                
+                $this->save($data);
+                
+            }
+            else {
+
+                $data = [
+                    'id_user'   => $idUser,
+                    'count_interest' => 1,
+                    'status' => 3,
+                    'id_category'  => $idCateg
+                ];
+
+
+                $this->save($data);
+                
+            }
+        }
+
+        return $this->getByUserCateg($idUser, $idCateg);
+    }
+
 
     public function getByUserId($id) {
         return $this->where('id_user', $id)

@@ -432,11 +432,16 @@ class Api extends BaseController
         $idCateg = $this->postBody['ic'];
         $titleNotif = $this->postBody['titleNotif'];
         $desc = $this->postBody['descNotif'];
+        $groupPrivate = $this->postBody['groupPrivate'];
 
         $dataCateg = array();
 
         if ($idUser != '' && $idCateg != '') {
-            $dataCateg = [$this->userCategModel->join_unjoin($this->postBody)];
+            if ($groupPrivate == '1' ){
+                $dataCateg = [$this->userCategModel->join_unjoin_private($this->postBody)];
+            }else{
+                $dataCateg = [$this->userCategModel->join_unjoin($this->postBody)];
+            }
             
             $masterCateg = $this->categModel->getById($idCateg);
             $checkExist = $this->userCategModel->getByUserCateg($idUser, $idCateg);
@@ -467,7 +472,13 @@ class Api extends BaseController
                     ),
                 );
                 
-                $this->userModel->sendFCMMessage('/topics/' . $masterCateg['subscribe_fcm'], $dataFcm);
+                if ($groupPrivate == '1' ){
+                    $ownerUserCateg = $this->userModel->getTokenById($masterCateg['id_owner']);
+                    $this->userModel->sendFCMMessage( $ownerUserCateg['token_fcm'], $dataFcm);
+                } else{
+                    $this->userModel->sendFCMMessage('/topics/' . $masterCateg['subscribe_fcm'], $dataFcm);
+                }
+
             }
         }
         
