@@ -48,6 +48,14 @@ class CategoryModel extends Model
             AND b.status=1 ");
             $result2 = $query2->getResultArray();
             $row['users'] =  $result2;
+
+            $query3   = $this->query(" SELECT b.* FROM tb_user_category a, tb_user b
+            WHERE a.id_user=b.id_user
+            AND a.status>='".$status."' 
+            AND a.id_category=".$row['id_category']."
+            AND b.status=1 ");
+            $result3 = $query3->getResultArray();
+            $row['usersPending'] =  $result3;
             
             $return_array[] = $row;
         }
@@ -77,6 +85,14 @@ class CategoryModel extends Model
             AND b.status=1 ");
             $result2 = $query2->getResultArray();
             $row['users'] =  $result2;
+
+            $query3   = $this->query(" SELECT b.* FROM tb_user_category a, tb_user b
+            WHERE a.id_user=b.id_user
+            AND a.status>='".$status."' 
+            AND a.id_category=".$row['id_category']."
+            AND b.status=1 ");
+            $result3 = $query3->getResultArray();
+            $row['usersPending'] =  $result3;
             
             $return_array[] = $row;
         }

@@ -122,6 +122,11 @@ class UserCategoryModel extends Model
        
         $idUser = $array['iu'];
         $idCateg = $array['ic'];
+        $isJoinedstr = $array['isJoined'];
+        $isJoined = false;
+        if ($isJoinedstr == '1') {
+               $isJoined = true;
+        }
         
         if ($idUser != '' && $idCateg != '') {
             $checkExist = $this->getByUserCateg($idUser, $idCateg);
@@ -145,8 +150,32 @@ class UserCategoryModel extends Model
                     //update post
                     $sqlUpdate2 = " UPDATE tb_category SET total_interest=total_interest-1 WHERE id_category='".$idCateg."' ";
                     $this->query($sqlUpdate2);
-                }
-                else {
+                } else if ($checkExist['status'] == '3' && $isJoined) {
+                    // exist do unjoin
+                    $data = [
+                        'id_user_category' => $checkExist['id_user_category'],
+                        'id_user'   => $idUser,
+                        'count_interest' => $checkExist['count_interest'],
+                        'status' => 0,
+                        'id_category'  => $idCateg
+                    ];
+
+                    //update post
+                    
+                } else if ($checkExist['status'] == '3' && !$isJoined) {
+                    // exist do unjoin
+                    $data = [
+                        'id_user_category' => $checkExist['id_user_category'],
+                        'id_user'   => $idUser,
+                        'count_interest' => $checkExist['count_interest'],
+                        'status' => 1,
+                        'id_category'  => $idCateg
+                    ];
+
+                    $sqlUpdate2 = " UPDATE tb_category SET total_interest=total_interest+1 WHERE id_category='".$idCateg."' ";
+                    $this->query($sqlUpdate2);
+
+                }else {
                     // no exist do join
 
                     $data = [

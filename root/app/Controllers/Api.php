@@ -433,6 +433,11 @@ class Api extends BaseController
         $titleNotif = $this->postBody['titleNotif'];
         $desc = $this->postBody['descNotif'];
         $groupPrivate = $this->postBody['groupPrivate'];
+        $isJoinedstr = $this->postBody['isJoined'];
+        $isJoined = false;
+        if ($isJoinedstr == '1') {
+               $isJoined = true;
+        }
 
         $dataCateg = array();
 
@@ -446,10 +451,10 @@ class Api extends BaseController
             $masterCateg = $this->categModel->getById($idCateg);
             $checkExist = $this->userCategModel->getByUserCateg($idUser, $idCateg);
             
-            $isJoined = false;
-            if ($checkExist['id_user_category'] != '' && $checkExist['status'] == '1') {
-                $isJoined = true;
-            }
+            //$isJoined = false;
+           // if ($checkExist['id_user_category'] != '' && $checkExist['status'] == '1') {
+           //     $isJoined = true;
+          //  }
 
             //send notif
             if ($masterCateg['subscribe_fcm'] != '') {
