@@ -478,8 +478,13 @@ class Api extends BaseController
                 );
                 
                 if ($groupPrivate == '1' ){
+                    if ($checkExist['status'] == '3'){
                     $ownerUserCateg = $this->userModel->getTokenById($masterCateg['id_owner']);
                     $this->userModel->sendFCMMessage( $ownerUserCateg['token_fcm'], $dataFcm);
+                } else {
+                    $this->userModel->sendFCMMessage( $actionUser['token_fcm'], $dataFcm);
+                    
+                }
                 } else{
                     $this->userModel->sendFCMMessage('/topics/' . $masterCateg['subscribe_fcm'], $dataFcm);
                 }
