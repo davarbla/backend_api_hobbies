@@ -15,7 +15,7 @@ class PostModel extends Model
     protected $useSoftDeletes = false;
     
     protected $allowedFields = ['title', 'description', 'id_category', 'id_user', 'latitude', 'location', 'image', 
-    'image2', 'image3', 'total_like', 'total_comment', 
+    'image2', 'image3', 'subscribe_fcm','total_like', 'total_comment', 
     'total_user', 'total_download', 'total_view', 'total_report', 
     'timestamp', 'flag', 'status', 'date_created', 'date_updated', 'address', 'address_detail','bring', 'max_people','price', 'start_date', 'end_date', 'age_min','age_max'];
 
