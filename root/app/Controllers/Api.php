@@ -750,6 +750,84 @@ class Api extends BaseController
         die();
     }
 
+    public function join_post()
+    {
+        $this->postBody = $this->authModel->authHeader($this->request);
+        
+        
+        $idUser = $this->postBody['iu'];
+        $idPost = $this->postBody['ic'];
+        $titleNotif = $this->postBody['titleNotif'];
+        $descNotif = $this->postBody['descNotif'];
+        
+        $dataCateg = array();
+        
+        if ($idUser != '' && $idPost != '') {
+            $dataCateg = [$this->userPostModel->join($this->postBody)];
+            
+          //  $masterCateg = $this->postModel->getById($idPost);
+            $checkExist = $this->userPostModel->getByUserPost($idUser, $idPost);
+            
+            $isJoined = true;
+
+            
+            //send notif
+            $singlePost = $this->postModel->getById($idPost);
+            if ($singlePost['id_user'] != '' && $idUser != '') {
+                $actionUser = $this->userModel->getTokenById($idUser);
+                $ownerUser = $this->userModel->getTokenById($singlePost['id_user']);
+    
+                
+                $desc = $singlePost['description'];
+                $image = $singlePost['image'];
+                
+                if ($titleNotif == ''){
+                    $titleNotif =  "Event participation validated by " . $actionUser['fullname'] ;
+                }
+                
+                if ($descNotif == ''){
+                    $descNotif = $desc;
+                }
+    
+                $dataFcm = array(
+                    'title'   => $titleNotif,
+                    'body'    => $descNotif . "\n#" . $categPost['title'],
+                    "image"   => $image,
+                    'payload' => array(
+                        "keyname" => 'join_post' ,
+                        "post" => $singlePost,
+                        "image"   => $image
+                    ),
+                );
+                if ($singlePost['id_user'] !=  $idUser){
+                   $this->userModel->sendFCMMessage($actionUser['token_fcm'], $dataFcm);
+                }
+                
+            }
+        }
+        
+        $arr = $dataCateg;
+        if (count($arr) < 1) {
+            $json = array(
+                "result" => $arr,
+                "code" => "201",
+                "message" => "Required data parameter",
+            );
+        }
+        else {
+            $json = array(
+                "result" => $arr,
+                "code" => "200",
+                "message" => "Success",
+            );
+        }
+        
+        //add the header here
+        header('Content-Type: application/json');
+        echo json_encode($json);
+        die();
+    }
+
     //Cancell by Admin
     public function cancell_post()
     {
