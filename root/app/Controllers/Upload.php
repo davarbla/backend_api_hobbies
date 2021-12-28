@@ -279,7 +279,7 @@ class Upload extends BaseController
 
             //delete old data photo member file
             $filenm_deleted = basename($dataUser['image'. $imageNumber]);
-            if ($filenm_deleted != 'avatar.png') {
+            if ($filenm_deleted != 'avatar.png' && $filenm_deleted != 'ShieldGreen.jpg' && $filenm_deleted != 'ShieldOrange.jpg' && $filenm_deleted != 'ShieldRed.jpg' ) {
                 $file_path_to_delete = $this->PATH . "user/" . $imageNumberdir ."/" . $filenm_deleted;
                
                 unlink($file_path_to_delete);
