@@ -238,15 +238,22 @@ class Upload extends BaseController
         $baseEncodeImage = $this->postBody['image'];
         $imageNumber = $this->postBody['imageNumber'];
         $imageNumberdir = $this->postBody['imageNumber'];
+        $public = $this->postBody['public'];
+        $friends = $this->postBody['friends'];
+        $fun = $this->postBody['fun'];
         if ($imageNumberdir == '' || $imageNumberdir == '2' || $imageNumberdir == '3' || $imageNumberdir == '4') {
             $imageNumberdir = 'public';
+            
         } else  if ($imageNumberdir == '5' || $imageNumberdir == '6' || $imageNumberdir == '7' ) {
             $imageNumberdir = 'event';
+            
         } else{
             $imageNumberdir = 'private';
+            
         }
 
         $id = $this->postBody['id'];
+  
         $dataUser = $this->userModel->getById($id);
 
         $binary = base64_decode($baseEncodeImage);
@@ -287,11 +294,38 @@ class Upload extends BaseController
 
             $foto = $url_path . $namefile;
             //update photo member
-            $dataUpdate = [
-                "id_user" => $id,
-                "image". $imageNumber   => $foto,
-                "date_updated" => date('YmdHis'),
-            ];
+
+
+            if ($imageNumberdir == 'public' ) {                
+                $public = 1;
+                $dataUpdate = [
+                    "id_user" => $id,
+                    "image". $imageNumber   => $foto,
+                    "date_updated" => date('YmdHis'),
+                    "public" => $public,
+                    
+                ];
+            } else  if ($imageNumberdir == 'event'  ) {                
+                $friends = 1;
+                $dataUpdate = [
+                    "id_user" => $id,
+                    "image". $imageNumber   => $foto,
+                    "date_updated" => date('YmdHis'),                    
+                    "friends" => $friends,                    
+                ];
+            } else{                
+                $fun = 1;
+                $dataUpdate = [
+                    "id_user" => $id,
+                    "image". $imageNumber   => $foto,
+                    "date_updated" => date('YmdHis'),                   
+                    "fun" => $fun,
+                ];
+            }
+    
+
+            
+   
 
             $this->userModel->save($dataUpdate);
 

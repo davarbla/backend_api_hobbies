@@ -17,7 +17,7 @@ class UserModel extends Model
     'image','image2','image3','image4','image5','image6','image7','image8','image9','image10', 'location', 'latitude', 'country', 'id_install', 'uid_fcm', 'total_post',
     'total_like', 'total_download', 'total_comment', 'total_follower', 'total_following',
     'password_user', 'timestamp', 'flag', 'status',
-    'date_created', 'date_updated', 'height','weight','age','position','protection','relationship','bodyColor','bodyShape','hair'];
+    'date_created', 'date_updated', 'height','weight','age','position','protection','relationship','bodyColor','bodyShape','hair','publish','vip','superAdmin','public','friends','fun'];
 
     protected $useTimestamps = true;
     protected $createdField  = 'date_created';
