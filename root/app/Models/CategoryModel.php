@@ -56,6 +56,12 @@ class CategoryModel extends Model
             AND b.status=1 ");
             $result3 = $query3->getResultArray();
             $row['usersPending'] =  $result3;
+
+            $queryUser   = $this->query(" SELECT b.*, c.token_fcm FROM tb_user b, tb_install c 
+            WHERE b.id_install=c.id_install 
+            AND b.id_user='".$row['id_owner']."' ");
+            $resultUser = $queryUser->getResultArray();
+            $row['user'] =  $resultUser[0];
             
             $return_array[] = $row;
         }
@@ -93,6 +99,12 @@ class CategoryModel extends Model
             AND b.status=1 ");
             $result3 = $query3->getResultArray();
             $row['usersPending'] =  $result3;
+
+            $queryUser   = $this->query(" SELECT b.*, c.token_fcm FROM tb_user b, tb_install c 
+            WHERE b.id_install=c.id_install 
+            AND b.id_user='".$row['id_owner']."' ");
+            $resultUser = $queryUser->getResultArray();
+            $row['user'] =  $resultUser[0];
             
             $return_array[] = $row;
         }
