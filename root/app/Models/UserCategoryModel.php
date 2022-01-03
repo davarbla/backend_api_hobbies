@@ -77,7 +77,7 @@ class UserCategoryModel extends Model
                     ];
 
                     //update post
-                    $sqlUpdate2 = " UPDATE tb_category SET total_interest=total_interest-1 WHERE id_category='".$idCateg."' ";
+                    //$sqlUpdate2 = " UPDATE tb_category SET total_interest=total_interest-1 WHERE id_category='".$idCateg."' ";
                 }
                 else {
                     // no exist do join
@@ -148,8 +148,8 @@ class UserCategoryModel extends Model
                     ];
 
                     //update post
-                    $sqlUpdate2 = " UPDATE tb_category SET total_interest=total_interest-1 WHERE id_category='".$idCateg."' ";
-                    $this->query($sqlUpdate2);
+                    //$sqlUpdate2 = " UPDATE tb_category SET total_interest=total_interest WHERE id_category='".$idCateg."' ";
+                    //$this->query($sqlUpdate2);
                 } else if ($checkExist['status'] == '3' && $isJoined) {
                     // exist do unjoin
                     $data = [
