@@ -84,11 +84,13 @@ class LikedModel extends Model
             $row['is_liked'] =  $result0[0]['is_liked'];
 
               //get other user post
-              $query2   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
+              $query2   = $this->query(" SELECT DISTINCT b.*, c.token_fcm
+              FROM tb_post a, tb_user b, tb_user_post up, tb_install c
               WHERE a.id_post = up.id_post
               AND up.id_user = b.id_user
               AND a.status >='".$status."' 
               AND a.id_post=".$row['id_post']."
+              AND b.id_install=c.id_install 
               AND up.status = 1
               AND b.status >=1 ");
               $result2 = $query2->getResultArray();
@@ -162,11 +164,13 @@ class LikedModel extends Model
             $row['is_liked'] =  $result0[0]['is_liked'];
             
            //get other user post
-           $query2   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
+           $query2   = $this->query(" SELECT DISTINCT b.*, c.token_fcm FROM tb_post a, tb_user b, tb_user_post up
+           , tb_install c
            WHERE a.id_post = up.id_post
            AND up.id_user = b.id_user
            AND a.status >='".$status."' 
            AND a.id_post=".$row['id_post']."
+           AND b.id_install=c.id_install 
            AND up.status = 1
            AND b.status >=1 ");
            $result2 = $query2->getResultArray();

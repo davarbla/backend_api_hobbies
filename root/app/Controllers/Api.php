@@ -625,10 +625,10 @@ class Api extends BaseController
            $desc = $singlePost['description'];
            $image = $singlePost['image'];
            if ($titleNotif == ''){
-           $titleNotif = $isJoined ? "Participation accepted by " . $actionUser['fullname'] : "Event unjoined by " . $actionUser['fullname'];                        
+             $titleNotif = $isJoined ? "Participation accepted by " . $actionUser['fullname'] : "Event unjoined by " . $actionUser['fullname'];                        
            }
            if ($descNotif == ''){
-           $descNotif = $desc;
+            $descNotif = $desc;
            }
            $dataFcm = array(
                'title'   => $titleNotif,
@@ -870,7 +870,7 @@ class Api extends BaseController
                     ),
                 );
     
-                $this->userModel->sendFCMMessage('/topics/' . $categPost['subscribe_fcm'], $dataFcm);
+           //     $this->userModel->sendFCMMessage('/topics/' . $categPost['subscribe_fcm'], $dataFcm);
                 
             }
             
