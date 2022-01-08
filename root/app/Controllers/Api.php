@@ -486,7 +486,7 @@ class Api extends BaseController
                     
                 }
                 } else{
-                    $this->userModel->sendFCMMessage('/topics/' . $masterCateg['subscribe_fcm'], $dataFcm);
+                 //   $this->userModel->sendFCMMessage('/topics/' . $masterCateg['subscribe_fcm'], $dataFcm);
                 }
 
             }
@@ -632,7 +632,7 @@ class Api extends BaseController
            }
            $dataFcm = array(
                'title'   => $titleNotif,
-               'body'    => $descNotif . "\n#" . $categPost['title'],
+               'body'    => $descNotif,
                "image"   => $image,
                'payload' => array(
                    "keyname" => $isJoined ? 'unjoin_post' : 'join_post',
@@ -714,7 +714,7 @@ class Api extends BaseController
     
                 $dataFcm = array(
                     'title'   => $titleNotif,
-                    'body'    => $descNotif . "\n#" . $categPost['title'],
+                    'body'    => $descNotif,
                     "image"   => $image,
                     'payload' => array(
                         "keyname" => 'unjoin_post' ,

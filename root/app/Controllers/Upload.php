@@ -123,7 +123,7 @@ class Upload extends BaseController
             $image = $this->postBody['img'];
             $dataFcm = array(
                 'title'   => $titleNotif,
-                'body'    => $desc . "\n#" . $dataCateg['title'],
+                'body'    => $desc,
                 "image"   => $image,
                 'payload' => array(
                     "keyname" => 'new_post',
@@ -133,7 +133,7 @@ class Upload extends BaseController
             );
 
             try {
-                $this->userModel->sendFCMMessage($this->TOPIC_FCM, $dataFcm);
+              //  $this->userModel->sendFCMMessage($this->TOPIC_FCM, $dataFcm);
                 //send notif fcm to topics
             } catch (Exception $e) {
                 // exception is raised and it'll be handled here

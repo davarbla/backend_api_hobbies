@@ -4,14 +4,16 @@ namespace App\Controllers;
 
 use App\Models\AuthHeaderModel;
 use App\Models\CategoryModel;
+use App\Models\UserModel;
 
 class Category extends BaseController
 {
-
+    private $TOPIC_FCM = '/topics/hobbiestopic';
 	private $authModel;
 	private $sessLogin;
 
     private $categModel;
+    protected $userModel;
 
 	public function __construct()
     {
@@ -19,6 +21,7 @@ class Category extends BaseController
 		$this->sessLogin = session();
 
         $this->categModel = new CategoryModel();
+        $this->userModel = new UserModel();
     }
 
 	public function index()
@@ -97,7 +100,9 @@ class Category extends BaseController
     public function add_updatejson() {
         $this->postBody = $this->authModel->authHeader($this->request);
         $title =  $this->postBody['title'];
+        $titleNotif =  $this->postBody['titleNotif'];
         $desc =  $this->postBody['description'];
+        $descNotif =  $this->postBody['descNotif'];
         $image =  $this->postBody['image'];
         $status =  $this->postBody['status'];
         $id =  $this->postBody['id'];
@@ -110,15 +115,12 @@ class Category extends BaseController
         $idOwner =  $this->postBody['idOwner'];
 
         $dataPost = array();
-
-  
-
-        
+       
             if ($title != '' && $desc != '' && $image != '') {
                 $dataModel = [
                     'id_category' => $id,
                     'id_category_up' => $idCatUp,
-                    'title' => $title,
+                    'title' => $title,                                    
                     'description' => $desc, 
                     'image' => $image,
                     'status' => ($status == 'on') ? 1 : 0,
@@ -131,14 +133,43 @@ class Category extends BaseController
                 ];
 
                 $dataPost = $this->categModel->save($dataModel);
+
+                $dataModel = [
+                    'id_category' => $id,
+                    'id_category_up' => $idCatUp,
+                    'title' => $titleNotif,                    
+                    'body' => $descNotif,
+                    'description' => $desc, 
+                    'image' => $image,
+                    'status' => ($status == 'on') ? 1 : 0,
+                    'group' => ($group == '1') ? 1 : 0,
+                    'private' => ($private == '1') ? 1 : 0,
+                    'latitude' => $latitude, 
+                    'location' => $location, 
+                    'fun' => ($fun == '1') ? 1 : 0,
+                    'id_owner' => $idOwner,
+                ];
+
+                try {
+                    $this->userModel->sendFCMMessage($this->TOPIC_FCM, $dataModel);
+                    //send notif fcm to topics
+                } catch (Exception $e) {
+                    // exception is raised and it'll be handled here
+                    // $e->getMessage() contains the error message
+                    //print("Error " . $e->getMessage());
+                }
+
+
             }
         
+          
+
         if (count($dataPost)>0) {
-        $json = array(
-            "result" => $dataPost,
-            "code" => "200",
-            "message" => "Success",
-        );
+            $json = array(
+                "result" => $dataPost,
+                "code" => "200",
+                "message" => "Success",
+            );
         }
         else {
             $json = array(

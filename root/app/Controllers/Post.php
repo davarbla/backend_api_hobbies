@@ -211,7 +211,7 @@ class Post extends BaseController
             $this->postModel->do_like($this->postBody);
             $this->likedModel->do_liked_post($this->postBody);
            
-            $this->send_notif_post($idUser, $idPost, true, $titleNotif, $desc);
+          //  $this->send_notif_post($idUser, $idPost, true, $titleNotif, $desc);
 
         }
         else if ($this->postBody['act'] == 'dislike') {
@@ -357,7 +357,7 @@ class Post extends BaseController
                     "image"   => $image
                 ),
             );
-            $this->userModel->sendFCMMessage('/topics/' . $categPost['subscribe_fcm'], $dataFcm);
+           $this->userModel->sendFCMMessage('/topics/' . $categPost['subscribe_fcm'], $dataFcm);
         }
     }
 

@@ -41,16 +41,20 @@ class CategoryModel extends Model
         foreach ($results as $row) {
             
             //get other user post
-            $query2   = $this->query(" SELECT DISTINCT b.* FROM tb_user_category a, tb_user b
+            $query2   = $this->query(" SELECT DISTINCT b.*, c.token_fcm 
+            FROM tb_user_category a, tb_user b, tb_install c
             WHERE a.id_user=b.id_user
+            AND b.id_install=c.id_install
             AND a.status='".$status."' 
             AND a.id_category=".$row['id_category']."
             AND b.status=1 ");
             $result2 = $query2->getResultArray();
             $row['users'] =  $result2;
 
-            $query3   = $this->query(" SELECT b.* FROM tb_user_category a, tb_user b
+            $query3   = $this->query(" SELECT b.*, c.token_fcm
+            FROM tb_user_category a, tb_user b, tb_install c
             WHERE a.id_user=b.id_user
+            AND b.id_install=c.id_install
             AND a.status>='".$status."' 
             AND a.id_category=".$row['id_category']."
             AND b.status=1 ");
@@ -84,16 +88,20 @@ class CategoryModel extends Model
         foreach ($results as $row) {
             
             //get other user post
-            $query2   = $this->query(" SELECT b.* FROM tb_user_category a, tb_user b
+            $query2   = $this->query(" SELECT b.*, c.token_fcm   
+            FROM tb_user_category a, tb_user b, tb_install c
             WHERE a.id_user=b.id_user
+            AND b.id_install=c.id_install
             AND a.status='".$status."' 
             AND a.id_category=".$row['id_category']."
             AND b.status=1 ");
             $result2 = $query2->getResultArray();
             $row['users'] =  $result2;
 
-            $query3   = $this->query(" SELECT b.* FROM tb_user_category a, tb_user b
+            $query3   = $this->query(" SELECT b.*, c.token_fcm 
+            FROM tb_user_category a, tb_user b, tb_install c
             WHERE a.id_user=b.id_user
+            AND b.id_install=c.id_install
             AND a.status>='".$status."' 
             AND a.id_category=".$row['id_category']."
             AND b.status=1 ");

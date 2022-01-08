@@ -92,10 +92,11 @@ class UserCategoryModel extends Model
 
                     //update post
                     $sqlUpdate2 = " UPDATE tb_category SET total_interest=total_interest+1 WHERE id_category='".$idCateg."' ";
+                    $this->query($sqlUpdate2);
                 }
                 
                 $this->save($data);
-                $this->query($sqlUpdate2);
+               
             }
             else {
 

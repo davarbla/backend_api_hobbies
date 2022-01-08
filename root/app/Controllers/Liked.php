@@ -70,9 +70,9 @@ class Liked extends BaseController
             $dataLiked = $this->likedModel->do_liked_category($array);
             $check1 = $this->likedModel->getByIdUserCateg($idUser, $idCateg);
             
-            if ($check1['id_liked'] != '' && $check1['is_liked'] == '1') {
-                $this->send_notif_categ($idUser, $idCateg);
-            }
+        //    if ($check1['id_liked'] != '' && $check1['is_liked'] == '1') {
+        //        $this->send_notif_categ($idUser, $idCateg);
+        //    }
 
             $result = [$dataLiked];
         }
