@@ -17,7 +17,7 @@ class PostModel extends Model
     protected $allowedFields = ['title', 'description', 'id_category', 'id_user', 'latitude', 'location', 'image', 
     'image2', 'image3', 'subscribe_fcm','total_like', 'total_comment', 
     'total_user', 'total_download', 'total_view', 'total_report', 
-    'timestamp', 'flag', 'status', 'date_created', 'date_updated', 'address', 'address_detail','bring', 'max_people','price', 'start_date', 'end_date', 'age_min','age_max'];
+    'timestamp', 'flag', 'status', 'date_created', 'date_updated', 'address', 'address_detail','bring', 'max_people','price', 'start_date', 'end_date', 'age_min','age_max','fun'];
 
     protected $useTimestamps = true;
     protected $createdField  = 'date_created';
@@ -419,6 +419,7 @@ class PostModel extends Model
                 'end_date' => $array['end_date'],
                 'age_min'     => $array['age_min'],
                 'age_max'     => $array['age_max'],
+                'fun'     => $array['fun'],
             ];
             $this->save($data);
         }
