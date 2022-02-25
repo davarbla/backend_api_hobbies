@@ -98,8 +98,7 @@ class Category extends BaseController
     }
 
     public function deleteLogique() {
-       /* $status = $this->request->getVar('status');
-        $id = $this->request->getVar('id');*/
+ 
         $this->postBody = $this->authModel->authHeader($this->request);
         $status =  $this->postBody['status'];
         $id =  $this->postBody['id'];
@@ -117,6 +116,26 @@ class Category extends BaseController
 
         return redirect()->to(base_url() . '/public/category'); 
     }
+
+    public function flagJoin() {
+
+         $this->postBody = $this->authModel->authHeader($this->request);
+         $flag =  $this->postBody['flag'];
+         $id =  $this->postBody['id'];
+                
+             if ($id != '') {
+                 $dataModel = [
+                     'id_category' => $id,               
+                     'flag' => ($flag == '1') ? 1 : 0,
+                 ];
+ 
+                 $this->categModel->save($dataModel);
+                 
+             }
+         
+ 
+         return redirect()->to(base_url() . '/public/category'); 
+     }
 
     public function add_updatejson() {
         $this->postBody = $this->authModel->authHeader($this->request);
