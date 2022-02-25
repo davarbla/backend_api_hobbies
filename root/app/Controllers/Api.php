@@ -316,6 +316,7 @@ class Api extends BaseController
                     'bodyShape'  => $this->postBody['bodyShape'],
                     'hair'  => $this->postBody['hair'],
                     'publish'  => $this->postBody['publish'],
+                    'status'  => $this->postBody['status'],
 
                     
                 ];
