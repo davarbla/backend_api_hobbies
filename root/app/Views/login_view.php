@@ -66,7 +66,7 @@
                         <footer class="footer mt-3">
                             <div class="container-fluid">
                                 <div class="footer-content text-center small">
-                                    <span class="text-muted">&copy; <?php echo date('Y');?> Hobbies Dashboard. All
+                                    <span class="text-muted">&copy; <?php echo date('Y');?> Play boys Dashboard. All
                                         Rights Reserved.</span>
                                 </div>
                             </div>
