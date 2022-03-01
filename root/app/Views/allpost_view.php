@@ -54,10 +54,10 @@
                                         }
 
                                         $img = '<a href="'.$row['image'].'" target="_blank">
-                                            <img src="'.$row['image'].'" border="0" style="width: 30px; height: 30px;"/></a>';
+                                            <img src="'.$row['image'].'" border="0" style="width: 100px; height: 100px;"/></a>';
                                         
                                         echo '<tr>
-                                                <td>'.$row['fullname'].'</td>
+                                                <td>'.$row['fullname'].'<br/>ID: '.$row['id_post'].'</td>
                                                 <td>'.$img.'</td>
                                                 <td>'.number_format($row['total_view']).'</td>
                                                 <td>'.number_format($row['total_like']).'</td>
