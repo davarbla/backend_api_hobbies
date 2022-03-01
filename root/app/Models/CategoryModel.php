@@ -31,7 +31,7 @@ class CategoryModel extends Model
         
         $query   = $this->query(" SELECT a.* FROM tb_category a 
             WHERE a.status='".$status."' 
-            ORDER BY a.total_interest DESC, a.title ASC 
+            ORDER BY a.date_created DESC, a.title ASC 
             LIMIT ".$getlimit." ");
 
         $results = $query->getResultArray();
@@ -78,7 +78,7 @@ class CategoryModel extends Model
         $getlimit = "$offset,$limit";
         
         $query   = $this->query(" SELECT a.* FROM tb_category a 
-            ORDER BY a.id_category DESC 
+            ORDER BY a.date_created DESC 
             LIMIT ".$getlimit." ");
 
         $results = $query->getResultArray();

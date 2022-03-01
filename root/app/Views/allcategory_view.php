@@ -54,10 +54,10 @@
                                         }
 
                                         $img = '<a href="'.$row['image'].'" target="_blank">
-                                            <img src="'.$row['image'].'" border="0" style="width: 30px; height: 30px;"/></a>';
+                                            <img src="'.$row['image'].'" border="0" style="width: 100px; height: 100px;"/></a>';
                                         
                                         echo '<tr>
-                                                <td>'.$row['title'].'</td>
+                                                <td>'.$row['title'].'<br/>ID: '.$row['id_category'].'</td>
                                                 <td>'.$img.'</td>
                                                 <td>'.number_format($row['total_interest']).'</td>
                                                 <td>'.number_format($row['total_post']).'</td>
