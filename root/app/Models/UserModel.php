@@ -49,7 +49,7 @@ class UserModel extends Model
 
         $query   = $this->query(" SELECT a.*, b.os_platform FROM tb_user a, tb_install b
             WHERE a.id_install=b.id_install
-            ORDER BY a.total_post DESC, a.total_comment DESC, a.fullname ASC
+            ORDER BY a.date_updated DESC, a.total_comment DESC, a.fullname ASC
             LIMIT ".$getlimit." ");
 
         return $query->getResultArray();

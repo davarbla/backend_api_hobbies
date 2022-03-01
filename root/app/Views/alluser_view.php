@@ -38,6 +38,15 @@
                                     <tr>
                                         <th class="font-weight-semi-bold border-top-0 py-2">Fullname</th>
                                         <th class="font-weight-semi-bold border-top-0 py-2">Image</th>
+                                        <th class="font-weight-semi-bold border-top-0 py-2">ImageP2</th>
+                                        <th class="font-weight-semi-bold border-top-0 py-2">ImageP3</th>
+                                        <th class="font-weight-semi-bold border-top-0 py-2">ImageP4</th>
+                                        <th class="font-weight-semi-bold border-top-0 py-2">ImageFr5</th>
+                                        <th class="font-weight-semi-bold border-top-0 py-2">ImageFr6</th>
+                                        <th class="font-weight-semi-bold border-top-0 py-2">ImageFr7</th>
+                                        <th class="font-weight-semi-bold border-top-0 py-2">ImageFu8</th>
+                                        <th class="font-weight-semi-bold border-top-0 py-2">ImageFu9</th>
+                                        <th class="font-weight-semi-bold border-top-0 py-2">ImageFu10</th>
                                         <th class="font-weight-semi-bold border-top-0 py-2">Tot. Post</th>
                                         <th class="font-weight-semi-bold border-top-0 py-2">Tot. Follower</th>
                                         <th class="font-weight-semi-bold border-top-0 py-2">Platform</th>
@@ -54,12 +63,40 @@
                                         }
 
                                         $img = '<a href="'.$row['image'].'" target="_blank">
-                                            <img src="'.$row['image'].'" border="0" style="width: 30px; height: 30px;"/></a>';
-                                        
+                                            <img src="'.$row['image'].'" border="0" style="width: 90px; height: 90px;"/></a>';
+                                        $img2 = '<a href="'.$row['image2'].'" target="_blank">
+                                           <img src="'.$row['image2'].'" border="0" style="width: 90px; height: 90px;"/></a>';
+                                        $img3 = '<a href="'.$row['image3'].'" target="_blank">
+                                           <img src="'.$row['image3'].'" border="0" style="width: 90px; height: 90px;"/></a>';
+                                        $img4 = '<a href="'.$row['image4'].'" target="_blank">
+                                           <img src="'.$row['image4'].'" border="0" style="width: 90px; height: 90px;"/></a>';
+                                        $img5 = '<a href="'.$row['image5'].'" target="_blank">
+                                           <img src="'.$row['image5'].'" border="0" style="width: 90px; height: 90px;"/></a>';
+                                        $img6 = '<a href="'.$row['image6'].'" target="_blank">
+                                           <img src="'.$row['image6'].'" border="0" style="width: 90px; height: 90px;"/></a>';
+                                        $img7 = '<a href="'.$row['image7'].'" target="_blank">
+                                           <img src="'.$row['image7'].'" border="0" style="width: 90px; height: 90px;"/></a>';
+                                        $img8 = '<a href="'.$row['image8'].'" target="_blank">
+                                           <img src="'.$row['image8'].'" border="0" style="width: 90px; height: 90px;"/></a>';
+                                        $img9 = '<a href="'.$row['image9'].'" target="_blank">
+                                           <img src="'.$row['image9'].'" border="0" style="width: 90px; height: 90px;"/></a>';
+                                        $img10 = '<a href="'.$row['image10'].'" target="_blank">
+                                           <img src="'.$row['image10'].'" border="0" style="width: 90px; height: 90px;"/></a>';
+
+
                                         echo '<tr>
                                                 <td>'.$row['fullname'].'<br/><strong>@'.$row['username'].'</strong>
-                                                <br/>Country: '.$row['country'].'</strong></td>
+                                                <br/>Country: '.$row['country'].'<br/>ID: '.$row['id_user'].'</strong></td>
                                                 <td>'.$img.'</td>
+                                                <td>'.$img2.'</td>
+                                                <td>'.$img3.'</td>
+                                                <td>'.$img4.'</td>
+                                                <td>'.$img5.'</td>
+                                                <td>'.$img6.'</td>
+                                                <td>'.$img7.'</td>
+                                                <td>'.$img8.'</td>
+                                                <td>'.$img9.'</td>
+                                                <td>'.$img10.'</td>
                                                 <td>'.number_format($row['total_post']).'</td>
                                                 <td>'.number_format($row['total_follower']).'</td>
                                                 <td>'.$row['os_platform'].'</td>
