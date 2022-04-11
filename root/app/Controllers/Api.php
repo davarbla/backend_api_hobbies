@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\CategoryModel;
 use App\Models\UserCategoryModel;
 use App\Models\UserPostModel;
+use App\Models\UserGalleryModel;
 use App\Models\AuthHeaderModel;
 
 use App\Models\UserModel;
@@ -25,6 +26,7 @@ class Api extends BaseController
     protected $postModel;
     protected $userCategModel;
     protected $userPostModel;
+    protected $userGalleryModel;
     protected $userModel;
 
     protected $followModel;
@@ -40,6 +42,7 @@ class Api extends BaseController
                 
         $this->userCategModel = new UserCategoryModel();
         $this->userPostModel = new UserPostModel();
+        $this->userGalleryModel = new UserGalleryModel();
 
         $this->postModel = new PostModel();    
         $this->userModel = new UserModel();
@@ -77,6 +80,9 @@ class Api extends BaseController
         //get user post
         $dataUserPost = $this->userPostModel->categUserByLimit($idUser , $limit, $offset);
 
+        //get user gallery
+        $dataUserGallery = $this->userGalleryModel->categUserByLimit($idUser , $limit, $offset);
+
         //get my post
         $dataMyPost = $this->postModel->getAllByIdUser($idUser, $limit, $offset);
 
@@ -96,6 +102,7 @@ class Api extends BaseController
         $results['category'] = $dataCateg;  
         $results['mycategory'] = $dataUserCateg;  
         $results['myuserpost'] = $dataUserPost;  
+        $results['myusergallery'] = $dataUserGallery;  
         $results['mypost'] = $dataMyPost;  
         $results['latest_post'] = $dataLatestPost;  
         $results['all_user'] = $dataUser;  
@@ -594,6 +601,82 @@ class Api extends BaseController
         die();
     }
 
+    //Idem request_unjoin_post
+    public function request_show_gallery()
+    {
+        $this->postBody = $this->authModel->authHeader($this->request);
+        
+        //user to request
+        $idUser = $this->postBody['iu'];
+        //me
+        $idMe = $this->postBody['ic'];
+        $titleNotif = $this->postBody['titleNotif'];
+        $descNotif = $this->postBody['descNotif'];
+        
+        $dataCateg = array();
+        
+        if ($idUser != '' && $idMe != '') {
+            $dataCateg = [$this->userGalleryModel->request_show_gallery($this->postBody)];
+            
+          //  $masterCateg = $this->postModel->getById($idMe);
+            $checkExist = $this->userGalleryModel->getByUserPost($idUser, $idMe);
+            
+            $isGalleryVisible = false;
+            if ($checkExist['id_user_gallery'] != '' && $checkExist['status'] == '1') {
+                $isGalleryVisible = true;
+            }
+            
+                    //send notif
+                    $singlePost = $this->postModel->getById($idMe);
+                    if ($singlePost['id_user'] != '' && $idUser != '') {
+                        $targetUser = $this->userModel->getTokenById($idUser);
+                        $meUser = $this->userModel->getTokenById($idMe);
+                                    
+                        
+                        $image = $meUser['image'];
+           
+                     
+                        $dataFcm = array(
+                            'title'   => $titleNotif,
+                            'body'    => $descNotif ,
+                            "image"   => $image,
+                            'payload' => array(
+                                "keyname" =>  'show_gallery',
+                                "post" => $targetUser,
+                                "image"   => $image
+                            ),
+                        );
+                        
+                        $this->userModel->sendFCMMessage($targetUser['token_fcm'], $dataFcm);
+                        
+                        
+                    }
+        }
+        
+        $arr = $dataCateg;
+        if (count($arr) < 1) {
+            $json = array(
+                "result" => $arr,
+                "code" => "201",
+                "message" => "Required data parameter",
+            );
+        }
+        else {
+            $json = array(
+                "result" => $arr,
+                "code" => "200",
+                "message" => "Success",
+            );
+        }
+        
+        //add the header here
+        header('Content-Type: application/json');
+        echo json_encode($json);
+        die();
+    }
+
+
+
     //Join (validate) by Admin
     public function join_unjoin_post()
     {
@@ -602,6 +685,7 @@ class Api extends BaseController
         
         $idUser = $this->postBody['iu'];
         $idPost = $this->postBody['ic'];
+        $status = $this->postBody['status'];
         $titleNotif = $this->postBody['titleNotif'];
         $descNotif = $this->postBody['descNotif'];
         
