@@ -36,7 +36,7 @@ class PostModel extends Model
         $sql = " SELECT a.*, b.fullname FROM tb_post a, tb_user b
             WHERE a.id_user=b.id_user 
             AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
-            ORDER BY a.date_created DESC
+            ORDER BY a.start_date DESC
             LIMIT ".$getlimit." ";
 
         if ($status != '' && $report != '') {
