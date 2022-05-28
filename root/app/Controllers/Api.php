@@ -544,7 +544,7 @@ class Api extends BaseController
             $checkExist = $this->userPostModel->getByUserPost($idUser, $idPost);
             
             $isJoined = false;
-            if ($checkExist['id_user_post'] != '' && $checkExist['status'] == '1') {
+            if ($checkExist['id_user_post'] != '' && $checkExist['status'] != '0') {
                 $isJoined = true;
             }
             
@@ -685,7 +685,6 @@ class Api extends BaseController
         
         $idUser = $this->postBody['iu'];
         $idPost = $this->postBody['ic'];
-        $status = $this->postBody['status'];
         $titleNotif = $this->postBody['titleNotif'];
         $descNotif = $this->postBody['descNotif'];
         
@@ -845,6 +844,10 @@ class Api extends BaseController
         $idPost = $this->postBody['ic'];
         $titleNotif = $this->postBody['titleNotif'];
         $descNotif = $this->postBody['descNotif'];
+        $status = $this->postBody['status'];
+        if ($status == ''){
+            $status = 1;
+        }
         
         $dataCateg = array();
         
@@ -886,7 +889,11 @@ class Api extends BaseController
                     ),
                 );
                 if ($singlePost['id_user'] !=  $idUser){
-                   $this->userModel->sendFCMMessage($actionUser['token_fcm'], $dataFcm);
+                    if ($status == '1'){
+                     $this->userModel->sendFCMMessage($actionUser['token_fcm'], $dataFcm);
+                    }elseif ($status == '4'){
+                        $this->userModel->sendFCMMessage($ownerUser['token_fcm'], $dataFcm);
+                    }
                 }
                 
             }

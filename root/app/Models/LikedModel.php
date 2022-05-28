@@ -91,7 +91,7 @@ class LikedModel extends Model
               AND a.status >='".$status."' 
               AND a.id_post=".$row['id_post']."
               AND b.id_install=c.id_install 
-              AND up.status = 1
+              AND up.status IN (1,4)
               AND b.status >=1 ");
               $result2 = $query2->getResultArray();
               $row['other_users'] =  $result2;
@@ -106,6 +106,17 @@ class LikedModel extends Model
             AND b.status=1 ");
             $result20 = $query20->getResultArray();
             $row['request_users'] =  $result20;
+
+            //get confirmed user post
+            $query21   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
+            WHERE a.id_post = up.id_post
+            AND up.id_user = b.id_user
+            AND a.status='".$status."' 
+            AND a.id_post=".$row['id_post']."
+            AND up.status IN (4)
+            AND b.status=1 ");
+            $result21 = $query21->getResultArray();
+            $row['confirmed_users'] =  $result21;
             
             //get comment by idpost
             $query3   = $this->query(" SELECT b.* FROM tb_comment b
@@ -171,7 +182,7 @@ class LikedModel extends Model
            AND a.status >='".$status."' 
            AND a.id_post=".$row['id_post']."
            AND b.id_install=c.id_install 
-           AND up.status = 1
+           AND up.status IN (1,4)
            AND b.status >=1 ");
            $result2 = $query2->getResultArray();
            $row['other_users'] =  $result2;
@@ -186,6 +197,17 @@ class LikedModel extends Model
             AND b.status=1 ");
             $result20 = $query20->getResultArray();
             $row['request_users'] =  $result20;
+
+            //get confirmed user post
+            $query21   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
+            WHERE a.id_post = up.id_post
+            AND up.id_user = b.id_user
+            AND a.status='".$status."' 
+            AND a.id_post=".$row['id_post']."
+            AND up.status IN (4)
+            AND b.status=1 ");
+            $result21 = $query21->getResultArray();
+            $row['confirmed_users'] =  $result21;
             
            //get comment by idpost
            $query3   = $this->query(" SELECT b.* FROM tb_comment b

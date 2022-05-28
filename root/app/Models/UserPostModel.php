@@ -66,7 +66,7 @@ class UserPostModel extends Model
             if ($checkExist['id_user_post'] != '') {
 
 
-                if ($checkExist['status'] == '1'||$checkExist['status'] == '3') {
+                if ($checkExist['status'] != '0') {
                     // exist do unjoin
                     $data = [
                         'id_user_post' => $checkExist['id_user_post'],
@@ -75,10 +75,10 @@ class UserPostModel extends Model
                         'status' => 0,
                         'id_post'  => $idPost
                     ];
-                    if ($checkExist['status'] == '1') {
+                 //   if ($checkExist['status'] == '1') {
                     //update post
-                    $sqlUpdate2 = " UPDATE tb_post SET total_user=total_user-1 WHERE id_post='".$idPost."' ";
-                    }
+                 //   $sqlUpdate2 = " UPDATE tb_post SET total_user=total_user WHERE id_post='".$idPost."' ";
+                 //   }
                 }
                 else {
                     // no exist do join
@@ -148,7 +148,7 @@ class UserPostModel extends Model
                     ];
 
                     //update post
-                    $sqlUpdate2 = " UPDATE tb_post SET total_user=total_user-1 WHERE id_post='".$idPost."' ";
+                    $sqlUpdate2 = " UPDATE tb_post SET total_user=total_user WHERE id_post='".$idPost."' ";
                 }
                 else {
                     // no exist do join
@@ -214,12 +214,12 @@ class UserPostModel extends Model
                     ];
 
                     //update post
-                    $sqlUpdate2 = " UPDATE tb_post SET total_user=total_user-1 WHERE id_post='".$idPost."' ";
+                 //   $sqlUpdate2 = " UPDATE tb_post SET total_user=total_user-1 WHERE id_post='".$idPost."' ";
                 }
                 
                 
                 $this->save($data);
-                $this->query($sqlUpdate2);
+               // $this->query($sqlUpdate2);
             }
             
         }
@@ -231,6 +231,10 @@ class UserPostModel extends Model
        
         $idUser = $array['iu'];
         $idPost = $array['ic'];
+        $status = $array['status'];
+        if ($status == ''){
+            $status = 1;
+        }
         
         if ($idUser != '' && $idPost != '') {
             $checkExist = $this->getByUserPost($idUser, $idPost);
@@ -241,23 +245,23 @@ class UserPostModel extends Model
             if ($checkExist['id_user_post'] != '') {
 
 
-                if ($checkExist['status'] != '1') {
+               // if ($checkExist['status'] != '1') {
                     // exist do unjoin
                     $data = [
                         'id_user_post' => $checkExist['id_user_post'],
                         'id_user'   => $idUser,
                         'count_interest' => $checkExist['count_interest']+1,
-                        'status' => 1,
+                        'status' => $status,
                         'id_post'  => $idPost
                     ];
 
                     //update post
-                    $sqlUpdate2 = " UPDATE tb_post SET total_user=total_user+1 WHERE id_post='".$idPost."' ";
-                }
+                  //  $sqlUpdate2 = " UPDATE tb_post SET total_user=total_user+1 WHERE id_post='".$idPost."' ";
+               // }
                 
                 
                 $this->save($data);
-                $this->query($sqlUpdate2);
+             //   $this->query($sqlUpdate2);
             }
             
         }
