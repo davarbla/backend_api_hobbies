@@ -880,7 +880,7 @@ class Api extends BaseController
     
                 $dataFcm = array(
                     'title'   => $titleNotif,
-                    'body'    => $descNotif . "\n#" . $categPost['title'],
+                    'body'    => $descNotif,
                     "image"   => $image,
                     'payload' => array(
                         "keyname" => 'join_post' ,
