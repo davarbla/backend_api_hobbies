@@ -1213,4 +1213,42 @@ class Api extends BaseController
     private function generatePassword($password) {
         return md5(sha1(hash("sha256", $password)));
     }
+
+    public function checkPhone() {
+        $this->postBody = $this->authModel->authHeader($this->request);
+        $arr = array();
+
+  
+            $checkExist = null;
+            if ($this->postBody['ph'] != '') {
+                $checkExist = $this->userModel->getByPhone($this->postBody['ph']);
+            }
+      
+            if ($checkExist != null) {
+                $arr = [$checkExist]; 
+            }
+        
+
+        if (count($arr) < 1) {
+            $json = array(
+                "result" => $arr,
+                "code" => "201",
+                "message" => "Data not found",
+            );
+        }
+        else {
+            $json = array(
+                "result" => $arr,
+                "code" => "200",
+                "message" => "Success",
+            );
+        }
+
+        //add the header here
+        header('Content-Type: application/json');
+        echo json_encode($json);
+        die();
+    }
+
+
 }
