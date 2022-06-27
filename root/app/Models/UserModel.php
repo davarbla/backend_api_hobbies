@@ -17,7 +17,7 @@ class UserModel extends Model
     'image','image2','image3','image4','image5','image6','image7','image8','image9','image10', 'location', 'latitude', 'country', 'id_install', 'uid_fcm', 'total_post',
     'total_like', 'total_download', 'total_comment', 'total_follower', 'total_following',
     'password_user', 'timestamp', 'flag', 'status',
-    'date_created', 'date_updated', 'height','weight','age','position','protection','relationship','bodyColor','bodyShape','hair','publish','vip','superAdmin','public','friends','fun','face'];
+    'date_created', 'date_updated', 'height','weight','age','position','protection','relationship','bodyColor','bodyShape','hair','publish','vip','superAdmin','public','friends','fun','face','lat','lng'];
 
     protected $useTimestamps = true;
     protected $createdField  = 'date_created';
@@ -101,6 +101,15 @@ class UserModel extends Model
                     ->orderBy('fullname','asc')
                     ->findAll($limit, $offset);
     }
+    
+    public function allByLimitCountry($limit=100, $offset=0, $country=ZZ) {
+        return $this->where('status','1')
+                    ->where('country',"$country")                    
+                    ->orderBy('total_post','desc')
+                    ->orderBy('total_comment','desc')
+                    ->orderBy('fullname','asc')
+                    ->findAll($limit, $offset);
+    }
 
     public function getLastId() {
         return $this->orderBy('id_user','desc')
@@ -109,11 +118,14 @@ class UserModel extends Model
 
     public function updateUser($array) {
         if ($array['id']!='') {
+            $splitLat = explode(",", $array['lat']);
             $data = [
                 'id_user'       => $array['id'],
                 'uid_fcm'       => $array['uf'],
                 'id_install'    => $array['is'],
                 'latitude'  => $array['lat'],
+                'lat'  => $splitLat[0],
+                'lng'  => $splitLat[1],
                 'location'  => $array['loc'],
                 'country'       => $array['cc'],
             ];
@@ -147,6 +159,7 @@ class UserModel extends Model
             //die();
         }
 
+        $splitLat = explode(",", $array['lat']);
         //$datenow = date('YmdHis');
         $data = [
             'id_user'       => $array['id'],
@@ -159,6 +172,8 @@ class UserModel extends Model
             'uid_fcm'         => $array['uf'],
             'password_user'  => $array['ps'],
             'latitude'  => $array['lat'],
+            'lat'  => $splitLat[0],
+            'lng'  => $splitLat[1],
             'location'  => $array['loc'],
             'country'       => $array['cc'],
         ];
@@ -198,7 +213,7 @@ class UserModel extends Model
             $plusOne = $plusOne + 1;
             $username = $this->generate_unique_username($splitname[0], $splitname[1], "$plusOne");
         }
-
+        $splitLat = explode(",", $array['lat']);
         $data = [
             'id_user'   => $array['id'],
             'id_install'   => $array['is'],
@@ -210,6 +225,8 @@ class UserModel extends Model
             'uid_fcm'         => $array['uf'],
             'password_user'  => $array['ps'],
             'latitude'  => $array['lat'],
+            'lat'  =>  $splitLat[0],
+            'lng'  =>  $splitLat[1],
             'location'  => $array['loc'],
             'country'       => $array['cc'],
         ];

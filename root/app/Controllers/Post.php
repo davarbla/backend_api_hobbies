@@ -164,7 +164,7 @@ class Post extends BaseController
         
         $dataPost = array();
 
-        $dataPost = $this->postModel->allByLimitByIdUser($this->postBody['iu'], $limit, $offset);
+        $dataPost = $this->postModel->allByLimitByIdUserCountry($this->postBody['iu'], $limit, $offset, $this->postBody['cc']);
 
         if (count($dataPost) < 1) {
             $json = array(

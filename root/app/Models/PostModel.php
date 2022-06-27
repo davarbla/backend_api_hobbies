@@ -17,7 +17,7 @@ class PostModel extends Model
     protected $allowedFields = ['title', 'description', 'id_category', 'id_user', 'latitude', 'location', 'image', 
     'image2', 'image3', 'subscribe_fcm','total_like', 'total_comment', 
     'total_user', 'total_download', 'total_view', 'total_report', 
-    'timestamp', 'flag', 'status', 'date_created', 'date_updated', 'address', 'address_detail','bring', 'max_people','price', 'start_date', 'end_date', 'age_min','age_max','fun'];
+    'timestamp', 'flag', 'status', 'date_created', 'date_updated', 'address', 'address_detail','bring', 'max_people','price', 'start_date', 'end_date', 'age_min','age_max','fun','lat','lng','country'];
 
     protected $useTimestamps = true;
     protected $createdField  = 'date_created';
@@ -358,6 +358,99 @@ class PostModel extends Model
         return $return_array;
     }
 
+    public function allByLimitByIdUserCountry($idUser, $limit=100, $offset=0, $country=ZZ, $status=1) {
+        $getlimit = "$offset,$limit";
+        //print($getlimit);
+        //die();
+        
+        $query   = $this->query(" SELECT a.* FROM tb_post a 
+            WHERE a.status >='".$status."' 
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
+            AND a.country='".$country."' 
+            ORDER BY a.id_post DESC, a.total_like DESC, a.total_comment DESC, a.title ASC 
+            LIMIT ".$getlimit." ");
+
+        $results = $query->getResultArray();
+        //print_r($results);
+        //die();
+        $return_array = array();
+        $i = 0;
+        foreach ($results as $row) {
+            $query1   = $this->query(" SELECT b.*, c.token_fcm FROM tb_user b, tb_install c WHERE b.id_install=c.id_install 
+                AND b.id_user='".$row['id_user']."' LIMIT 1 ");
+            $result1 = $query1->getResultArray();
+            $row['user'] =  $result1[0];
+
+            $query0   = $this->query(" SELECT a.is_liked FROM tb_liked a WHERE a.id_post='".$row['id_post']."'  
+                AND a.id_user='".$idUser."' ");
+            $result0 = $query0->getResultArray();
+            $row['is_liked'] =  $result0[0]['is_liked'];
+
+            //get other user post
+            $query2   = $this->query(" SELECT DISTINCT b.*, c.token_fcm
+            FROM tb_post a, tb_user b, tb_user_post up, tb_install c
+            WHERE a.id_post = up.id_post
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
+            AND a.country='".$country."' 
+            AND up.id_user = b.id_user
+            AND b.id_install=c.id_install   
+            AND a.status >='".$status."' 
+            AND a.id_post=".$row['id_post']."
+            AND up.status IN (1,4)
+            AND b.status >=1 ");
+            $result2 = $query2->getResultArray();
+            $row['other_users'] =  $result2;
+
+            //get request user post
+            $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
+            WHERE a.id_post = up.id_post
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
+            AND a.country='".$country."' 
+            AND up.id_user = b.id_user
+            AND a.status >='".$status."' 
+            AND a.id_post=".$row['id_post']."
+            AND up.status IN (1,3)
+            AND b.status >=1 ");
+            $result20 = $query20->getResultArray();
+            $row['request_users'] =  $result20;
+
+            //get confirmed user post
+            $query21   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
+            WHERE a.id_post = up.id_post
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
+            AND a.country='".$country."' 
+            AND up.id_user = b.id_user
+            AND a.status='".$status."' 
+            AND a.id_post=".$row['id_post']."
+            AND up.status IN (4)
+            AND b.status=1 ");
+            $result21 = $query21->getResultArray();
+            $row['confirmed_users'] =  $result21;
+            
+            //get comment by idpost
+            $query3   = $this->query(" SELECT b.* FROM tb_comment b
+            WHERE b.status >='".$status."' 
+            AND b.id_post='".$row['id_post']."' ORDER BY b.id_comment DESC LIMIT 0,10 ");
+            $result3 = $query3->getResultArray();
+            
+            $arrComments = array();
+            foreach ($result3 as $rowComm) {
+                $queryUser   = $this->query(" SELECT b.*, c.token_fcm FROM tb_user b, tb_install c 
+                    WHERE b.id_install=c.id_install 
+                    AND b.id_user='".$rowComm['id_user']."' ");
+                $resultUser = $queryUser->getResultArray();
+                $rowComm['user'] =  $resultUser[0];
+                $arrComments[] = $rowComm;
+            }
+            
+            $row['comments'] = $arrComments;
+
+            $return_array[] = $row;
+        }
+
+        return $return_array;
+    }
+
     public function getByIdArray($id, $status=1) {
         $query   = $this->query(" SELECT a.* FROM tb_post a 
             WHERE a.id_post='".$id."' ");
@@ -446,6 +539,7 @@ class PostModel extends Model
         //$this->desc_news = htmlspecialchars(strip_tags($this->desc_news));
         
         if ($array['iu'] != '0') {
+            $splitLat = explode(",", $array['lat']);
             $data = [
                 'id_post'       => $array['id'],
                 'title'   => htmlspecialchars(strip_tags($array['title'])),
@@ -453,6 +547,9 @@ class PostModel extends Model
                 'id_category'   => $array['ic'],
                 'id_user'       => $array['iu'],
                 'latitude'      => $array['lat'],
+                'lat'  => $splitLat[0],
+                'lng'  => $splitLat[1],
+                'country'      => $array['cc'],
                 'location'      => $array['loc'],
                 'image'         => $array['img'],
                 'address_detail'   => htmlspecialchars(strip_tags($array['address_detail'])),

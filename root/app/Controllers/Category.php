@@ -150,6 +150,10 @@ class Category extends BaseController
         $group =  $this->postBody['group'];
         $private =  $this->postBody['private'];
         $latitude =  $this->postBody['lat'];
+        $splitLat = explode(",", $latitude);
+        $lat =  $splitLat[0];
+        $lng =  $splitLat[1];
+        $country =  $this->postBody['cc'];
         $location =  $this->postBody['loc'];
         $fun =  $this->postBody['fun'];
         $idOwner =  $this->postBody['idOwner'];
@@ -167,12 +171,15 @@ class Category extends BaseController
                     'group' => ($group == '1') ? 1 : 0,
                     'private' => ($private == '1') ? 1 : 0,
                     'latitude' => $latitude, 
+                    'lat'  => $lat,
+                    'lng'  => $lng,
+                    'country'  => $country,
                     'location' => $location, 
                     'fun' => ($fun == '1') ? 1 : 0,
                     'id_owner' => $idOwner,
                 ];
 
-                $dataPost = $this->categModel->save($dataModel);
+                $dataPost = [$this->categModel->save($dataModel)];
 
                 $dataModel = [
                     'id_category' => $id,
@@ -185,13 +192,19 @@ class Category extends BaseController
                     'group' => ($group == '1') ? 1 : 0,
                     'private' => ($private == '1') ? 1 : 0,
                     'latitude' => $latitude, 
+                    'lat'  => $lat,
+                    'lng'  => $long,
+                    'country'  => $country,
                     'location' => $location, 
                     'fun' => ($fun == '1') ? 1 : 0,
                     'id_owner' => $idOwner,
                 ];
 
                 try {
-                    $this->userModel->sendFCMMessage($this->TOPIC_FCM, $dataModel);
+                    if ($id == '' ) {
+                        //TODO : COMMENTED FOR DEV
+                        //$this->userModel->sendFCMMessage($this->TOPIC_FCM, $dataModel);
+                    }
                     //send notif fcm to topics
                 } catch (Exception $e) {
                     // exception is raised and it'll be handled here

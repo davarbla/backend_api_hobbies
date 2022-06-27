@@ -69,15 +69,17 @@ class Api extends BaseController
             
         }
         
+        $country = $this->postBody['cc'];
+        
         //master category
-        $dataCateg = $this->categModel->allByLimit($limit, $offset);
+        $dataCateg = $this->categModel->allByLimitCountry($limit, $offset, $country);
         
         $idUser = $this->postBody['iu'];
         //get user category
         $dataUserCateg = $this->userCategModel->categUserByLimit($idUser , $limit, $offset);
         //print_r($dataUserCateg);
 
-        //get user post
+        //get user categ
         $dataUserPost = $this->userPostModel->categUserByLimit($idUser , $limit, $offset);
 
         //get user gallery
@@ -86,11 +88,11 @@ class Api extends BaseController
         //get my post
         $dataMyPost = $this->postModel->getAllByIdUser($idUser, $limit, $offset);
 
-        //get latest post
-        $dataLatestPost = $this->postModel->allByLimitByIdUser($idUser, $limit, $offset);
+        //get all latest post
+        $dataLatestPost = $this->postModel->allByLimitByIdUserCountry($idUser, $limit, $offset, $country);
 
         //get all user 
-        $dataUser = $this->userModel->allByLimit($limit, $offset);
+        $dataUser = $this->userModel->allByLimitCountry($limit, $offset,$country);
 
         //get all following 
         $dataFollowing = $this->followModel->getAllFollowingByIdUser($this->postBody['iu'], $limit, $offset);
@@ -189,7 +191,8 @@ class Api extends BaseController
             }
         }
         else {
-            $arr = $this->userModel->allByLimit($limit, $offset);
+            $country = $this->postBody['cc'];
+            $arr = $this->userModel->allByLimitCountry($limit, $offset,$country);
         }
         
         if (count($arr) < 1) {
