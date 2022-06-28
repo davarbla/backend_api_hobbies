@@ -111,6 +111,74 @@ class UserModel extends Model
                     ->findAll($limit, $offset);
     }
 
+    public static function boundingBox($latitude, $longitude, $distance)
+    {
+        $latLimits = [deg2rad(-90), deg2rad(90)];
+        $lonLimits = [deg2rad(-180), deg2rad(180)];
+     
+        $radLat = deg2rad($latitude);
+        $radLon = deg2rad($longitude);
+     
+        if ($radLat < $latLimits[0] || $radLat > $latLimits[1]
+            || $radLon < $lonLimits[0] || $radLon > $lonLimits[1]) {
+            throw new \Exception("Invalid Argument");
+        }
+     
+        // Angular distance in radians on a great circle,
+        // using Earth's radius in miles.
+        $angular = $distance / 3958.762079;
+     
+        $minLat = $radLat - $angular;
+        $maxLat = $radLat + $angular;
+     
+        if ($minLat > $latLimits[0] && $maxLat < $latLimits[1]) {
+            $deltaLon = asin(sin($angular) / cos($radLat));
+            $minLon = $radLon - $deltaLon;
+     
+            if ($minLon < $lonLimits[0]) {
+                $minLon += 2 * pi();
+            }
+     
+            $maxLon = $radLon + $deltaLon;
+     
+            if ($maxLon > $lonLimits[1]) {
+                $maxLon -= 2 * pi();
+            }
+        } else {
+            // A pole is contained within the distance.
+            $minLat = max($minLat, $latLimits[0]);
+            $maxLat = min($maxLat, $latLimits[1]);
+            $minLon = $lonLimits[0];
+            $maxLon = $lonLimits[1];
+        }
+     
+        print($box['minLat']);
+        print_r($dataUserCateg);
+        return [
+            'minLat' => rad2deg($minLat),
+            'minLon' => rad2deg($minLon),
+            'maxLat' => rad2deg($maxLat),
+            'maxLon' => rad2deg($maxLon),
+        ];
+    }
+
+    public function allByLimitCountryDistance($limit=100, $offset=0, $country=ZZ,  $longitude, $latitude, $miles=100, $status=1) {
+        $getlimit = "$offset,$limit";
+        $box = static::boundingBox(floatval($latitude), floatval($longitude), $miles);
+
+        $query   = $this->query(" SELECT a.* FROM tb_user a 
+        WHERE a.status='".$status."' 
+        AND a.country='".$country."' 
+        AND lat BETWEEN ".$box['minLat']." AND ".$box['maxLat']." 
+        AND lng BETWEEN ".$box['minLon']."  AND ".$box['maxLon']." 
+        order by (abs(lng-".$longitude.")/2) + (abs(lat-".$latitude.")/2) 
+        LIMIT ".$getlimit." ");
+        
+        $results = $query->getResultArray();
+
+        return $results;
+    }
+
     public function getLastId() {
         return $this->orderBy('id_user','desc')
                     ->first();

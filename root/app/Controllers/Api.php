@@ -61,7 +61,7 @@ class Api extends BaseController
         $offset = 0;
         $limit = 10;
 
-        $getLimit = $this->request->getVar('lt');
+        $getLimit = $this->request->getVar('lt');//MyTheme.pageLimit
         if ($getLimit != '') {
             $exp = explode(",", $getLimit);
             $offset = (int) $exp[0];
@@ -70,34 +70,40 @@ class Api extends BaseController
         }
         
         $country = $this->postBody['cc'];
+        $latitude =  $this->postBody['lat'];
+        $splitLat = explode(",",$latitude);
+        $lat = $splitLat[0];
+        $lng = $splitLat[1];
         
-        //master category
+        $miles = 1000/1.6; //Meters/1.6
+        
+        //ALL Category (groups)
         $dataCateg = $this->categModel->allByLimitCountry($limit, $offset, $country);
         
         $idUser = $this->postBody['iu'];
-        //get user category
+        //MY categories
         $dataUserCateg = $this->userCategModel->categUserByLimit($idUser , $limit, $offset);
         //print_r($dataUserCateg);
 
-        //get user categ
+        //MY posts interactions
         $dataUserPost = $this->userPostModel->categUserByLimit($idUser , $limit, $offset);
 
-        //get user gallery
+        //MY users photo galleries
         $dataUserGallery = $this->userGalleryModel->categUserByLimit($idUser , $limit, $offset);
 
-        //get my post
+        //My posts (Owner)
         $dataMyPost = $this->postModel->getAllByIdUser($idUser, $limit, $offset);
 
-        //get all latest post
+        //ALL post (latest)
         $dataLatestPost = $this->postModel->allByLimitByIdUserCountry($idUser, $limit, $offset, $country);
 
-        //get all user 
-        $dataUser = $this->userModel->allByLimitCountry($limit, $offset,$country);
+        //ALL users
+        $dataUser = $this->userModel->allByLimitCountryDistance($limit, $offset, $country,  $lng, $lat, $miles);
 
-        //get all following 
+        //MY following 
         $dataFollowing = $this->followModel->getAllFollowingByIdUser($this->postBody['iu'], $limit, $offset);
 
-        //get all follower 
+        //MY followers 
         $dataFollower = $this->followModel->getAllFollowerByIdUser($this->postBody['iu'], $limit, $offset);
         
         $results = array();
