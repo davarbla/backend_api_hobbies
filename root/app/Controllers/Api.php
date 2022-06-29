@@ -177,7 +177,8 @@ class Api extends BaseController
         $this->postBody = $this->authModel->authHeader($this->request);
         
         $offset = 0;
-        $limit = 10;
+        $limit = 10000;
+        
 
         $getLimit = $this->request->getVar('lt');
         if ($getLimit != '') {
@@ -198,14 +199,22 @@ class Api extends BaseController
         }
         else {
             $country = $this->postBody['cc'];
-            $arr = $this->userModel->allByLimitCountry($limit, $offset,$country);
+            $latitude =  $this->postBody['lat'];
+            $splitLat = explode(",",$latitude);
+            $lat = $splitLat[0];
+            $lng = $splitLat[1];
+            $miles =  $this->postBody['miles'];
+            if ($miles == '') {
+              $miles = 100; // Meters/1.6 (160 KM)
+            }
+            $arr = $this->userModel->allByLimitCountryDistance($limit, $offset, $country,  $lng, $lat, $miles);
         }
         
         if (count($arr) < 1) {
             $json = array(
                 "result" => $arr,
                 "code" => "201",
-                "message" => "Data not found",
+                "message" => "No users around found",
             );
         }
         else {
@@ -1259,5 +1268,106 @@ class Api extends BaseController
         die();
     }
 
+    public function add_updatejson() {
+        $this->postBody = $this->authModel->authHeader($this->request);
+        $title =  $this->postBody['title'];
+        $titleNotif =  $this->postBody['titleNotif'];
+        $desc =  $this->postBody['description'];
+        $descNotif =  $this->postBody['descNotif'];
+        $image =  $this->postBody['image'];
+        $status =  $this->postBody['status'];
+        $id =  $this->postBody['id'];
+        $idCatUp =  $this->postBody['idCategoryUp'];
+        $group =  $this->postBody['group'];
+        $private =  $this->postBody['private'];
+        $latitude =  $this->postBody['lat'];
+        $splitLat = explode(",", $latitude);
+        $lat =  $splitLat[0];
+        $lng =  $splitLat[1];
+        $country =  $this->postBody['cc'];
+        $location =  $this->postBody['loc'];
+        $fun =  $this->postBody['fun'];
+        $idOwner =  $this->postBody['idOwner'];
+
+        $dataPost = array();
+       
+            if ($title != '' && $desc != '' && $image != '') {
+                $dataModel = [
+                    'id_category' => $id,
+                    'id_category_up' => $idCatUp,
+                    'title' => $title,                                    
+                    'description' => $desc, 
+                    'image' => $image,
+                    'status' => ($status == 'on') ? 1 : 0,
+                    'group' => ($group == '1') ? 1 : 0,
+                    'private' => ($private == '1') ? 1 : 0,
+                    'latitude' => $latitude, 
+                    'lat'  => $lat,
+                    'lng'  => $lng,
+                    'country'  => $country,
+                    'location' => $location, 
+                    'fun' => ($fun == '1') ? 1 : 0,
+                    'id_owner' => $idOwner,
+                ];
+
+                $dataPost = [$this->categModel->save($dataModel)];
+
+                $dataModel = [
+                    'id_category' => $id,
+                    'id_category_up' => $idCatUp,
+                    'title' => $titleNotif,                    
+                    'body' => $descNotif,
+                    'description' => $desc, 
+                    'image' => $image,
+                    'status' => ($status == 'on') ? 1 : 0,
+                    'group' => ($group == '1') ? 1 : 0,
+                    'private' => ($private == '1') ? 1 : 0,
+                    'latitude' => $latitude, 
+                    'lat'  => $lat,
+                    'lng'  => $long,
+                    'country'  => $country,
+                    'location' => $location, 
+                    'fun' => ($fun == '1') ? 1 : 0,
+                    'id_owner' => $idOwner,
+                ];
+
+                try {
+                    if ($id == '' ) {
+                        //TODO : COMMENTED FOR DEV
+                        //$this->userModel->sendFCMMessage($this->TOPIC_FCM, $dataModel);
+                    }
+                    //send notif fcm to topics
+                } catch (Exception $e) {
+                    // exception is raised and it'll be handled here
+                    // $e->getMessage() contains the error message
+                    //print("Error " . $e->getMessage());
+                }
+
+
+            }
+        
+            $dataPost = $this->users();
+          //  $dataPost['users'] = $users; 
+
+        if (count($dataPost)>0) {
+            $json = array(
+                "result" => $dataPost,
+                "code" => "200",
+                "message" => "Success",
+            );
+        }
+        else {
+            $json = array(
+                "result" => "null" ,
+                "code" => "208",
+                "message" => "Data required parameter",
+            );
+        }
+    
+        //add the header here
+        header('Content-Type: application/json');
+        echo json_encode($json);
+        die();
+    }
 
 }

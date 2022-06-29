@@ -136,7 +136,7 @@ class Category extends BaseController
  
          return redirect()->to(base_url() . '/public/category'); 
      }
-
+     //DEPRECATED by Api.php
     public function add_updatejson() {
         $this->postBody = $this->authModel->authHeader($this->request);
         $title =  $this->postBody['title'];
