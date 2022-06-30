@@ -17,7 +17,7 @@ class UserModel extends Model
     'image','image2','image3','image4','image5','image6','image7','image8','image9','image10', 'location', 'latitude', 'country', 'id_install', 'uid_fcm', 'total_post',
     'total_like', 'total_download', 'total_comment', 'total_follower', 'total_following',
     'password_user', 'timestamp', 'flag', 'status',
-    'date_created', 'date_updated', 'height','weight','age','position','protection','relationship','bodyColor','bodyShape','hair','publish','vip','superAdmin','public','friends','fun','face','lat','lng'];
+    'date_created', 'date_updated', 'height','weight','age','position','protection','relationship','bodyColor','bodyShape','hair','publish','vip','superAdmin','public','friends','fun','face','lat','lng','message' ];
 
     protected $useTimestamps = true;
     protected $createdField  = 'date_created';
@@ -196,6 +196,28 @@ class UserModel extends Model
                 'lng'  => $splitLat[1],
                 'location'  => $array['loc'],
                 'country'       => $array['cc'],
+            ];
+
+            $this->save($data);
+        }
+
+        return $this->getById($array['id']);
+    }
+
+    //idem updateUser
+    public function deleteUserMessage($array) {
+        if ($array['id']!='') {
+            $splitLat = explode(",", $array['lat']);
+            $data = [
+                'id_user'       => $array['id'],
+                'uid_fcm'       => $array['uf'],
+                'id_install'    => $array['is'],
+                'latitude'  => $array['lat'],
+                'lat'  => $splitLat[0],
+                'lng'  => $splitLat[1],
+                'location'  => $array['loc'],
+                'country'       => $array['cc'],
+                'message'       => $array['msg'],
             ];
 
             $this->save($data);

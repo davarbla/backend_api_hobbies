@@ -290,6 +290,38 @@ class Api extends BaseController
         echo json_encode($json);
         die();
     }
+    //idem get_user()
+    public function delete_user_msg()
+    {
+        $this->postBody = $this->authModel->authHeader($this->request);
+
+        if ($this->postBody['is'] != '' &&  $this->postBody['iu'] != '') {
+            $this->postBody['id'] = $this->postBody['iu'];
+            $this->userModel->deleteUserMessage($this->postBody);
+        }
+        
+        $dataUser = $this->userModel->getById($this->postBody['iu']);
+
+        if ($dataUser['id_user'] == '') {
+            $json = array(
+                "result" => array(),
+                "code" => "201",
+                "message" => "Data not found",
+            );
+        }
+        else {
+            $json = array(
+                "result" => [$dataUser],
+                "code" => "200",
+                "message" => "Success",
+            );
+        }
+
+        //add the header here
+        header('Content-Type: application/json');
+        echo json_encode($json);
+        die();
+    }
 
     public function update_user_byid()
     {
