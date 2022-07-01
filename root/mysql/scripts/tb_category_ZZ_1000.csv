@@ -1,0 +1,63 @@
+id_category;title;description;image;total_interest;total_post;total_like;total_trivia;flag;status;date_created;date_updated;id_category_up;private;group;latitude;location;id_owner;fun;subscribe_fcm;lat;lng;country
+1098;Gym Clubs;Gym sport clubs.;https://hobbies.fboys.app/upload/assets/categs/gymClub.jpg;100;100;100;100;1;1;09/03/2022 13:00;24/03/2022 14:03;0;0;0;;;8;0;;0.0;0.0;ZZ
+1099;Travel;Travel;https://hobbies.fboys.app/upload/assets/categs/travel.jpg;100;100;100;100;1;1;09/03/2022 13:04;24/03/2022 10:39;0;0;0;;;9;0;;0.0;0.0;ZZ
+1100;Work;Professionnals;https://hobbies.fboys.app/upload/assets/categs/work.jpg;100;100;100;100;1;1;09/03/2022 13:12;09/03/2022 13:12;0;0;0;;;8;0;;0.0;0.0;ZZ
+1101;Entertainment;Going out;https://hobbies.fboys.app/upload/assets/categs/entertainement.jpg;100;100;100;100;1;1;09/03/2022 13:16;24/03/2022 14:21;0;0;0;;;8;0;;0.0;0.0;ZZ
+1102;Wellness;Well being;https://hobbies.fboys.app/upload/assets/categs/wellness.PNG;100;100;100;100;1;1;09/03/2022 13:23;10/04/2022 10:26;0;0;0;;;8;0;;0.0;0.0;ZZ
+1103;The Scene;The Scene entertainment;https://hobbies.fboys.app/upload/assets/categs/meetup.jpg;100;100;100;100;1;1;09/03/2022 13:24;23/03/2022 16:07;0;0;0;;;8;1;;0.0;0.0;ZZ
+1109;Musicals;Musicals;https://hobbies.fboys.app/upload/assets/categs/musicals.png;100;100;100;100;1;1;09/03/2022 14:36;09/03/2022 14:36;2101;0;1;;;8;0;;0.0;0.0;ZZ
+1110;Sauna;Sauna;https://hobbies.fboys.app/upload/assets/categs/sauna.jpg;100;100;100;100;1;1;09/03/2022 14:38;09/03/2022 14:38;2103;0;1;;;8;1;;0.0;0.0;ZZ
+1111;Cinema;Cinema;https://hobbies.fboys.app/upload/assets/categs/cinema.jpg;100;100;100;100;1;1;09/03/2022 14:41;09/03/2022 14:41;2101;0;1;;;8;0;;0.0;0.0;ZZ
+1112;Ballet;Ballet;https://hobbies.fboys.app/upload/assets/categs/ballet.png;100;100;100;100;1;1;09/03/2022 14:42;23/05/2022 16:10;2101;0;1;;;8;0;;0.0;0.0;ZZ
+1117;Sports;Sports.;https://hobbies.fboys.app/upload/assets/categs/sport.PNG;100;100;100;100;1;1;09/03/2022 22:44;23/05/2022 15:50;0;0;0;;;8;0;;0.0;0.0;ZZ
+1118;Other;Another groups;https://hobbies.fboys.app/upload/assets/categs/buzz.jpg;100;100;100;100;1;1;09/03/2022 22:47;23/03/2022 12:05;0;0;0;;;8;0;;0.0;0.0;ZZ
+1119;Associations;Rights, militantism and associations;https://hobbies.fboys.app/upload/assets/categs/associations.webp;100;100;100;100;1;1;09/03/2022 22:58;26/03/2022 11:38;0;0;0;;;8;0;;0.0;0.0;ZZ
+1120;Clubbing;Clubbing;https://hobbies.fboys.app/upload/assets/categs/clubbing.jpg;100;100;100;100;1;1;09/03/2022 23:31;23/03/2022 13:30;2103;0;1;;;8;0;;0.0;0.0;ZZ
+1121;Bars;Drinks;https://hobbies.fboys.app/upload/assets/categs/bar.jpg;100;100;100;100;1;1;09/03/2022 23:33;23/03/2022 10:06;2103;0;1;;;8;0;;0.0;0.0;ZZ
+1122;Concerts;Concerts;https://hobbies.fboys.app/upload/assets/categs/concerts.jpg;100;100;100;100;1;1;09/03/2022 23:36;01/04/2022 15:11;2101;0;1;;;8;0;;0.0;0.0;ZZ
+1123;Eating out;Eating out;https://hobbies.fboys.app/upload/assets/categs/eat.jpg;100;100;100;100;1;1;09/03/2022 23:38;25/06/2022 10:53;2101;0;1;;;8;0;;0.0;0.0;ZZ
+1124;Geek;Computering, Geek, Games;https://hobbies.fboys.app/upload/assets/categs/geek.jpg;100;100;100;100;1;1;09/03/2022 23:39;09/03/2022 23:39;2100;0;1;;;8;0;;0.0;0.0;ZZ
+1125;Poz;Positive;https://hobbies.fboys.app/upload/assets/categs/poz.jpg;100;100;100;100;1;1;09/03/2022 23:41;09/03/2022 23:41;2119;0;1;;;8;0;;0.0;0.0;ZZ
+1127;Handicap;Handicap;https://hobbies.fboys.app/upload/assets/categs/handicap.jpg;100;100;100;100;1;1;09/03/2022 23:51;24/04/2022 22:32;2119;0;1;;;8;0;;0.0;0.0;ZZ
+1129;Meditation;Meditation;https://hobbies.fboys.app/upload/assets/categs/meditation.jpg;100;100;100;100;1;1;10/03/2022 00:03;24/06/2022 14:23;2102;0;1;;;8;0;;0.0;0.0;ZZ
+1130;Private Party;Fun parties;https://hobbies.fboys.app/upload/assets/categs/party.jpg;100;100;100;100;1;1;10/03/2022 09:41;05/05/2022 01:20;0;0;0;;;1;1;;0.0;0.0;ZZ
+1131;Fetish;Fetish.;https://hobbies.fboys.app/upload/assets/categs/bdsm.jpg;100;100;100;100;1;1;10/03/2022 10:10;26/03/2022 11:38;0;0;0;;;1;1;;0.0;0.0;ZZ
+1132;Multiethnic;Multiethnic;https://hobbies.fboys.app/upload/assets/categs/multiethnic.PNG;100;100;100;100;1;1;10/03/2022 10:32;10/03/2022 10:44;2131;0;0;;;1;1;;0.0;0.0;ZZ
+1133;Cruising;Cruising;https://hobbies.fboys.app/upload/assets/categs/cruising4.jpg;100;100;100;100;1;1;10/03/2022 10:36;26/03/2022 11:38;0;0;0;;;1;1;;0.0;0.0;ZZ
+1134;Practices;Practices;https://hobbies.fboys.app/upload/assets/categs/Proteccion.PNG;100;100;100;100;1;1;10/03/2022 10:44;01/05/2022 09:13;0;0;0;;;1;1;;0.0;0.0;ZZ
+1135;Couples;Couples;https://hobbies.fboys.app/upload/assets/categs/couple4.PNG;100;100;100;100;1;1;10/03/2022 10:55;24/03/2022 14:03;0;0;0;;;1;1;;0.0;0.0;ZZ
+1136;Morphology;Morphology;https://hobbies.fboys.app/upload/assets/categs/morphology.PNG;100;100;100;100;1;1;10/03/2022 11:07;22/03/2022 12:39;0;0;0;;;1;1;;0.0;0.0;ZZ
+1138;Chub;And those who like them. ;https://hobbies.fboys.app/upload/assets/categs/chub.jpg;100;100;100;100;1;1;10/03/2022 11:34;22/03/2022 12:40;2136;0;1;;;1;1;;0.0;0.0;ZZ
+1139;Daddy;And those who like them. ;https://hobbies.fboys.app/upload/assets/categs/daddy.jpg;100;100;100;100;1;1;10/03/2022 11:37;22/03/2022 12:41;2136;0;1;;;1;1;;0.0;0.0;ZZ
+1140;Ski;Ski;https://hobbies.fboys.app/upload/assets/categs/ski.jpg;100;100;100;100;1;1;10/03/2022 12:05;09/06/2022 16:58;2099;0;1;;;1;0;;0.0;0.0;ZZ
+1141;Raw;Raw;https://hobbies.fboys.app/upload/assets/categs/raw.webp;100;100;100;100;1;1;22/03/2022 12:46;26/03/2022 11:37;2134;0;1;;;1;1;;0.0;0.0;ZZ
+1142;Fist;Fist;https://hobbies.fboys.app/upload/assets/categs/fist.PNG;100;100;100;100;1;1;22/03/2022 12:47;26/03/2022 11:38;2131;0;1;;;1;1;;0.0;0.0;ZZ
+1143;Safe;Safe;https://hobbies.fboys.app/upload/assets/categs/safe.jpg;100;100;100;100;1;1;22/03/2022 12:49;26/03/2022 14:21;2134;0;1;;;1;1;;0.0;0.0;ZZ
+1144;Golden shower;Golden shower;https://hobbies.fboys.app/upload/assets/categs/golden_shower.jpg;100;100;100;100;1;1;22/03/2022 14:26;26/03/2022 11:37;2131;0;1;;;1;1;;0.0;0.0;ZZ
+1146;Fetish;Fetish.;https://hobbies.fboys.app/upload/assets/categs/fetish.jpg;100;100;100;100;1;1;22/03/2022 14:30;22/03/2022 14:30;2131;0;1;;;1;1;;0.0;0.0;ZZ
+1147;Domination;Domination-Submission. ;https://hobbies.fboys.app/upload/assets/categs/domination2.jpg;100;100;100;100;1;1;22/03/2022 14:33;26/03/2022 11:37;2131;0;1;;;1;1;;0.0;0.0;ZZ
+1148;Foreigners;Meet foreigners;https://hobbies.fboys.app/upload/assets/categs/international.jpg;100;100;100;100;1;1;22/03/2022 14:35;22/03/2022 14:38;2132;0;1;;;1;1;;0.0;0.0;ZZ
+1149;Feet;Feet lovers;https://hobbies.fboys.app/upload/assets/categs/feet.jpg;100;100;100;100;1;1;22/03/2022 14:37;03/04/2022 15:43;2131;0;1;;;1;1;;0.0;0.0;ZZ
+1150;Bondage;Bondage;https://hobbies.fboys.app/upload/assets/categs/bondage.jpg;100;100;100;100;1;1;22/03/2022 14:42;26/03/2022 11:36;2131;0;1;;;1;1;;0.0;0.0;ZZ
+1151;Pupplay;Pupplay;https://hobbies.fboys.app/upload/assets/categs/pupplay.png;100;100;100;100;1;1;22/03/2022 14:43;22/03/2022 14:43;2131;0;1;;;1;1;;0.0;0.0;ZZ
+1153;Young Couples;Young couples for fun;https://hobbies.fboys.app/upload/assets/categs/young2.jpg;100;100;100;100;1;1;22/03/2022 14:55;26/03/2022 11:40;2135;0;1;;;1;1;;0.0;0.0;ZZ
+1156;Outdoor;Outdoor cruising;https://hobbies.fboys.app/upload/assets/categs/cruising_outdoor.jpg;100;100;100;100;1;1;22/03/2022 15:04;24/04/2022 02:21;2133;0;1;;;1;1;;0.0;0.0;ZZ
+1157;Naturism;Naturism;https://hobbies.fboys.app/upload/assets/categs/naturisme.jpg;100;100;100;100;1;1;22/03/2022 15:24;26/03/2022 11:37;2133;0;1;;;1;1;;0.0;0.0;ZZ
+1158;Suckers;Suckers;https://hobbies.fboys.app/upload/assets/categs/pompeur.PNG;100;100;100;100;1;1;22/03/2022 16:00;26/03/2022 11:35;2134;0;1;;;1;1;;0.0;0.0;ZZ
+1159;Arabic;And those who like them. ;https://hobbies.fboys.app/upload/assets/categs/arabic3.jpg;100;100;100;100;1;1;22/03/2022 16:03;11/04/2022 12:53;2132;0;1;;;1;1;;0.0;0.0;ZZ
+1160;Asian;And those who like them. ;https://hobbies.fboys.app/upload/assets/categs/asian.jpg;100;100;100;100;1;1;22/03/2022 16:04;23/03/2022 10:11;2132;0;1;;;1;1;;0.0;0.0;ZZ
+1161;Black;And those who like them. ;https://hobbies.fboys.app/upload/assets/categs/black.jpg;100;100;100;100;1;1;22/03/2022 16:07;26/03/2022 11:35;2132;0;1;;;1;1;;0.0;0.0;ZZ
+1162;Latin;And those who like them. ;https://hobbies.fboys.app/upload/assets/categs/latin.jpg;100;100;100;100;1;1;22/03/2022 16:08;23/03/2022 10:10;2132;0;1;;;1;1;;0.0;0.0;ZZ
+1163;Twink;And those who like them. ;https://hobbies.fboys.app/upload/assets/categs/twink.jpg;100;100;100;100;1;1;22/03/2022 16:14;27/04/2022 13:42;2136;0;1;;;1;1;;0.0;0.0;ZZ
+1164;Bears;And those who like them. ;https://hobbies.fboys.app/upload/assets/categs/bear.jpg;100;100;100;100;1;1;22/03/2022 16:17;23/03/2022 10:11;2136;0;1;;;1;1;;0.0;0.0;ZZ
+1165;Hairy;And those who like them. ;https://hobbies.fboys.app/upload/assets/categs/hairy.jpg;100;100;100;100;1;1;22/03/2022 16:18;26/03/2022 11:35;2136;0;1;;;1;1;;0.0;0.0;ZZ
+1166;Muscle;And those who like them. ;https://hobbies.fboys.app/upload/assets/categs/muscle.jpg;100;100;100;100;1;1;22/03/2022 16:21;23/03/2022 10:10;2136;0;1;;;1;1;;0.0;0.0;ZZ
+1167;Bottoms;Only for bottoms. ;https://hobbies.fboys.app/upload/assets/categs/powerbottom.gif;100;100;100;100;1;1;22/03/2022 16:27;30/04/2022 19:15;2134;0;1;;;1;1;;0.0;0.0;ZZ
+1168;Tops;Only for tops. ;https://hobbies.fboys.app/upload/assets/categs/top.jpg;100;100;100;100;1;1;22/03/2022 16:30;02/05/2022 07:32;2134;0;1;;;1;1;;0.0;0.0;ZZ
+1171;Friendship;Friends;https://hobbies.fboys.app/upload/assets/categs/friends.jpg;100;100;100;100;1;1;22/03/2022 16:58;24/03/2022 10:41;2103;0;1;;;1;0;;0.0;0.0;ZZ
+1172;Relationship;Looking for charming prince.;https://hobbies.fboys.app/upload/assets/categs/husband.jpg;100;100;100;100;1;1;22/03/2022 22:33;23/05/2022 16:31;2135;0;1;;;1;0;;0.0;0.0;ZZ
+1173;XL;And those who like them;https://hobbies.fboys.app/upload/assets/categs/xl.jpg;100;100;100;100;1;1;23/03/2022 10:48;26/03/2022 11:34;2136;0;1;;;1;1;;0.0;0.0;ZZ
+1174;Rights;Rights for us and for all!;https://hobbies.fboys.app/upload/assets/categs/international_rights.png;100;100;100;100;1;1;23/03/2022 11:15;23/03/2022 11:15;2119;0;1;;;1;0;;0.0;0.0;ZZ
+1175;Yoga;Yoga;https://hobbies.fboys.app/upload/assets/categs/yoga.jpg;100;100;100;100;1;1;23/03/2022 11:24;23/03/2022 11:24;2102;0;1;;;1;0;;0.0;0.0;ZZ
+1176;Tantra;Tantra;https://hobbies.fboys.app/upload/assets/categs/tantra.jpg;100;100;100;100;1;1;23/03/2022 11:37;26/03/2022 11:34;2102;0;1;;;1;0;;0.0;0.0;ZZ
+1177;Jogging;Running;https://hobbies.fboys.app/upload/assets/categs/run.PNG;100;100;100;100;1;1;23/03/2022 11:47;24/03/2022 10:41;2117;0;1;;;1;0;;0.0;0.0;ZZ
