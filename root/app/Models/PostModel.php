@@ -17,7 +17,7 @@ class PostModel extends Model
     protected $allowedFields = ['title', 'description', 'id_category', 'id_user', 'latitude', 'location', 'image', 
     'image2', 'image3', 'subscribe_fcm','total_like', 'total_comment', 
     'total_user', 'total_download', 'total_view', 'total_report', 
-    'timestamp', 'flag', 'status', 'date_created', 'date_updated', 'address', 'address_detail','bring', 'max_people','price', 'start_date', 'end_date', 'age_min','age_max','fun','lat','lng','country'];
+    'timestamp', 'flag', 'status', 'date_created', 'date_updated', 'address', 'address_detail','bring', 'cancell', 'max_people','price', 'start_date', 'end_date', 'age_min','age_max','fun','lat','lng','country'];
 
     protected $useTimestamps = true;
     protected $createdField  = 'date_created';
@@ -555,6 +555,7 @@ class PostModel extends Model
                 'address_detail'   => htmlspecialchars(strip_tags($array['address_detail'])),
                 'address'   => htmlspecialchars(strip_tags($array['address'])),
                 'bring'   => htmlspecialchars(strip_tags($array['bring'])),
+                'cancell'   => htmlspecialchars(strip_tags($array['cancell'])),
                 'max_people'     => $array['max_people'],
                 'price'     => $array['price'],
                 'start_date' => $array['start_date'],
@@ -1168,5 +1169,5 @@ class PostModel extends Model
 id_post, title, description, id_category, id_user, image, 
 image2, image3, total_like, total_comment, 
 total_user, total_download, total_view, 
-timestamp, flag, status, date_created, date_updated, address, address_detail, bring, max_people, price, start_date, end_date,age_min, age_max
+timestamp, flag, status, date_created, date_updated, address, address_detail, bring, cancel, max_people, price, start_date, end_date,age_min, age_max
  */
