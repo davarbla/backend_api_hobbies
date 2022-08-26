@@ -132,3 +132,4 @@ nb-configuration.xml
 
 /root/upload/*
 /.metadata/
+/root/mysql/*
