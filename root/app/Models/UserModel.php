@@ -17,7 +17,7 @@ class UserModel extends Model
     'image','image2','image3','image4','image5','image6','image7','image8','image9','image10', 'location', 'latitude', 'country', 'id_install', 'uid_fcm', 'total_post',
     'total_like', 'total_download', 'total_comment', 'total_follower', 'total_following',
     'password_user', 'timestamp', 'flag', 'status',
-    'date_created', 'date_updated', 'height','weight','age','position','protection','relationship','bodyColor','bodyShape','hair','publish','vip','superAdmin','public','friends','fun','face','lat','lng','message', 'reliable','sexy','ugly' ];
+    'date_created', 'date_updated','date_img_upd','height','weight','age','position','protection','relationship','bodyColor','bodyShape','hair','publish','vip','superAdmin','public','friends','fun','face','lat','lng','message', 'reliable','sexy','ugly' ];
 
     protected $useTimestamps = true;
     protected $createdField  = 'date_created';
@@ -49,7 +49,7 @@ class UserModel extends Model
 
         $query   = $this->query(" SELECT a.*, b.os_platform FROM tb_user a, tb_install b
             WHERE a.id_install=b.id_install
-            ORDER BY a.date_updated DESC, a.total_comment DESC, a.fullname ASC
+            ORDER BY a.date_img_upd DESC, a.total_comment DESC, a.fullname ASC
             LIMIT ".$getlimit." ");
 
         return $query->getResultArray();

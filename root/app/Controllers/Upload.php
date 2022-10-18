@@ -301,7 +301,7 @@ class Upload extends BaseController
                 $dataUpdate = [
                     "id_user" => $id,
                     "image". $imageNumber   => $foto,
-                    "date_updated" => date('YmdHis'),
+                    "date_img_upd" => date('YmdHis'),
                     "public" => $public,
                     
                 ];
@@ -310,7 +310,7 @@ class Upload extends BaseController
                 $dataUpdate = [
                     "id_user" => $id,
                     "image". $imageNumber   => $foto,
-                    "date_updated" => date('YmdHis'),                    
+                    "date_img_upd" => date('YmdHis'),
                     "friends" => $friends,                    
                 ];
             } else{                
@@ -318,7 +318,7 @@ class Upload extends BaseController
                 $dataUpdate = [
                     "id_user" => $id,
                     "image". $imageNumber   => $foto,
-                    "date_updated" => date('YmdHis'),                   
+                    "date_img_upd" => date('YmdHis'),
                     "fun" => $fun,
                 ];
             }
