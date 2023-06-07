@@ -113,7 +113,7 @@ abstract class BaseConnection implements ConnectionInterface
 	 *
 	 * @var string
 	 */
-	protected $DBCollat = 'utf8_general_ci';
+	protected $DBCollat = 'utf8mb4_unicode_ci';
 
 	/**
 	 * Swap Prefix
