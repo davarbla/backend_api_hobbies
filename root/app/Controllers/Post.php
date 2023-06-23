@@ -616,7 +616,7 @@ class Post extends BaseController
             else if ($action == 'update_user') {
                 $data = [
                     'id_post'     => $idPost,
-                    'total_user'  => $dataPost['total_user'] + 1,
+                    'total_user'  => $dataPost['total_user'] ,
                 ];
                 $this->postModel->save($data);
             } 

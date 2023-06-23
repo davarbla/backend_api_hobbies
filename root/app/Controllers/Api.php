@@ -356,7 +356,7 @@ class Api extends BaseController
                 ];
                 $this->userModel->save($data);
             }
-            else if ($action == 'update_about_fullname' && $this->postBody['ab'] != '' && $this->postBody['fn'] != '') {
+            else if ($action == 'update_about_fullname' && $this->postBody['fn'] != '') {
                 $data = [
                     'id_user'     => $idUser,
                     'fullname'  => $this->postBody['fn'],

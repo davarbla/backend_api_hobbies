@@ -84,7 +84,7 @@ class CommentModel extends Model
             $this->query($sqlUpdate1);
 
             //update post
-            $sqlUpdate2 = " UPDATE tb_post SET total_comment=total_comment+1, total_user=total_user+1 WHERE id_post='".$idPost."' ";
+            $sqlUpdate2 = " UPDATE tb_post SET total_comment=total_comment+1, total_user=total_user WHERE id_post='".$idPost."' ";
             $this->query($sqlUpdate2);
 
             //update user categ
