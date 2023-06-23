@@ -1,0 +1,8 @@
+SET NAMES utf8mb4;
+
+ALTER DATABASE `u439050121_hobbies` CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+
+ALTER TABLE `u439050121_hobbies`.`tb_post` CHARACTER SET = utf8mb4 , COLLATE = utf8mb4_unicode_ci ;
+
+
+ALTER TABLE `u439050121_hobbies`.`tb_post` CHANGE column column VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;

@@ -106,7 +106,7 @@ abstract class BaseConnection implements ConnectionInterface
 	 *
 	 * @var string
 	 */
-	protected $charset = 'utf8';
+	protected $charset = 'utf8mb4';
 
 	/**
 	 * Collation
