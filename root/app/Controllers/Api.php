@@ -205,7 +205,7 @@ class Api extends BaseController
             $lng = $splitLat[1];
             $miles =  $this->postBody['miles'];
             if ($miles == '') {
-              $miles = 100; // Meters/1.6 (160 KM)
+              $miles = 1000; // Meters/1.6 (1600 KM)
             }
             $arr = $this->userModel->allByLimitCountryDistance($limit, $offset, $country,  $lng, $lat, $miles);
         }
