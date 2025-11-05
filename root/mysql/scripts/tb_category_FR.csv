@@ -1,6 +1,6 @@
 id_category;title;description;image;total_interest;total_post;total_like;total_trivia;flag;status;date_created;date_updated;id_category_up;private;group;latitude;location;id_owner;fun;subscribe_fcm;lat;lng;country
 98;Gym Clubs; Salles de sport;https://hobbies.fboys.app/upload/assets/categs/gymClub.jpg;6;0;0;0;1;1;09/03/2022 13:00;24/03/2022 14:03;0;0;0;;;8;0;;0.0;0.0;FR
-99;Voyage;Voyager;https://hobbies.fboys.app/upload/assets/categs/travel.jpg;48;5;0;0;1;1;09/03/2022 13:04;24/03/2022 10:39;0;0;0;;;9;0;;0.0;0.0;FR
+99;Voyage;Voyager. Note: Lorsqu'on crée un évènement, choisir une adresse proche. Exemple: aéroport, gare ;https://hobbies.fboys.app/upload/assets/categs/travel.jpg;48;5;0;0;1;1;09/03/2022 13:04;24/03/2022 10:39;0;0;0;;;9;0;;0.0;0.0;FR
 100;Travail;Groupes au travail;https://hobbies.fboys.app/upload/assets/categs/work.jpg;6;0;0;0;1;1;09/03/2022 13:12;09/03/2022 13:12;0;0;0;;;8;0;;0.0;0.0;FR
 101;Loisirs;Divertissements.;https://hobbies.fboys.app/upload/assets/categs/entertainement.jpg;7;0;0;0;1;1;09/03/2022 13:16;24/03/2022 14:21;0;0;0;;;8;0;;0.0;0.0;FR
 102;Wellness;Bien-être;https://hobbies.fboys.app/upload/assets/categs/wellness.PNG;5;0;0;0;1;1;09/03/2022 13:23;10/04/2022 10:26;0;0;0;;;8;0;;0.0;0.0;FR
@@ -24,12 +24,11 @@ id_category;title;description;image;total_interest;total_post;total_like;total_t
 129;Méditation;Méditation;https://hobbies.fboys.app/upload/assets/categs/meditation.jpg;4;1;0;0;1;1;10/03/2022 00:03;24/06/2022 14:23;102;0;1;;;8;0;;0.0;0.0;FR
 130;Fêtes privées;Fêtes privées. ;https://hobbies.fboys.app/upload/assets/categs/party.jpg;99;9;7;0;1;1;10/03/2022 09:41;05/05/2022 01:20;0;0;0;;;1;1;;0.0;0.0;FR
 131;Fetish; Fétiche;https://hobbies.fboys.app/upload/assets/categs/bdsm.jpg;8;1;0;0;1;1;10/03/2022 10:10;26/03/2022 11:38;0;0;0;;;1;1;;0.0;0.0;FR
-132;Multiéthnique;Multiéthnique;https://hobbies.fboys.app/upload/assets/categs/multiethnic.PNG;6;0;0;0;1;1;10/03/2022 10:32;10/03/2022 10:44;131;0;0;;;1;1;;0.0;0.0;FR
+132;Multiéthnique;Multiéthnique;https://hobbies.fboys.app/upload/assets/categs/multiethnic.PNG;6;0;0;0;1;1;10/03/2022 10:32;10/03/2022 10:44;0;0;0;;;1;1;;0.0;0.0;FR
 133;Cruising;Cruising. ;https://hobbies.fboys.app/upload/assets/categs/cruising4.jpg;14;0;0;0;1;1;10/03/2022 10:36;26/03/2022 11:38;0;0;0;;;1;1;;0.0;0.0;FR
 134;Pratiques;Mes pratiques;https://hobbies.fboys.app/upload/assets/categs/Proteccion.PNG;106;2;2;0;1;1;10/03/2022 10:44;01/05/2022 09:13;0;0;0;;;1;1;;0.0;0.0;FR
 135;Couples;Couples;https://hobbies.fboys.app/upload/assets/categs/couple4.PNG;5;0;0;0;1;1;10/03/2022 10:55;24/03/2022 14:03;0;0;0;;;1;1;;0.0;0.0;FR
 136;Morphologie;Physique. ;https://hobbies.fboys.app/upload/assets/categs/morphology.PNG;3;0;0;0;1;1;10/03/2022 11:07;22/03/2022 12:39;0;0;0;;;1;1;;0.0;0.0;FR
-138;Chub;Et ceux qui les aiment;https://hobbies.fboys.app/upload/assets/categs/chub.jpg;3;0;0;0;1;1;10/03/2022 11:34;22/03/2022 12:40;136;0;1;;;1;1;;0.0;0.0;FR
 139;Daddy;Et ceux qui les aiment;https://hobbies.fboys.app/upload/assets/categs/daddy.jpg;10;0;0;0;1;1;10/03/2022 11:37;22/03/2022 12:41;136;0;1;;;1;1;;0.0;0.0;FR
 140;Ski;Ski.;https://hobbies.fboys.app/upload/assets/categs/ski.jpg;30;3;2;0;1;1;10/03/2022 12:05;09/06/2022 16:58;99;0;1;;;1;0;;0.0;0.0;FR
 141;Raw;A poil.;https://hobbies.fboys.app/upload/assets/categs/raw.webp;20;0;0;0;1;1;22/03/2022 12:46;26/03/2022 11:37;134;0;1;;;1;1;;0.0;0.0;FR
@@ -50,7 +49,7 @@ id_category;title;description;image;total_interest;total_post;total_like;total_t
 160;Asiatiques;Et ceux qui les aiment. ;https://hobbies.fboys.app/upload/assets/categs/asian.jpg;2;0;0;0;1;1;22/03/2022 16:04;23/03/2022 10:11;132;0;1;;;1;1;;0.0;0.0;FR
 161;Blacks; Et ceux qui les aiment. ;https://hobbies.fboys.app/upload/assets/categs/black.jpg;21;0;0;0;1;1;22/03/2022 16:07;26/03/2022 11:35;132;0;1;;;1;1;;0.0;0.0;FR
 162;Latino;Et ceux qui les aiment. ;https://hobbies.fboys.app/upload/assets/categs/latin.jpg;7;0;0;0;1;1;22/03/2022 16:08;23/03/2022 10:10;132;0;1;;;1;1;;0.0;0.0;FR
-163;Imberbes;Crevettes. Et ceux qui les aiment. ;https://hobbies.fboys.app/upload/assets/categs/twink.jpg;17;1;0;0;1;1;22/03/2022 16:14;27/04/2022 13:42;136;0;1;;;1;1;;0.0;0.0;FR
+163;Minet;Crevettes. Et ceux qui les aiment. ;https://hobbies.fboys.app/upload/assets/categs/twink.jpg;17;1;0;0;1;1;22/03/2022 16:14;27/04/2022 13:42;136;0;1;;;1;1;;0.0;0.0;FR
 164;Bears;Ours.  Et ceux qui les aiment. ;https://hobbies.fboys.app/upload/assets/categs/bear.jpg;3;0;0;0;1;1;22/03/2022 16:17;23/03/2022 10:11;136;0;1;;;1;1;;0.0;0.0;FR
 165;Poilus;Et ceux qui les aiment.;https://hobbies.fboys.app/upload/assets/categs/hairy.jpg;3;0;0;0;1;1;22/03/2022 16:18;26/03/2022 11:35;136;0;1;;;1;1;;0.0;0.0;FR
 166;Musclés;Et ceux qui les aiment. ;https://hobbies.fboys.app/upload/assets/categs/muscle.jpg;16;0;0;0;1;1;22/03/2022 16:21;23/03/2022 10:10;136;0;1;;;1;1;;0.0;0.0;FR
@@ -58,7 +57,7 @@ id_category;title;description;image;total_interest;total_post;total_like;total_t
 168;Tops;Je suis actif.;https://hobbies.fboys.app/upload/assets/categs/top.jpg;163;2;3;0;1;1;22/03/2022 16:30;02/05/2022 07:32;134;0;1;;;1;1;;0.0;0.0;FR
 169;TZ Paris;Groupe de touzes en apparts privés.;https://hobbies.fboys.app/upload/assets/categs/tz_paris_short.jpg;82;1;11;0;1;1;22/03/2022 16:41;12/04/2022 23:01;130;1;1;48.873398333333334,2.4119833333333336;;391;1;;48.87339833;2.41198333;FR
 170;TZ du soir;Touzes Afterwork sur les Champs-Elysées. Black, Beur, viril bienvenu;https://hobbies.fboys.app/upload/assets/categs/champs.jpg;66;5;6;0;1;1;22/03/2022 16:43;12/04/2022 22:55;130;1;1;48.873398333333334,2.4119833333333336;;391;1;;48.87339833;2.41198333;FR
-171;Amis;Amis;https://hobbies.fboys.app/upload/assets/categs/friends.jpg;8;1;0;0;1;1;22/03/2022 16:58;24/03/2022 10:41;103;0;1;;;1;0;;0.0;0.0;FR
+171;Amis;Amitiés.;https://hobbies.fboys.app/upload/assets/categs/friends.jpg;8;1;0;0;1;1;22/03/2022 16:58;24/03/2022 10:41;103;0;1;;;1;0;;0.0;0.0;FR
 172;Relation;A la recherche du prince charmant. ;https://hobbies.fboys.app/upload/assets/categs/husband.jpg;12;1;0;0;1;1;22/03/2022 22:33;23/05/2022 16:31;135;0;1;;;1;0;;0.0;0.0;FR
 173;XL;Et ceux qui les aiment;https://hobbies.fboys.app/upload/assets/categs/xl.jpg;8;0;0;0;1;1;23/03/2022 10:48;26/03/2022 11:34;136;0;1;;;1;1;;0.0;0.0;FR
 174;Droits int;Droits pour nous et pour tout le monde!;https://hobbies.fboys.app/upload/assets/categs/international_rights.png;8;0;0;0;1;1;23/03/2022 11:15;23/03/2022 11:15;119;0;1;;;1;0;;0.0;0.0;FR
