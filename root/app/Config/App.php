@@ -23,7 +23,7 @@ class App extends BaseConfig
 	 *
 	 * @var string
 	 */
-	public $baseURL = 'https://hobbies.fboys.app/';
+	public $baseURL = 'http://localhost:8000/';
 
 	/**
 	 * --------------------------------------------------------------------------
@@ -175,6 +175,28 @@ class App extends BaseConfig
 	 * @var integer
 	 */
 	public $sessionExpiration = 7200;
+
+	/**
+	 * --------------------------------------------------------------------------
+	 * Error Logging Threshold
+	 * --------------------------------------------------------------------------
+	 *
+	 * You can enable error logging by setting a threshold over zero. The
+	 * threshold determines what gets logged. Threshold values are:
+	*
+	*	0 = Disables logging, Error logging TURNED OFF
+	*	1 = Error Messages (including PHP errors)
+	*	2 = Debug Messages
+	*	3 = Informational Messages
+	*	4 = All Messages
+	*
+	* You can also pass an array with threshold levels to show individual error types
+	*
+	*  array(1, 3) = Error Messages and Debug Messages
+	*
+	* For a live site you'll usually want to disable this.
+	*/
+	public $logThreshold = 0;
 
 	/**
 	 * --------------------------------------------------------------------------

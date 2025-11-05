@@ -244,6 +244,7 @@ class CookieStore implements Countable, IteratorAggregate
 	 *
 	 * @return Traversable<string, Cookie>
 	 */
+	#[\ReturnTypeWillChange]
 	public function getIterator()
 	{
 		return new ArrayIterator($this->cookies);

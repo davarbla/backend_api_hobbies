@@ -94,13 +94,13 @@ class Category extends BaseController
             }
         }
 
-        return redirect()->to(base_url() . '/public/category'); 
+        return redirect()->to(base_url('/category')); 
     }
 
     public function deleteLogique() {
  
         $this->postBody = $this->authModel->authHeader($this->request);
-        $status =  $this->postBody['status'];
+        $status =  isset($this->postBody['status']) ? $this->postBody['status'] : '';
         $id =  $this->postBody['id'];
                
             if ($id != '') {
@@ -114,7 +114,7 @@ class Category extends BaseController
             }
         
 
-        return redirect()->to(base_url() . '/public/category'); 
+        return redirect()->to(base_url('/category')); 
     }
 
     public function flagJoin() {
@@ -134,7 +134,7 @@ class Category extends BaseController
              }
          
  
-         return redirect()->to(base_url() . '/public/category'); 
+         return redirect()->to(base_url('/category')); 
      }
      //DEPRECATED by Api.php
     public function add_updatejson() {
@@ -144,7 +144,7 @@ class Category extends BaseController
         $desc =  $this->postBody['description'];
         $descNotif =  $this->postBody['descNotif'];
         $image =  $this->postBody['image'];
-        $status =  $this->postBody['status'];
+        $status =  isset($this->postBody['status']) ? $this->postBody['status'] : '';
         $id =  $this->postBody['id'];
         $idCatUp =  $this->postBody['idCategoryUp'];
         $group =  $this->postBody['group'];
@@ -193,7 +193,7 @@ class Category extends BaseController
                     'private' => ($private == '1') ? 1 : 0,
                     'latitude' => $latitude, 
                     'lat'  => $lat,
-                    'lng'  => $long,
+                    'lng'  => $lng,
                     'country'  => $country,
                     'location' => $location, 
                     'fun' => ($fun == '1') ? 1 : 0,
@@ -250,7 +250,7 @@ class Category extends BaseController
             }
         }
 
-        return redirect()->to(base_url() . '/public/category'); 
+        return redirect()->to(base_url('/category')); 
     }
 
     

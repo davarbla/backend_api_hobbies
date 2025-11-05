@@ -65,7 +65,7 @@ class CategoryModel extends Model
             WHERE b.id_install=c.id_install 
             AND b.id_user='".$row['id_owner']."' ");
             $resultUser = $queryUser->getResultArray();
-            $row['user'] =  $resultUser[0];
+            $row['user'] =  isset($resultUser[0]) ? $resultUser[0] : null;
             
             $return_array[] = $row;
         }
@@ -114,7 +114,7 @@ class CategoryModel extends Model
             WHERE b.id_install=c.id_install 
             AND b.id_user='".$row['id_owner']."' ");
             $resultUser = $queryUser->getResultArray();
-            $row['user'] =  $resultUser[0];
+            $row['user'] =  isset($resultUser[0]) ? $resultUser[0] : null;
             
             $return_array[] = $row;
         }
@@ -141,7 +141,7 @@ class CategoryModel extends Model
             FROM tb_user_category a, tb_user b, tb_install c
             WHERE a.id_user=b.id_user
             AND b.id_install=c.id_install
-            AND a.status='".$status."' 
+            AND a.status='1' 
             AND a.id_category=".$row['id_category']."
             AND b.status=1 ");
             $result2 = $query2->getResultArray();
@@ -151,7 +151,7 @@ class CategoryModel extends Model
             FROM tb_user_category a, tb_user b, tb_install c
             WHERE a.id_user=b.id_user
             AND b.id_install=c.id_install
-            AND a.status>='".$status."' 
+            AND a.status>='1' 
             AND a.id_category=".$row['id_category']."
             AND b.status=1 ");
             $result3 = $query3->getResultArray();
@@ -161,7 +161,7 @@ class CategoryModel extends Model
             WHERE b.id_install=c.id_install 
             AND b.id_user='".$row['id_owner']."' ");
             $resultUser = $queryUser->getResultArray();
-            $row['user'] =  $resultUser[0];
+            $row['user'] =  isset($resultUser[0]) ? $resultUser[0] : null;
             
             $return_array[] = $row;
         }

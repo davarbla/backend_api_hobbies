@@ -1,13 +1,13 @@
 <?php 
 $activeIndex = "";
 //print_r($menu);
-if ($menu['activeIndex'] == '1') {
+if (isset($menu['activeIndex']) && $menu['activeIndex'] == '1') {
     $activeIndex = "active";
 }
 
 //install
 $activeInstall = "";
-if ($menu['activeInstall'] == '1') {
+if (isset($menu['activeInstall']) && $menu['activeInstall'] == '1') {
     $activeInstall = "active";
 }
 
@@ -18,12 +18,12 @@ $activeDisplayCategory = "display: none;";
 
 $activeAddCategory = "";
 
-if ($menu['activeCategory'] == '1') {
+if (isset($menu['activeCategory']) && $menu['activeCategory'] == '1') {
     $activeMenuCategory = 'active side-nav-opened';
     $activeDisplayCategory = "display: block;";
     $activeCategory = "active";
 }
-else if ($menu['activeAddCategory'] == '1') {
+else if (isset($menu['activeAddCategory']) && $menu['activeAddCategory'] == '1') {
     $activeMenuCategory = 'active side-nav-opened';
     $activeDisplayCategory = "display: block;";
     $activeAddCategory = "active";
@@ -31,19 +31,19 @@ else if ($menu['activeAddCategory'] == '1') {
 
 //user
 $activeUser = "";
-if ($menu['activeUser'] == '1') {
+if (isset($menu['activeUser']) && $menu['activeUser'] == '1') {
     $activeUser = "active";
 }
 
 //download
 $activeDownload = "";
-if ($menu['activeDownload'] == '1') {
+if (isset($menu['activeDownload']) && $menu['activeDownload'] == '1') {
     $activeDownload = "active";
 }
 
 //feedback
 $activeFeedback = "";
-if ($menu['activeFeedback'] == '1') {
+if (isset($menu['activeFeedback']) && $menu['activeFeedback'] == '1') {
     $activeFeedback = "active";
 }
 
@@ -55,17 +55,17 @@ $activeDisplayPost = "display: none;";
 $activeReportedPost = "";
 $activeDeletedPost = "";
 
-if ($menu['activePost'] == '1') {
+if (isset($menu['activePost']) && $menu['activePost'] == '1') {
     $activeMenuPost = 'active side-nav-opened';
     $activeDisplayPost = "display: block;";
     $activePost = "active";
 }
-else if ($menu['activeReportedPost'] == '1') {
+else if (isset($menu['activeReportedPost']) && $menu['activeReportedPost'] == '1') {
     $activeMenuPost = 'active side-nav-opened';
     $activeDisplayPost = "display: block;";
     $activeReportedPost = "active";
 }
-else if ($menu['activeDeletedPost'] == '1') {
+else if (isset($menu['activeDeletedPost']) && $menu['activeDeletedPost'] == '1') {
     $activeMenuPost = 'active side-nav-opened';
     $activeDisplayPost = "display: block;";
     $activeDeletedPost = "active";
@@ -81,7 +81,7 @@ else if ($menu['activeDeletedPost'] == '1') {
 
         <!-- Dashboard -->
         <li class="side-nav-menu-item <?php echo $activeIndex;?>">
-            <a class="side-nav-menu-link media align-items-center" href="<?php echo base_url().'/public';?>">
+            <a class="side-nav-menu-link media align-items-center" href="<?php echo base_url();?>">
                 <span class="side-nav-menu-icon d-flex mr-3">
                     <i class="gd-dashboard"></i>
                 </span>

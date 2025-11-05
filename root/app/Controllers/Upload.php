@@ -19,8 +19,8 @@ class Upload extends BaseController
     protected $categModel;
     protected $userCategModel;
 
-    private   $URL_BASE = 'https://hobbies.fboys.app/';
-    private   $PATH = '/home/u439050121/domains/fboys.app/public_html/hobbies/upload/'; // echo getcwd() php script
+    private   $URL_BASE = 'https://playguys.net/';
+    private   $PATH = '/home/cloudpanel/htdocs/playguys.net/upload/'; // Update this path to your actual server path
     private   $TOPIC_FCM = '/topics/hobbiestopic';
 
     public function __construct()

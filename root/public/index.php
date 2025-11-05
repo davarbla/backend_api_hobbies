@@ -1,5 +1,12 @@
 <?php
 
+// Enable error display temporarily
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Set environment to development to see errors
+define('ENVIRONMENT', 'development');
+
 // Path to the front controller (this file)
 define('FCPATH', __DIR__ . DIRECTORY_SEPARATOR);
 

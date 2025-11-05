@@ -10,6 +10,7 @@ class Install extends BaseController
 {
 	protected $postBody; 
     protected $authModel;
+    protected $sessLogin;
     protected $installModel;
     protected $userModel;
 

@@ -17,6 +17,7 @@ class Post extends BaseController
 {
 	protected $postBody; 
     protected $authModel;
+    protected $sessLogin;
     protected $postModel;
 
     protected $userModel;

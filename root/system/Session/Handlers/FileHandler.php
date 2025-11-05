@@ -134,14 +134,13 @@ class FileHandler extends BaseHandler
 	//--------------------------------------------------------------------
 
 	/**
-	 * Read
-	 *
-	 * Reads session data and acquires a lock
+	 * Read session data
 	 *
 	 * @param string $sessionID Session ID
 	 *
 	 * @return string|boolean    Serialized session data
 	 */
+	#[\ReturnTypeWillChange]
 	public function read($sessionID)
 	{
 		// This might seem weird, but PHP 5.6 introduced session_reset(),
@@ -330,6 +329,7 @@ class FileHandler extends BaseHandler
 	 *
 	 * @return boolean
 	 */
+	#[\ReturnTypeWillChange]
 	public function gc($maxlifetime): bool
 	{
 		if (! is_dir($this->savePath) || ($directory = opendir($this->savePath)) === false)

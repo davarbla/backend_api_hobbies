@@ -20,6 +20,7 @@ class Home extends BaseController
 	private $userModel;
 	private $postModel;
 	private $downloadModel;
+	private $installModel;
 
 	private $categModel;
 
@@ -106,21 +107,20 @@ class Home extends BaseController
 					'user'		   => $userLogin,
 					'logged_in'    => TRUE
 				];
+				$this->authModel->addSession($this->sessLogin, $newdata);
 			}
-
-			$this->authModel->addSession($this->sessLogin, $newdata);
 		}
 		
 		$check = $this->authModel->getDataSession($this->sessLogin);
 		
-		return redirect()->to(base_url() . '/public'); 
+		return redirect()->to(base_url()); 
 	}
 
 	public function logout()
 	{
 		$this->sessLogin = session();
 		$this->authModel->removeSession($this->sessLogin);
-		return redirect()->to(base_url() . '/public'); 
+		return redirect()->to(base_url()); 
 	}
 
 	public function alluser()

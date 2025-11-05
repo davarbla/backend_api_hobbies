@@ -98,7 +98,7 @@ class Api extends BaseController
         $dataLatestPost = $this->postModel->allByLimitByIdUserCountry($idUser, $limit, $offset, $country);
 
         //ALL users
-        $dataUser = $this->userModel->allByLimitCountryDistance($limit, $offset, $country,  $lng, $lat, $miles);
+        $dataUser = $this->userModel->allByLimitCountryDistance($lng, $lat, $limit, $offset, $country, $miles);
 
         //MY following 
         $dataFollowing = $this->followModel->getAllFollowingByIdUser($this->postBody['iu'], $limit, $offset);
@@ -207,7 +207,7 @@ class Api extends BaseController
             if ($miles == '') {
               $miles = 1000; // Meters/1.6 (1600 KM)
             }
-            $arr = $this->userModel->allByLimitCountryDistance($limit, $offset, $country,  $lng, $lat, $miles);
+            $arr = $this->userModel->allByLimitCountryDistance($lng, $lat, $limit, $offset, $country, $miles);
         }
         
         if (count($arr) < 1) {

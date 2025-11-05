@@ -311,7 +311,7 @@ class FormatRules
 		{
 			return false;
 		}
-		switch (strtolower($which))
+		switch (strtolower((string)$which))
 		{
 			case 'ipv4':
 				$which = FILTER_FLAG_IPV4;
@@ -324,7 +324,7 @@ class FormatRules
 				break;
 		}
 
-		return (bool) filter_var($ip, FILTER_VALIDATE_IP, $which) || (! ctype_print($ip) && (bool) filter_var(inet_ntop($ip), FILTER_VALIDATE_IP, $which));
+		return (bool) filter_var($ip, FILTER_VALIDATE_IP, $which ?? 0) || (! ctype_print($ip) && (bool) filter_var(inet_ntop($ip), FILTER_VALIDATE_IP, $which ?? 0));
 	}
 
 	/**

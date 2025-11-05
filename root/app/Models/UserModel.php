@@ -162,7 +162,7 @@ class UserModel extends Model
         ];
     }
 
-    public function allByLimitCountryDistance($limit=10000, $offset=0, $country=ZZ,  $longitude, $latitude, $miles=100, $status=1) {
+    public function allByLimitCountryDistance($longitude, $latitude, $limit=10000, $offset=0, $country='ZZ', $miles=100, $status=1) {
         $getlimit = "$offset,$limit";
         $box = static::boundingBox(floatval($latitude), floatval($longitude), $miles);
 

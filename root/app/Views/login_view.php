@@ -32,7 +32,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Login</h4>
-                                <form id="formLogin" action="/public/home/login" method="post">
+                                <form id="formLogin" action="/home/login" method="post">
                                     <div class="form-group">
                                         <label for="email">E-Mail Address</label>
                                         <input id="email" type="email" class="form-control" name="email" required="true"

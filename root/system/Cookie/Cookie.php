@@ -569,17 +569,17 @@ class Cookie implements ArrayAccess, CloneableCookieInterface
 		return $cookie;
 	}
 
-	//=========================================================================
 	// ARRAY ACCESS FOR BC
 	//=========================================================================
 
 	/**
-	 * Whether an offset exists.
+	 * Whether a offset exists.
 	 *
 	 * @param string $offset
 	 *
 	 * @return boolean
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetExists($offset)
 	{
 		return $offset === 'expire' ? true : property_exists($this, $offset);
@@ -594,6 +594,7 @@ class Cookie implements ArrayAccess, CloneableCookieInterface
 	 *
 	 * @return mixed
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetGet($offset)
 	{
 		if (! $this->offsetExists($offset))
@@ -605,15 +606,14 @@ class Cookie implements ArrayAccess, CloneableCookieInterface
 	}
 
 	/**
-	 * Offset to set.
+	 * Offset to assign.
 	 *
 	 * @param string $offset
 	 * @param mixed  $value
 	 *
-	 * @throws LogicException
-	 *
 	 * @return void
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetSet($offset, $value)
 	{
 		throw new LogicException(sprintf('Cannot set values of properties of %s as it is immutable.', static::class));
@@ -624,10 +624,9 @@ class Cookie implements ArrayAccess, CloneableCookieInterface
 	 *
 	 * @param string $offset
 	 *
-	 * @throws LogicException
-	 *
 	 * @return void
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetUnset($offset)
 	{
 		throw new LogicException(sprintf('Cannot unset values of properties of %s as it is immutable.', static::class));

@@ -32,18 +32,18 @@
 
                         <!-- Form -->
                         <div>
-                            <form id="formCategory" action="/public/category/add_update" method="post">
-                                <input type="hidden" id="id" name="id" value="<?php echo $row['id_category'];?>" />
+                            <form id="formCategory" action="/category/add_update" method="post">
+                                <input type="hidden" id="id" name="id" value="<?php echo isset($row['id_category']) ? $row['id_category'] : '';?>" />
 
                                 <div class="form-row">
                                     <div class="form-group col-12 col-md-6">
                                         <label for="name">Title</label>
-                                        <input type="text" class="form-control" value="<?php echo $row['title'];?>"
+                                        <input type="text" class="form-control" value="<?php echo isset($row['title']) ? $row['title'] : '';?>"
                                             id="title" name="title" placeholder="Title" />
                                     </div>
                                     <div class="form-group col-12 col-md-6">
                                         <label for="image">Image Url</label>
-                                        <input type="text" class="form-control" value="<?php echo $row['image'];?>"
+                                        <input type="text" class="form-control" value="<?php echo isset($row['image']) ? $row['image'] : '';?>"
                                             id="image" name="image" placeholder="Image Url Address">
                                     </div>
                                 </div>
@@ -52,12 +52,12 @@
                                         <label for="description">Description</label>
                                         <textarea type="text" class="form-control" rows="5" value="" id="description"
                                             name="description"
-                                            placeholder="Description"><?php echo $row['description'];?></textarea>
+                                            placeholder="Description"><?php echo isset($row['description']) ? $row['description'] : '';?></textarea>
                                     </div>
                                 </div>
                                 <div class="custom-control custom-switch mb-2">
                                     <input type="checkbox" class="custom-control-input" id="status" name="status"
-                                        <?php echo ($row['status'] == 1) ? 'checked' : '';?>>
+                                        <?php echo (isset($row['status']) && $row['status'] == 1) ? 'checked' : '';?>>
                                     <label class="custom-control-label" for="status">Active/NonActive</label>
                                 </div>
 
