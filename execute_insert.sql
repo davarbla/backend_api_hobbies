@@ -1,0 +1,2 @@
+-- Execute the INSERT statement for tb_category
+INSERT INTO tb_category (id_category, title, description, image, total_interest, total_post, total_like, total_trivia, flag, status, date_created, date_updated, id_category_up, private, `group`, latitude, location, id_owner, fun, subscribe_fcm, lat, lng, country) VALUES (98, 'Gym Clubs', 'Gym sport clubs. Salles de sport. Gimnasios.', 'https://hobbies.fboys.app/upload/assets/categs/gymClub.jpg', 7, 0, 0, 0, 1, 1, '09/03/2022 13:00', '24/03/2022 14:03', 0, 0, 0, NULL, NULL, 8, 0, NULL, 0, 0, 'FR');
