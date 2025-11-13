@@ -34,6 +34,17 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
+// Test API routes
+$routes->group('api', ['namespace' => 'App\Controllers'], function($routes) {
+    // Public test endpoints
+    $routes->get('test', 'Test::index');
+    $routes->post('test/echo', 'Test::echo');
+    $routes->post('test/login', 'Test::login');
+    
+    // Protected test endpoint (requires authentication)
+    $routes->get('test/auth', 'Test::auth');
+});
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
