@@ -34,14 +34,17 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
-// Test API routes
+// API routes
 $routes->group('api', ['namespace' => 'App\Controllers'], function($routes) {
-    // Public test endpoints
+    // Public endpoints (no authentication required)
+    $routes->post('register', 'Api::register', ['filter' => 'noauth']);
+    $routes->post('login', 'Api::login', ['filter' => 'noauth']);
+    
+    // Test endpoints
     $routes->get('test', 'Test::index');
     $routes->post('test/echo', 'Test::echo');
     $routes->post('test/login', 'Test::login');
-    
-    // Protected test endpoint (requires authentication)
+    $routes->post('test/register', 'Test::register');
     $routes->get('test/auth', 'Test::auth');
 });
 

@@ -1,17 +1,18 @@
 {
-	"name": "codeigniter4/framework",
+	"name": "hobbiesapp/backend",
 	"type": "project",
-	"description": "The CodeIgniter framework v4",
-	"homepage": "https://codeigniter.com",
-	"license": "MIT",
+	"description": "Hobbies App Backend API",
+	"homepage": "https://hobbiesapp.local",
+	"license": "proprietary",
 	"require": {
-		"php": "^7.3||^8.0",
+		"php": "^8.0",
+		"codeigniter4/framework": "^4.2",
 		"ext-curl": "*",
 		"ext-intl": "*",
 		"ext-json": "*",
 		"ext-mbstring": "*",
-		"kint-php/kint": "^3.3",
-		"laminas/laminas-escaper": "^2.6",
+		"kint-php/kint": "^4.0",
+		"laminas/laminas-escaper": "^2.10",
 		"psr/log": "^1.1"
 	},
 	"require-dev": {

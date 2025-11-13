@@ -227,61 +227,109 @@ class UserModel extends Model
     }
 
     public function register($array) {
+        try {
+            // Log the received data for debugging
+            log_message('debug', 'UserModel::register - Received data: ' . print_r($array, true));
 
-        if ($array['em'] == '' || $array['fn'] == '' || $array['is'] == '') {
-            return null;
-        }
-
-        $username = $array['us'];
-        if ($array['id'] == '' && $username == '') {
-            $splitname = explode(" ", strtolower($array['fn']));
-            $lastRow = $this->getLastId();
-
-
-            $plusOne = 0;
-            if ($lastRow['id_user'] != '') {
-                $plusOne = (int) $lastRow['id_user'];
+            // Validate required fields
+            if (!isset($array['em']) || !isset($array['fn']) || !isset($array['is']) || 
+                empty($array['em']) || empty($array['fn']) || empty($array['is'])) {
+                log_message('error', 'UserModel::register - Missing required fields. Array: ' . print_r($array, true));
+                throw new \Exception('Missing required fields (email, fullname, or install ID)');
             }
 
-            $plusOne = $plusOne + 1;
-            $username = $this->generate_unique_username($splitname[0], $splitname[1],  "$plusOne");
-            //print_r($username);
-            //die();
+            // Check if user already exists
+            $check = $this->getByEmail($array['em']);
+            if (!empty($check) && !empty($check['id_user'])) {
+                log_message('debug', 'User already exists with email: ' . $array['em']);
+                return $check; // Return existing user
+            }
+
+            // Generate a username if not provided
+            $username = $array['us'] ?? '';
+            if (empty($username)) {
+                $splitname = explode(" ", strtolower($array['fn']));
+                $lastRow = $this->getLastId();
+
+                $plusOne = 1; // Default value
+                if (!empty($lastRow['id_user'])) {
+                    $plusOne = (int) $lastRow['id_user'] + 1;
+                }
+
+                $username = $this->generate_unique_username(
+                    $splitname[0],
+                    $splitname[1] ?? '',
+                    (string)$plusOne
+                );
+                log_message('debug', 'Generated username: ' . $username);
+            }
+
+            // Prepare user data according to the actual database schema
+            $data = [
+                'id_install'    => $array['is'],
+                'email'         => $array['em'],
+                'phone'         => $array['ph'] ?? '',
+                'fullname'      => $array['fn'],
+                'username'      => $username,
+                'uid_fcm'       => $array['uf'] ?? '',
+                'password_user' => $array['ps'] ?? '',
+                'latitude'      => $array['lat'] ?? '0,0',
+                'location'      => $array['loc'] ?? '',
+                'country'       => $array['cc'] ?? 'US',
+                'status'        => 1, // Active user
+                'flag'          => 1, // Default flag
+                'timestamp'     => date('Y-m-d H:i:s'),
+                'date_created'  => date('Y-m-d H:i:s'),
+                'date_updated'  => date('Y-m-d H:i:s'),
+                // Set default values for required fields
+                'total_post'    => 0,
+                'total_like'    => 0,
+                'total_comment' => 0,
+                'total_download' => 0,
+                'total_follower' => 0,
+                'total_following' => 0,
+                'subscribe_fcm' => 1
+            ];
+
+            log_message('debug', 'Saving user with data: ' . print_r($data, true));
+            
+            // Save the user and get the insert ID
+            $result = $this->save($data);
+            
+            if ($result === false) {
+                $errors = $this->errors();
+                log_message('error', 'Failed to save user. Errors: ' . print_r($errors, true));
+                throw new \Exception('Failed to save user data: ' . implode(', ', $errors));
+            }
+
+            // Get the newly created user
+            $userId = $this->getInsertID();
+            if (empty($userId)) {
+                log_message('error', 'Failed to get insert ID after saving user');
+                throw new \Exception('Failed to retrieve user ID after registration');
+            }
+            
+            // Get the complete user data
+            $newUser = $this->find($userId);
+            if (empty($newUser)) {
+                log_message('error', 'Failed to retrieve newly created user with ID: ' . $userId);
+                throw new \Exception('Failed to retrieve user data after registration');
+            }
+
+            $newUser = $this->find($userId);
+            if (empty($newUser)) {
+                log_message('error', 'Failed to retrieve user after registration');
+                throw new \Exception('Failed to retrieve user after registration');
+            }
+
+            log_message('debug', 'User registered successfully: ' . print_r($newUser, true));
+            return $newUser;
+
+        } catch (\Exception $e) {
+            log_message('error', 'Exception in UserModel::register: ' . $e->getMessage());
+            log_message('error', 'Stack trace: ' . $e->getTraceAsString());
+            throw $e; // Re-throw to be caught by the controller
         }
-
-        $splitLat = explode(",", $array['lat']);
-        //$datenow = date('YmdHis');
-        $data = [
-            'id_user'       => $array['id'],
-            'id_install'    => $array['is'],
-            'email'         => $array['em'],
-            'phone'         => $array['ph'],
-            'fullname'      => $array['fn'],
-           // 'image'         => 'https://hobbies.in-news.id/upload/avatar.png',
-            'username'         => $username,
-            'uid_fcm'         => $array['uf'],
-            'password_user'  => $array['ps'],
-            'latitude'  => $array['lat'],
-            'lat'  => $splitLat[0],
-            'lng'  => $splitLat[1],
-            'location'  => $array['loc'],
-            'country'       => $array['cc'],
-        ];
-
-        //print_r($data);
-        //die();
-
-        $check = $this->getByEmail($array['em']);
-        if ($check['id_user'] != '' && $check['id_user'] != '0') {
-            $data['id_user'] = $check['id_user'];
-        }
-
-        //print_r($data);
-        //die();
-
-        $this->save($data);
-
-        return $this->getByEmail($array['em']);
     }
 
     public function registerByPhone($array) {

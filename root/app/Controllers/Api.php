@@ -1138,42 +1138,100 @@ class Api extends BaseController
 
     public function register()
     {
-        $this->postBody = $this->authModel->authHeader($this->request);
-        $arr = array();
-
-        if ($this->postBody['ps'] != '' && $this->postBody['em'] != '') {
+        try {
+            // Get JSON input directly from the request
+            $json = file_get_contents('php://input');
+            $postData = json_decode($json, true);
             
-            $checkExist = $this->userModel->getByEmail($this->postBody['em']);
-            
+            // Log the received request data
+            log_message('debug', 'API Register - Raw input: ' . $json);
+            log_message('debug', 'API Register - Parsed data: ' . print_r($postData, true));
 
-            if ($checkExist['id_user'] == '') {
-                $this->postBody['ps'] = $this->generatePassword($this->postBody['ps']);
-                
-                $dataUser = $this->userModel->register($this->postBody);
-
-                $arr = [$dataUser]; 
+            // Validate required fields
+            if (empty($postData['em']) || empty($postData['ps'])) {
+                log_message('error', 'API Register - Missing required fields (email or password)');
+                return $this->response->setJSON([
+                    "result" => [],
+                    "code" => "400",
+                    "message" => "Email and password are required",
+                ]);
             }
-        }
 
-        if (count($arr) < 1) {
-            $json = array(
-                "result" => $arr,
-                "code" => "201",
-                "message" => "Email/Username already exist",
-            );
-        }
-        else {
-            $json = array(
-                "result" => $arr,
-                "code" => "200",
-                "message" => "Success",
-            );
-        }
+            $arr = [];
+            $message = '';
+            $code = '200';
 
-        //add the header here
-        header('Content-Type: application/json');
-        echo json_encode($json);
-        die();
+            // Check if user already exists
+            $checkExist = $this->userModel->getByEmail($postData['em']);
+            
+            log_message('debug', 'Check exist result: ' . print_r($checkExist, true));
+            
+            if (empty($checkExist)) {
+                // Prepare user data with field names that match UserModel expectations
+                $userData = [
+                    'em' => $postData['em'],  // email
+                    'ps' => $postData['ps'],  // password
+                    'fn' => $postData['fn'] ?? 'New User',  // fullname (required)
+                    'is' => $postData['is'] ?? 'web_' . uniqid(),  // id_install (required)
+                    'lat' => $postData['lat'] ?? '0,0',
+                    'loc' => $postData['loc'] ?? '',
+                    'cc' => $postData['cc'] ?? 'US',
+                    'uf' => $postData['uf'] ?? '',  // uid_fcm
+                    'ph' => $postData['ph'] ?? '',   // phone
+                    'us' => $postData['us'] ?? '',   // username
+                    'status' => 1,  // Active user
+                    'flag' => 1     // Default flag
+                ];
+                
+                // Add any missing required fields with default values
+                if (empty($userData['fn'])) $userData['fn'] = 'New User';
+                if (empty($userData['is'])) $userData['is'] = 'web_' . uniqid();
+                
+                log_message('debug', 'About to register user with data: ' . print_r($userData, true));
+                
+                // Register the user
+                try {
+                    $dataUser = $this->userModel->register($userData);
+                    
+                    if ($dataUser === null || !is_array($dataUser) || !isset($dataUser['id_user'])) {
+                        log_message('error', 'Failed to register user. User data: ' . print_r($userData, true));
+                        $message = 'Registration failed - User not created';
+                        $code = '500';
+                    } else {
+                        log_message('debug', 'User registered successfully: ' . print_r($dataUser, true));
+                        $arr = [$dataUser];
+                        $message = 'Registration successful';
+                        $code = '200';
+                    }
+                } catch (\Exception $e) {
+                    log_message('error', 'Exception during user registration: ' . $e->getMessage());
+                    log_message('error', 'Stack trace: ' . $e->getTraceAsString());
+                    $message = 'Registration failed - ' . $e->getMessage();
+                    $code = '500';
+                }
+            } else {
+                log_message('debug', 'User already exists with email: ' . $postData['em']);
+                $message = 'Email already exists';
+                $code = '201';
+                $arr = [$checkExist]; // Include existing user data in response
+            }
+            
+            $response = [
+                "result" => $arr,
+                "code" => $code,
+                "message" => $message,
+            ];
+            
+            return $this->response->setJSON($response);
+            
+        } catch (\Exception $e) {
+            log_message('error', 'API Register - Exception: ' . $e->getMessage());
+            return $this->response->setJSON([
+                "result" => [],
+                "code" => "500",
+                "message" => "Internal Server Error: " . $e->getMessage(),
+            ]);
+        }
     }
 
     public function registerPhone()
