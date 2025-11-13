@@ -108,6 +108,15 @@ class Install extends BaseController
         
         if ($this->postBody['tk'] != '') {
             $dataInstall = $this->installModel->saveUpdate($this->postBody);
+            
+            // Get user for this install
+            if ($dataInstall && isset($dataInstall['id_install'])) {
+                $user = $this->userModel->where('id_install', $dataInstall['id_install'])->first();
+                if ($user) {
+                    $dataInstall['user'] = $user;
+                }
+            }
+            
             $arr = [$dataInstall];
         }
 

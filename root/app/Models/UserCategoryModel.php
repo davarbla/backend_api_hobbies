@@ -26,11 +26,18 @@ class UserCategoryModel extends Model
     protected $skipValidation     = true;
 
     public function categUserByLimit($iduser, $limit=100, $offset=0) {
-        //return $this->where('status', '1')
-        return $this->where('id_user', "$iduser")
-                    ->orderBy('count_interest','desc')
-                    ->orderBy('date_created','asc')
-                    ->findAll($limit, $offset);
+        // Join with category table to get full category details
+        $query = $this->query(" SELECT uc.*, c.title, c.description, c.image, c.subscribe_fcm, 
+                                c.total_interest, c.total_post, c.total_like, c.total_trivia, 
+                                c.flag, c.status as category_status, c.date_created as category_date_created, 
+                                c.date_updated as category_date_updated, c.id_category_up, c.private, 
+                                c.group, c.latitude, c.location, c.id_owner, c.fun, c.lat, c.lng, c.country
+                                FROM tb_user_category uc 
+                                JOIN tb_category c ON uc.id_category = c.id_category 
+                                WHERE uc.id_user = '$iduser' 
+                                ORDER BY uc.count_interest DESC, uc.date_created ASC 
+                                LIMIT $offset,$limit ");
+        return $query->getResultArray();
     }
 
     public function saveChoice($array) {

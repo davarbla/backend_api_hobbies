@@ -74,14 +74,23 @@ class CategoryModel extends Model
         return $return_array;
     }
 
-    public function allByLimitCountry($limit=100, $offset=0, $country=ZZ, $status=1 ) {
+    public function allByLimitCountry($limit=100, $offset=0, $country='ZZ', $status=1 ) {
         $getlimit = "$offset,$limit";
         
-        $query   = $this->query(" SELECT a.* FROM tb_category a 
-            WHERE a.status='".$status."' 
-            AND a.country='".$country."' 
-            ORDER BY a.date_created DESC, a.title ASC 
-            LIMIT ".$getlimit." ");
+        // If country is ZZ (international), get all categories
+        if ($country == 'ZZ') {
+            $query   = $this->query(" SELECT a.* FROM tb_category a 
+                WHERE a.status='".$status."' 
+                ORDER BY a.date_created DESC, a.title ASC 
+                LIMIT ".$getlimit." ");
+        } else {
+            // Otherwise, get categories for specific country plus international
+            $query   = $this->query(" SELECT a.* FROM tb_category a 
+                WHERE a.status='".$status."' 
+                AND (a.country='".$country."' OR a.country='ZZ' OR a.country IS NULL OR a.country = '') 
+                ORDER BY a.date_created DESC, a.title ASC 
+                LIMIT ".$getlimit." ");
+        }
 
         $results = $query->getResultArray();
         $return_array = array();

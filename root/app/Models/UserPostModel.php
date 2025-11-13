@@ -29,7 +29,7 @@ class UserPostModel extends Model
         return $this->where('status', '1')
                     ->where('id_user', "$iduser")
                     ->orderBy('count_interest','desc')
-                    ->orderBy('date_created','asc')
+                    ->orderBy('date_created','desc')
                     ->findAll($limit, $offset);
     }
 

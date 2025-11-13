@@ -53,10 +53,31 @@ class InstallModel extends Model
 
         $check = $this->getByToken($array['tk']);
 
-        if ($check['id_install'] != '' && $check['id_install'] != '0') { 
+        if ($check && isset($check['id_install']) && $check['id_install'] != '' && $check['id_install'] != '0') { 
             $data['id_install'] = $check['id_install'];
         }
+        
+        // Save or update install
         $this->save($data);
+        
+        // Check if user exists for this install
+        $userModel = new \App\Models\UserModel();
+        $user = $userModel->where('id_install', $data['id_install'])->first();
+        
+        // Create user if doesn't exist
+        if (!$user) {
+            $userData = [
+                'id_install' => $data['id_install'],
+                'uid_fcm' => 'user_' . $data['id_install'] . '_' . time(),
+                'email' => 'user_' . $data['id_install'] . '@hobbies.local',
+                'username' => 'user_' . $data['id_install'],
+                'fullname' => 'user_' . $data['id_install'],
+                'password_user' => '',
+                'latitude' => '0,0',
+                'status' => 1
+            ];
+            $userModel->save($userData);
+        }
 
         return $this->getByToken($array['tk']);
     }

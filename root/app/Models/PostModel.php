@@ -208,7 +208,8 @@ class PostModel extends Model
             AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
             AND up.status IN (1,4)
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
+            AND a.country='".$country."'
             AND b.status >=1 ");
             $result2 = $query2->getResultArray();
             $row['other_users'] =  $result2;
@@ -216,7 +217,8 @@ class PostModel extends Model
             //get request user post
             $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
+            AND a.country='".$country."'
             AND up.id_user = b.id_user
             AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
@@ -301,7 +303,8 @@ class PostModel extends Model
             $query2   = $this->query(" SELECT DISTINCT b.*, c.token_fcm
             FROM tb_post a, tb_user b, tb_user_post up, tb_install c
             WHERE a.id_post = up.id_post
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
+            AND a.country='".$country."'
             AND up.id_user = b.id_user
             AND b.id_install=c.id_install   
             AND a.status >='".$status."' 
@@ -314,7 +317,8 @@ class PostModel extends Model
             //get request user post
             $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
+            AND a.country='".$country."'
             AND up.id_user = b.id_user
             AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
@@ -390,8 +394,9 @@ class PostModel extends Model
             $query2   = $this->query(" SELECT DISTINCT b.*, c.token_fcm
             FROM tb_post a, tb_user b, tb_user_post up, tb_install c
             WHERE a.id_post = up.id_post
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
-            AND a.country='".$country."' 
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
+            AND a.country='".$country."'
+             
             AND up.id_user = b.id_user
             AND b.id_install=c.id_install   
             AND a.status >='".$status."' 
@@ -404,8 +409,9 @@ class PostModel extends Model
             //get request user post
             $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
-            AND a.country='".$country."' 
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
+            AND a.country='".$country."'
+             
             AND up.id_user = b.id_user
             AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
@@ -417,8 +423,9 @@ class PostModel extends Model
             //get confirmed user post
             $query21   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
-            AND a.country='".$country."' 
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
+            AND a.country='".$country."'
+             
             AND up.id_user = b.id_user
             AND a.status='".$status."' 
             AND a.id_post=".$row['id_post']."
@@ -474,7 +481,8 @@ class PostModel extends Model
             //get other user post
             $query2   = $this->query(" SELECT DISTINCT b.*, c.token_fcm FROM tb_post a, tb_user b, tb_user_post up, tb_install c
             WHERE a.id_post = up.id_post       
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)    
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
+            AND a.country='".$country."'    
             AND up.id_user = b.id_user
             AND b.id_install=c.id_install 
             AND a.status >='".$status."' 
@@ -487,7 +495,8 @@ class PostModel extends Model
             //get request user post
             $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
+            AND a.country='".$country."'
             AND up.id_user = b.id_user
             AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
@@ -617,7 +626,8 @@ class PostModel extends Model
             $query2   = $this->query(" SELECT DISTINCT b.*, c.token_fcm
             FROM tb_post a, tb_user b, tb_user_post up, tb_install c
             WHERE a.id_post = up.id_post
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
+            AND a.country='".$country."'
             AND up.id_user = b.id_user
             AND b.id_install=c.id_install 
             AND a.status >='".$status."' 
@@ -630,7 +640,8 @@ class PostModel extends Model
             //get request user post
             $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
+            AND a.country='".$country."'
             AND up.id_user = b.id_user
             AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
@@ -707,7 +718,8 @@ class PostModel extends Model
             //get other user post
             $query2   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
+            AND a.country='".$country."'
             AND up.id_user = b.id_user
             AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
@@ -776,7 +788,8 @@ class PostModel extends Model
             $query2   = $this->query(" SELECT DISTINCT b.*, c.token_fcm
             FROM tb_post a, tb_user b, tb_install c
             WHERE a.id_user=b.id_user
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
+            AND a.country='".$country."'
             AND b.id_install=c.id_install 
             AND a.status >='".$status."' 
             AND a.id_user != '".$row['id_user']."'
@@ -789,7 +802,8 @@ class PostModel extends Model
             //get request user post
             $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
+            AND a.country='".$country."'
             AND up.id_user = b.id_user
             AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
@@ -860,7 +874,8 @@ class PostModel extends Model
             $query2   = $this->query(" SELECT DISTINCT b.*, c.token_fcm FROM tb_post a, tb_user b, tb_user_post up
             , tb_install c
             WHERE a.id_post = up.id_post
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
+            AND a.country='".$country."'
             AND up.id_user = b.id_user
             AND b.id_install=c.id_install 
             AND a.status >='".$status."' 
@@ -873,7 +888,8 @@ class PostModel extends Model
             //get request user post
             $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
+            AND a.country='".$country."'
             AND up.id_user = b.id_user
             AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
@@ -943,7 +959,8 @@ class PostModel extends Model
             $query2   = $this->query(" SELECT DISTINCT b.*, c.token_fcm FROM tb_post a, tb_user b, tb_user_post up
             , tb_install c            
             WHERE a.id_post = up.id_post
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
+            AND a.country='".$country."'
             AND up.id_user = b.id_user    
             AND b.id_install=c.id_install         
             AND a.status >='".$status."' 
@@ -956,7 +973,8 @@ class PostModel extends Model
             //get request user post
             $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
+            AND a.country='".$country."'
             AND up.id_user = b.id_user
             AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
@@ -1010,13 +1028,15 @@ class PostModel extends Model
         $sql = " SELECT a.* FROM tb_post a 
         WHERE a.status >='".$status."' 
         AND a.id_category='".$idCateg."'
-        AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
+        AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
+            AND a.country='".$country."'
         UNION
         SELECT a.* FROM tb_post a , tb_category b   
         WHERE a.status >='".$status."' 
         AND a.id_category= b.id_category 
         AND b.id_category_up ='".$idCateg."'
-        AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
+        AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
+            AND a.country='".$country."'
         LIMIT ".$getlimit." ";
 
         $query   = $this->query($sql);
@@ -1043,7 +1063,8 @@ class PostModel extends Model
             $query2   = $this->query(" SELECT DISTINCT b.*, c.token_fcm
             FROM tb_post a, tb_user b, tb_user_post up, tb_install c
             WHERE a.id_post = up.id_post
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
+            AND a.country='".$country."'
             AND up.id_user = b.id_user
             AND b.id_install=c.id_install 
             AND a.status >='".$status."' 
@@ -1057,7 +1078,8 @@ class PostModel extends Model
             //get request user post
             $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
+            AND a.country='".$country."'
             AND up.id_user = b.id_user
             AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."

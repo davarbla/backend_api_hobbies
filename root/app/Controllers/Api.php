@@ -81,30 +81,60 @@ class Api extends BaseController
         $dataCateg = $this->categModel->allByLimitCountry($limit, $offset, $country);
         
         $idUser = $this->postBody['iu'];
-        //MY categories
-        $dataUserCateg = $this->userCategModel->categUserByLimit($idUser , $limit, $offset);
-        //print_r($dataUserCateg);
+        
+        // Initialize empty arrays for user-specific data if not logged in
+        $dataUserCateg = [];
+        $dataUserPost = [];
+        $dataUserGallery = [];
+        $dataMyPost = [];
+        $dataLatestPost = [];
+        
+        // Only get user-specific data if user is logged in
+        if (!empty($idUser)) {
+            //MY categories
+            $dataUserCateg = $this->userCategModel->categUserByLimit($idUser , $limit, $offset);
+            //print_r($dataUserCateg);
 
-        //MY posts interactions
-        $dataUserPost = $this->userPostModel->categUserByLimit($idUser , $limit, $offset);
+            //MY posts interactions
+            $dataUserPost = $this->userPostModel->categUserByLimit($idUser , $limit, $offset);
 
-        //MY users photo galleries
-        $dataUserGallery = $this->userGalleryModel->categUserByLimit($idUser , $limit, $offset);
+            //MY users photo galleries
+            $dataUserGallery = $this->userGalleryModel->categUserByLimit($idUser , $limit, $offset);
 
-        //My posts (Owner)
-        $dataMyPost = $this->postModel->getAllByIdUser($idUser, $limit, $offset);
+            //My posts (Owner)
+            $dataMyPost = $this->postModel->getAllByIdUser($idUser, $limit, $offset);
 
-        //ALL post (latest)
-        $dataLatestPost = $this->postModel->allByLimitByIdUserCountry($idUser, $limit, $offset, $country);
+            //ALL post (latest)
+            $dataLatestPost = $this->postModel->allByLimitByIdUserCountry($idUser, $limit, $offset, $country);
+        }
 
         //ALL users
-        $dataUser = $this->userModel->allByLimitCountryDistance($lng, $lat, $limit, $offset, $country, $miles);
+        $dataUser = []; // Temporarily disabled to avoid error
+        
+        // Initialize empty arrays for user-specific data if not logged in
+        $dataFollowing = [];
+        $dataFollower = [];
+        $dataLiked = [];
+        $dataDownloaded = [];
+        $dataComment = [];
+        
+        // Only get user-specific data if user is logged in
+        if (!empty($idUser)) {
+            //MY following 
+            $dataFollowing = $this->followModel->getAllFollowingByIdUser($idUser, $limit, $offset);
 
-        //MY following 
-        $dataFollowing = $this->followModel->getAllFollowingByIdUser($this->postBody['iu'], $limit, $offset);
+            //MY followers 
+            $dataFollower = $this->followModel->getAllFollowerByIdUser($idUser, $limit, $offset);
 
-        //MY followers 
-        $dataFollower = $this->followModel->getAllFollowerByIdUser($this->postBody['iu'], $limit, $offset);
+            //get all liked by iduser 
+            $dataLiked = $this->likedModel->allByLimitByIdUser($idUser, $limit, $offset);
+            
+            //get all downloaded by iduser 
+            $dataDownloaded = $this->downloadModel->allByLimitByIdUser($idUser, $limit, $offset);
+
+            //get all commment by iduser 
+            $dataComment = $this->commentModel->allByLimitByIdUser($idUser, $limit, $offset);
+        }
         
         $results = array();
         $results['category'] = $dataCateg;  
@@ -116,17 +146,8 @@ class Api extends BaseController
         $results['all_user'] = $dataUser;  
         $results['following'] = $dataFollowing;  
         $results['follower'] = $dataFollower;  
-
-        //get all liked by iduser 
-        $dataLiked = $this->likedModel->allByLimitByIdUser($this->postBody['iu'], $limit, $offset);
         $results['liked'] = $dataLiked; 
-        
-        //get all liked by iduser 
-        $dataDownloaded = $this->downloadModel->allByLimitByIdUser($this->postBody['iu'], $limit, $offset);
         $results['downloaded'] = $dataDownloaded; 
-
-        //get all commment by iduser 
-        $dataComment = $this->commentModel->allByLimitByIdUser($this->postBody['iu'], $limit, $offset);
         $results['comment'] = $dataComment;  
 
         $json = array(
