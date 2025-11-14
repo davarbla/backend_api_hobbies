@@ -70,7 +70,7 @@ class UserCategoryModel extends Model
             $data = array();
             $sqlUpdate2 = "";
 
-            if ($checkExist['id_user_category'] != '') {
+            if ($checkExist != null && $checkExist['id_user_category'] != '') {
 
 
                 if ($checkExist['status'] == '1') {
@@ -84,7 +84,8 @@ class UserCategoryModel extends Model
                     ];
 
                     //update post
-                    //$sqlUpdate2 = " UPDATE tb_category SET total_interest=total_interest-1 WHERE id_category='".$idCateg."' ";
+                    $sqlUpdate2 = " UPDATE tb_category SET total_interest=total_interest-1 WHERE id_category='".$idCateg."' ";
+                    $this->query($sqlUpdate2);
                 }
                 else {
                     // no exist do join
@@ -142,7 +143,7 @@ class UserCategoryModel extends Model
             $data = array();
             $sqlUpdate2 = "";
 
-            if ($checkExist['id_user_category'] != '') {
+            if ($checkExist != null && $checkExist['id_user_category'] != '') {
 
 
                 if ($checkExist['status'] == '1') {
@@ -155,11 +156,11 @@ class UserCategoryModel extends Model
                         'id_category'  => $idCateg
                     ];
 
-                    //update post
-                    //$sqlUpdate2 = " UPDATE tb_category SET total_interest=total_interest WHERE id_category='".$idCateg."' ";
-                    //$this->query($sqlUpdate2);
+                    //update post - decrement total_interest when unjoining
+                    $sqlUpdate2 = " UPDATE tb_category SET total_interest=total_interest-1 WHERE id_category='".$idCateg."' ";
+                    $this->query($sqlUpdate2);
                 } else if ($checkExist['status'] == '3' && $isJoined) {
-                    // exist do unjoin
+                    // exist do unjoin (reject pending request)
                     $data = [
                         'id_user_category' => $checkExist['id_user_category'],
                         'id_user'   => $idUser,
@@ -168,10 +169,9 @@ class UserCategoryModel extends Model
                         'id_category'  => $idCateg
                     ];
 
-                    //update post
-                    
+                    //update post - no change to total_interest when rejecting pending
                 } else if ($checkExist['status'] == '3' && !$isJoined) {
-                    // exist do unjoin
+                    // exist do join (accept pending request)
                     $data = [
                         'id_user_category' => $checkExist['id_user_category'],
                         'id_user'   => $idUser,
@@ -180,12 +180,12 @@ class UserCategoryModel extends Model
                         'id_category'  => $idCateg
                     ];
 
+                    //update post - increment total_interest when accepting pending
                     $sqlUpdate2 = " UPDATE tb_category SET total_interest=total_interest+1 WHERE id_category='".$idCateg."' ";
                     $this->query($sqlUpdate2);
 
                 }else {
-                    // no exist do join
-
+                    // no exist do join (new request for private group)
                     $data = [
                         'id_user_category' => $checkExist['id_user_category'],
                         'id_user'   => $idUser,
@@ -194,8 +194,7 @@ class UserCategoryModel extends Model
                         'id_category'  => $idCateg,
                     ];
 
-                    //update post
-                  // $sqlUpdate2 = " UPDATE tb_category SET total_interest=total_interest+1 WHERE id_category='".$idCateg."' ";
+                    //update post - no change to total_interest for pending requests
                 }
                 
                 $this->save($data);
