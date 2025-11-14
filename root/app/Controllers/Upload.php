@@ -165,10 +165,10 @@ class Upload extends BaseController
     {
         $this->postBody = $this->authModel->authHeader($this->request);
 
-        $filename = $this->postBody['filename'];
-        $baseEncodeImage = $this->postBody['image'];
+        $filename = $this->postBody['filename'] ?? '';
+        $baseEncodeImage = $this->postBody['image'] ?? '';
 
-        $id = $this->postBody['id'];
+        $id = $this->postBody['id'] ?? '';
         $dataUser = $this->userModel->getById($id);
 
         $binary = base64_decode($baseEncodeImage);
@@ -204,8 +204,6 @@ class Upload extends BaseController
             fwrite($fh, $binary);
             fclose($fh);
 
-            sleep(1);
-
             $foto = $url_path . $namefile;
 
             $json = array(
@@ -234,41 +232,61 @@ class Upload extends BaseController
     {
         $this->postBody = $this->authModel->authHeader($this->request);
 
-        $filename = $this->postBody['filename'];
-        $baseEncodeImage = $this->postBody['image'];
-        $imageNumber = $this->postBody['imageNumber'];
-        $imageNumberdir = $this->postBody['imageNumber'];
-        $public = $this->postBody['public'];
-        $friends = $this->postBody['friends'];
-        $fun = $this->postBody['fun'];
-        if ($imageNumberdir == '' || $imageNumberdir == '2' || $imageNumberdir == '3' || $imageNumberdir == '4') {
+        $filename = $this->postBody['filename'] ?? '';
+        $baseEncodeImage = $this->postBody['image'] ?? '';
+        $imageNumber = $this->postBody['imageNumber'] ?? '';
+        $imageNumberdir = $this->postBody['imageNumber'] ?? '';
+        $public = $this->postBody['public'] ?? 0;
+        $friends = $this->postBody['friends'] ?? 0;
+        $fun = $this->postBody['fun'] ?? 0;
+        // Determine gallery type based on image number
+        // Profile image: imageNumber = 0 or empty (main profile image)
+        // Public gallery: images 2, 3, 4
+        // Friends gallery: images 5, 6, 7  
+        // Fun gallery: images 8, 9, 10+
+        if ($imageNumberdir == '' || $imageNumberdir == '0') {
+            $imageNumberdir = 'profile';
+        } else if ($imageNumberdir >= 2 && $imageNumberdir <= 4) {
             $imageNumberdir = 'public';
-            
-        } else  if ($imageNumberdir == '5' || $imageNumberdir == '6' || $imageNumberdir == '7' ) {
-            $imageNumberdir = 'event';
-            
-        } else{
-            $imageNumberdir = 'private';
-            
+        } else if ($imageNumberdir >= 5 && $imageNumberdir <= 7) {
+            $imageNumberdir = 'friends';
+        } else {
+            $imageNumberdir = 'fun';
         }
 
-        $id = $this->postBody['id'];
+        $id = $this->postBody['id'] ?? '';
   
         $dataUser = $this->userModel->getById($id);
+        
+        // Check if user exists
+        if (!$dataUser || empty($dataUser)) {
+            $json = array(
+                "result" => array(),
+                "code" => "404",
+                "message" => "User not found",
+            );
+            header('Content-Type: application/json');
+            echo json_encode($json);
+            die();
+        }
 
         $binary = base64_decode($baseEncodeImage);
         $namefile = $filename;
         $ext = pathinfo($namefile, PATHINFO_EXTENSION);
 
         if ($namefile != '') {
-            $target_dir = $this->PATH . "user/" . $imageNumberdir ."/";
+            // For profile images, use the main user directory
+            if ($imageNumberdir == 'profile') {
+                $target_dir = $this->PATH . "user/";
+                $url_path = $this->URL_BASE . "upload/user/";
+            } else {
+                $target_dir = $this->PATH . "user/" . $imageNumberdir ."/";
+                $url_path = $this->URL_BASE . "upload/user/" . $imageNumberdir ."/";
+            }
 
             if (!file_exists($target_dir)) {
                 mkdir($target_dir, 0777, true);
             }
-
-            $url_path = $this->URL_BASE . "upload/user/" . $imageNumberdir ."/";
-
 
             $target_path = $target_dir;
             $now = date('YmdHis');
@@ -282,21 +300,38 @@ class Upload extends BaseController
             fwrite($fh, $binary);
             fclose($fh);
 
-            sleep(1);
-
             //delete old data photo member file
-            $filenm_deleted = basename($dataUser['image'. $imageNumber]);
-            if ($filenm_deleted != 'avatar.png' && $filenm_deleted != 'avatar.jpg' && $filenm_deleted != 'ShieldGreen.jpg' && $filenm_deleted != 'ShieldOrange.jpg' && $filenm_deleted != 'ShieldRed.jpg' ) {
-                $file_path_to_delete = $this->PATH . "user/" . $imageNumberdir ."/" . $filenm_deleted;
-               
-                unlink($file_path_to_delete);
+            if ($imageNumber == '' || $imageNumber == '0') {
+                // Profile image - use 'image' column
+                $filenm_deleted = basename($dataUser['image'] ?? '');
+                $delete_dir = $this->PATH . "user/";
+            } else {
+                // Gallery image - use 'imageX' column
+                $filenm_deleted = basename($dataUser['image'. $imageNumber] ?? '');
+                $delete_dir = $this->PATH . "user/" . $imageNumberdir ."/";
+            }
+            
+            if ($filenm_deleted != '' && $filenm_deleted != 'avatar.png' && $filenm_deleted != 'avatar.jpg' && $filenm_deleted != 'ShieldGreen.jpg' && $filenm_deleted != 'ShieldOrange.jpg' && $filenm_deleted != 'ShieldRed.jpg' ) {
+                $file_path_to_delete = $delete_dir . $filenm_deleted;
+                
+                // Check if it's actually a file, not a directory
+                if (file_exists($file_path_to_delete) && is_file($file_path_to_delete)) {
+                    unlink($file_path_to_delete);
+                }
             }
 
             $foto = $url_path . $namefile;
             //update photo member
 
 
-            if ($imageNumberdir == 'public' ) {                
+            if ($imageNumberdir == 'profile') {
+                // Profile image - update main 'image' column
+                $dataUpdate = [
+                    "id_user" => $id,
+                    "image" => $foto,
+                    "date_img_upd" => date('YmdHis'),
+                ];
+            } else if ($imageNumberdir == 'public' ) {                
                 $public = 1;
                 $dataUpdate = [
                     "id_user" => $id,
@@ -305,7 +340,7 @@ class Upload extends BaseController
                     "public" => $public,
                     
                 ];
-            } else  if ($imageNumberdir == 'event'  ) {                
+            } else if ($imageNumberdir == 'friends' ) {                
                 $friends = 1;
                 $dataUpdate = [
                     "id_user" => $id,

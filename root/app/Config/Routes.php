@@ -40,6 +40,12 @@ $routes->group('api', ['namespace' => 'App\Controllers'], function($routes) {
     $routes->post('register', 'Api::register', ['filter' => 'noauth']);
     $routes->post('login', 'Api::login', ['filter' => 'noauth']);
     
+    // Upload endpoints
+    $routes->post('upload/upload_image_user', 'Upload::upload_image_user');
+    $routes->post('upload/upload_image_share', 'Upload::upload_image_share');
+    $routes->post('upload/upload_post', 'Upload::upload_post');
+    $routes->post('upload/delete_file', 'Upload::delete_file');
+    
     // Test endpoints
     $routes->get('test', 'Test::index');
     $routes->post('test/echo', 'Test::echo');
