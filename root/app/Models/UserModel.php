@@ -408,7 +408,7 @@ class UserModel extends Model
     public function isAvailable($userName){
        $check = $this->where('username', $userName)->first();
 
-        if ( $check['id_user'] != '' || strlen(trim($userName)) < 8 ) {
+        if ($check === null || $check['id_user'] != '' || strlen(trim($userName)) < 8) {
              //echo 'User with this username already exists!';
              return false;
         } else {
