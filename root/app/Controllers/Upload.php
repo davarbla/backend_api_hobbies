@@ -19,8 +19,8 @@ class Upload extends BaseController
     protected $categModel;
     protected $userCategModel;
 
-    private   $URL_BASE = 'https://playguys.net/';
-    private   $PATH = '/home/cloudpanel/htdocs/playguys.net/upload/'; // Update this path to your actual server path
+    private   $URL_BASE = 'http://localhost:8000/';
+    private   $PATH = FCPATH . 'upload/'; // Using FCPATH to get the public directory path
     private   $TOPIC_FCM = '/topics/hobbiestopic';
 
     public function __construct()
