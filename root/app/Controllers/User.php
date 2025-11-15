@@ -83,11 +83,13 @@ class User extends BaseController
             
             $checkExist = $this->userModel->getByEmail($this->postBody['em']);
 
-            if ($checkExist['id_user'] == '') {
+            if ($checkExist == null || !isset($checkExist['id_user']) || $checkExist['id_user'] == '') {
+                // New user - hash the password
                 $this->postBody['ps'] = $this->generatePassword($this->postBody['ps']);
                 
             }
             else {
+                // Existing user - use their existing data
                 $this->postBody['id'] = $checkExist['id_user'];
                 $this->postBody['us']  = $checkExist['username'];
                 $this->postBody['img']  = $checkExist['image'];

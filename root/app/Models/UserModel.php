@@ -334,37 +334,50 @@ class UserModel extends Model
 
     public function registerByPhone($array) {
 
-        if ($array['ph'] == '' || $array['fn'] == '') {
+        if (empty($array['ph']) || empty($array['fn'])) {
             return null;
         }
 
-        $username = $array['us'];
-        if ($array['id'] == '' && $username == '') {
+        $username = isset($array['us']) ? $array['us'] : '';
+        $userId = isset($array['id']) ? $array['id'] : '';
+        $userImage = isset($array['img']) ? $array['img'] : '';
+        
+        if ($userId == '' && $username == '') {
             $splitname = explode(" ", strtolower($array['fn']));
             $lastRow = $this->getLastId();
 
             $plusOne = 0;
-            if ($lastRow['id_user'] != '') {
+            if (isset($lastRow['id_user']) && $lastRow['id_user'] != '') {
                 $plusOne = (int) $lastRow['id_user'];
             }
 
             $plusOne = $plusOne + 1;
-            $username = $this->generate_unique_username($splitname[0], $splitname[1], "$plusOne");
+            // Handle case where fullname might not have a space
+            $firstname = $splitname[0];
+            $lastname = isset($splitname[1]) ? $splitname[1] : $splitname[0];
+            $username = $this->generate_unique_username($firstname, $lastname, "$plusOne");
         }
+        
         $splitLat = explode(",", $array['lat']);
+        
+        // Ensure id_install is not null
+        $idInstall = isset($array['is']) && $array['is'] != null && $array['is'] != 'null' 
+            ? $array['is'] 
+            : 'phone_' . time() . '_' . rand(1000, 9999);
+        
         $data = [
-            'id_user'   => $array['id'],
-            'id_install'   => $array['is'],
+            'id_user'   => $userId,
+            'id_install'   => $idInstall,
             'email'    => $array['em'],
             'phone'         => $array['ph'],
             'fullname'    => $array['fn'],
-            'image'         => $array['img'] != '' ? $array['img'] : 'https://hobbies.fboys.app/upload/assets/avatar.jpg',
+            'image'         => $userImage != '' ? $userImage : 'https://hobbies.fboys.app/upload/assets/avatar.jpg',
             'username'         => $username,
             'uid_fcm'         => $array['uf'],
             'password_user'  => $array['ps'],
             'latitude'  => $array['lat'],
-            'lat'  =>  $splitLat[0],
-            'lng'  =>  $splitLat[1],
+            'lat'  =>  isset($splitLat[0]) ? $splitLat[0] : '0',
+            'lng'  =>  isset($splitLat[1]) ? $splitLat[1] : '0',
             'location'  => $array['loc'],
             'country'       => $array['cc'],
         ];
@@ -373,7 +386,7 @@ class UserModel extends Model
         //die();
 
         $check = $this->getByPhone($array['ph']);
-        if ($check['id_user'] != '' && $check['id_user'] != '0') {
+        if ($check != null && isset($check['id_user']) && $check['id_user'] != '' && $check['id_user'] != '0') {
             $data['id_user'] = $check['id_user'];
         }
 

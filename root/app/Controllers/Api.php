@@ -1302,15 +1302,19 @@ class Api extends BaseController
         $this->postBody = $this->authModel->authHeader($this->request);
         $arr = array();
 
-        if ($this->postBody['em'] == '' && $this->postBody['ph'] == '') {
-            
+        if (empty($this->postBody['em']) && empty($this->postBody['ph'])) {
+            // Both empty, return not found
         }
         else {
             $checkExist = null;
-            if ($this->postBody['ph'] != '') {
+            
+            // Check phone first if provided
+            if (!empty($this->postBody['ph'])) {
                 $checkExist = $this->userModel->getByPhone($this->postBody['ph']);
             }
-            else if ($this->postBody['em'] != '') {
+            
+            // If not found by phone, check email
+            if ($checkExist == null && !empty($this->postBody['em'])) {
                 $checkExist = $this->userModel->getByEmail($this->postBody['em']);
             }
 
