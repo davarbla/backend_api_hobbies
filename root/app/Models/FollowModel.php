@@ -44,7 +44,7 @@ class FollowModel extends Model
 
             $idFollow = '';
             $check1 = $this->findFollowByIdUser($idUser, $idUserTo);
-            if ($check1['id_follow'] != '') {
+            if ($check1 != null && $check1['id_follow'] != '') {
                 $idFollow = $check1['id_follow'];
                 $data['id_follow'] = $idFollow;
                 $data['counter_follow'] = $check1['counter_follow'] + 1;
@@ -75,17 +75,17 @@ class FollowModel extends Model
             
             $idFollow = '';
             $check1 = $this->findFollowByIdUser($idUser, $idUserTo);
-            if ($check1['id_follow'] != '') {
+            if ($check1 != null && $check1['id_follow'] != '') {
                 $idFollow = $check1['id_follow'];
             }
             /*else {
                 $check2 = $this->findFollowByIdUser($idUserTo, $idUser);
-                if ($check2['id_follow'] != '') {
+                if ($check2 != null && $check2['id_follow'] != '') {
                     $idFollow = $check2['id_follow'];
                 }
             }*/
 
-            if ($idFollow != '') {
+            if ($idFollow != '' && $check1 != null) {
                 $data = [
                     'id_follow'  => $idFollow,
                     'counter_unfollow' => $check1['counter_unfollow'] + 1,
@@ -147,13 +147,16 @@ class FollowModel extends Model
         $return_array = array();
         $i = 0;
         foreach ($results as $row) {
-            $query1   = $this->query(" SELECT b.*, c.token_fcm FROM tb_user b, tb_install c 
-                WHERE b.id_install=c.id_install 
-                AND b.id_user='".$row['id_user_to']."' ");
+            $query1   = $this->query(" SELECT b.*, c.token_fcm FROM tb_user b 
+                LEFT JOIN tb_install c ON b.id_install=c.id_install 
+                WHERE b.id_user='".$row['id_user_to']."' ");
             $result1 = $query1->getResultArray();
-            $row['user'] =  $result1[0];
-
-            $return_array[] = $row;
+            
+            // Only add to return array if user exists
+            if (!empty($result1)) {
+                $row['user'] =  $result1[0];
+                $return_array[] = $row;
+            }
         }
         
         return $return_array;
@@ -183,13 +186,16 @@ class FollowModel extends Model
         $return_array = array();
         $i = 0;
         foreach ($results as $row) {
-            $query1   = $this->query(" SELECT b.*, c.token_fcm FROM tb_user b, tb_install c 
-                WHERE b.id_install=c.id_install 
-                AND b.id_user='".$row['id_user']."' ");
+            $query1   = $this->query(" SELECT b.*, c.token_fcm FROM tb_user b 
+                LEFT JOIN tb_install c ON b.id_install=c.id_install 
+                WHERE b.id_user='".$row['id_user']."' ");
             $result1 = $query1->getResultArray();
-            $row['user'] =  $result1[0];
-
-            $return_array[] = $row;
+            
+            // Only add to return array if user exists
+            if (!empty($result1)) {
+                $row['user'] =  $result1[0];
+                $return_array[] = $row;
+            }
         }
         
         return $return_array;

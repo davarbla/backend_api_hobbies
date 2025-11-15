@@ -398,10 +398,15 @@ class UserModel extends Model
     }
 
     public function getTokenById($id) {
-        $query1   = $this->query(" SELECT b.*, c.token_fcm FROM tb_user b, tb_install c
-            WHERE b.id_install=c.id_install
-            AND b.id_user='".$id."' ");
+        $query1   = $this->query(" SELECT b.*, c.token_fcm FROM tb_user b
+            LEFT JOIN tb_install c ON b.id_install=c.id_install
+            WHERE b.id_user='".$id."' ");
         $result1 = $query1->getResultArray();
+        
+        // Return null if user not found, otherwise return first result
+        if (empty($result1)) {
+            return null;
+        }
         return $result1[0];
     }
 

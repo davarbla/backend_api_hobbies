@@ -78,40 +78,46 @@ class Follow extends BaseController
         if ($this->postBody['act'] == 'follow') {
             $this->followModel->do_follow($this->postBody);
 
-            $userNotif = $dataSender['id_user'] == $dataUserFrom['id_user'] ? $dataUserFrom: $dataUserTo;
-            $userToken = $dataSender['id_user'] == $dataUserFrom['id_user'] ? $dataUserTo : $dataUserFrom;
+            // Only send notification if user data is valid
+            if ($dataUserFrom && $dataUserTo && $dataSender) {
+                $userNotif = $dataSender['id_user'] == $dataUserFrom['id_user'] ? $dataUserFrom: $dataUserTo;
+                $userToken = $dataSender['id_user'] == $dataUserFrom['id_user'] ? $dataUserTo : $dataUserFrom;
 
-            //send notif fcm to token user
-            $dataFcm = array(
-                'title'   => $titleNotif,
-                'body'    => $descNotif,
-                "image"   => $userNotif['image'],
-                'payload' => array(
-                    "keyname" => 'new_follower',
-                    "image"   => $userNotif['image']
-                ),
-            );
-            
-            $this->userModel->sendFCMMessage($userToken['token_fcm'], $dataFcm);
+                //send notif fcm to token user
+                $dataFcm = array(
+                    'title'   => $titleNotif,
+                    'body'    => $descNotif,
+                    "image"   => $userNotif['image'],
+                    'payload' => array(
+                        "keyname" => 'new_follower',
+                        "image"   => $userNotif['image']
+                    ),
+                );
+                
+                $this->userModel->sendFCMMessage($userToken['token_fcm'], $dataFcm);
+            }
             //send notif fcm to  token user
         }
         else if ($this->postBody['act'] == 'unfollow') {
             $this->followModel->do_unfollow($this->postBody);
 
-            $userNotif = $dataSender['id_user'] == $dataUserFrom['id_user'] ? $dataUserFrom: $dataUserTo;
-            $userToken = $dataSender['id_user'] == $dataUserFrom['id_user'] ? $dataUserTo : $dataUserFrom;
+            // Only send notification if user data is valid
+            if ($dataUserFrom && $dataUserTo && $dataSender) {
+                $userNotif = $dataSender['id_user'] == $dataUserFrom['id_user'] ? $dataUserFrom: $dataUserTo;
+                $userToken = $dataSender['id_user'] == $dataUserFrom['id_user'] ? $dataUserTo : $dataUserFrom;
 
-            //send notif fcm to token user
-            $dataFcm = array(
-                'title'   => $titleNotif,
-                'body'    => $descNotif,
-                "image"   => $userNotif['image'],
-                'payload' => array(
-                    "keyname" => 'new_follower',
-                    "image"   => $userToken['image']
-                ),
-            );
-            $this->userModel->sendFCMMessage($userToken['token_fcm'], $dataFcm);
+                //send notif fcm to token user
+                $dataFcm = array(
+                    'title'   => $titleNotif,
+                    'body'    => $descNotif,
+                    "image"   => $userNotif['image'],
+                    'payload' => array(
+                        "keyname" => 'new_follower',
+                        "image"   => $userToken['image']
+                    ),
+                );
+                $this->userModel->sendFCMMessage($userToken['token_fcm'], $dataFcm);
+            }
             //send notif fcm to  token user
         }
         
