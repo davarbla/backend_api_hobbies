@@ -72,8 +72,8 @@ class Api extends BaseController
         $country = $this->postBody['cc'];
         $latitude =  $this->postBody['lat'];
         $splitLat = explode(",",$latitude);
-        $lat = $splitLat[0];
-        $lng = $splitLat[1];
+        $lat = isset($splitLat[0]) ? $splitLat[0] : '0';
+        $lng = isset($splitLat[1]) ? $splitLat[1] : '0';
         
         $miles = 1000/1.6; //Meters/1.6
         
@@ -108,8 +108,14 @@ class Api extends BaseController
             $dataLatestPost = $this->postModel->allByLimitByIdUserCountry($idUser, $limit, $offset, $country);
         }
 
-        //ALL users
-        $dataUser = []; // Temporarily disabled to avoid error
+        //ALL users - get all users by country (or all if country is ZZ/international)
+        if ($country === 'ZZ' || empty($country)) {
+            // ZZ is international code - return all users regardless of country
+            $dataUser = $this->userModel->allByLimit($limit, $offset);
+        } else {
+            // Return users filtered by country
+            $dataUser = $this->userModel->allByLimitCountry($limit, $offset, $country);
+        }
         
         // Initialize empty arrays for user-specific data if not logged in
         $dataFollowing = [];
