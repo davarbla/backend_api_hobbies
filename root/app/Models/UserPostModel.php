@@ -63,7 +63,7 @@ class UserPostModel extends Model
             $data = array();
             $sqlUpdate2 = "";
 
-            if ($checkExist['id_user_post'] != '') {
+            if ($checkExist != null && isset($checkExist['id_user_post']) && $checkExist['id_user_post'] != '') {
 
 
                 if ($checkExist['status'] != '0') {
@@ -134,7 +134,7 @@ class UserPostModel extends Model
             $data = array();
             $sqlUpdate2 = "";
 
-            if ($checkExist['id_user_post'] != '') {
+            if ($checkExist != null && isset($checkExist['id_user_post']) && $checkExist['id_user_post'] != '') {
 
 
                 if ($checkExist['status'] == '1') {
@@ -200,7 +200,7 @@ class UserPostModel extends Model
             $data = array();
             $sqlUpdate2 = "";
 
-            if ($checkExist['id_user_post'] != '') {
+            if ($checkExist != null && isset($checkExist['id_user_post']) && $checkExist['id_user_post'] != '') {
 
 
                 if ($checkExist['status'] != '0') {
@@ -242,7 +242,7 @@ class UserPostModel extends Model
             $data = array();
             $sqlUpdate2 = "";
 
-            if ($checkExist['id_user_post'] != '') {
+            if ($checkExist != null && isset($checkExist['id_user_post']) && $checkExist['id_user_post'] != '') {
 
 
                // if ($checkExist['status'] != '1') {
