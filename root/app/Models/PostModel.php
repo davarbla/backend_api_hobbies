@@ -192,24 +192,23 @@ class PostModel extends Model
             $query1   = $this->query(" SELECT b.*, c.token_fcm FROM tb_user b, tb_install c WHERE b.id_install=c.id_install 
                 AND b.id_user='".$row['id_user']."' ");
             $result1 = $query1->getResultArray();
-            $row['user'] =  $result1[0];
+            $row['user'] =  !empty($result1) ? $result1[0] : null;
 
             $query0   = $this->query(" SELECT a.is_liked FROM tb_liked a WHERE a.id_post='".$row['id_post']."'  
                 AND a.id_user='".$row['id_user']."' ");
             $result0 = $query0->getResultArray();
-            $row['is_liked'] =  $result0[0]['is_liked'];
+            $row['is_liked'] =  !empty($result0) ? $result0[0]['is_liked'] : 0;
 
             //get other user post
             $query2   = $this->query(" SELECT DISTINCT b.*, c.token_fcm
             FROM tb_post a, tb_user b, tb_user_post up, tb_install c
             WHERE a.id_post = up.id_post
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
             AND up.id_user = b.id_user
             AND b.id_install=c.id_install 
             AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
             AND up.status IN (1,4)
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
-            AND a.country='".$country."'
             AND b.status >=1 ");
             $result2 = $query2->getResultArray();
             $row['other_users'] =  $result2;
@@ -217,8 +216,7 @@ class PostModel extends Model
             //get request user post
             $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
-            AND a.country='".$country."'
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
             AND up.id_user = b.id_user
             AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
@@ -250,7 +248,7 @@ class PostModel extends Model
                     WHERE b.id_install=c.id_install 
                     AND b.id_user='".$rowComm['id_user']."' ");
                 $resultUser = $queryUser->getResultArray();
-                $rowComm['user'] =  $resultUser[0];
+                $rowComm['user'] =  !empty($resultUser) ? $resultUser[0] : null;
                 $arrComments[] = $rowComm;
             }
             
@@ -292,19 +290,18 @@ class PostModel extends Model
             $query1   = $this->query(" SELECT b.*, c.token_fcm FROM tb_user b, tb_install c WHERE b.id_install=c.id_install 
                 AND b.id_user='".$row['id_user']."' LIMIT 1 ");
             $result1 = $query1->getResultArray();
-            $row['user'] =  $result1[0];
+            $row['user'] =  !empty($result1) ? $result1[0] : null;
 
             $query0   = $this->query(" SELECT a.is_liked FROM tb_liked a WHERE a.id_post='".$row['id_post']."'  
                 AND a.id_user='".$idUser."' ");
             $result0 = $query0->getResultArray();
-            $row['is_liked'] =  $result0[0]['is_liked'];
+            $row['is_liked'] =  !empty($result0) ? $result0[0]['is_liked'] : 0;
 
             //get other user post
             $query2   = $this->query(" SELECT DISTINCT b.*, c.token_fcm
             FROM tb_post a, tb_user b, tb_user_post up, tb_install c
             WHERE a.id_post = up.id_post
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
-            AND a.country='".$country."'
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
             AND up.id_user = b.id_user
             AND b.id_install=c.id_install   
             AND a.status >='".$status."' 
@@ -317,8 +314,7 @@ class PostModel extends Model
             //get request user post
             $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
-            AND a.country='".$country."'
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
             AND up.id_user = b.id_user
             AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
@@ -350,7 +346,7 @@ class PostModel extends Model
                     WHERE b.id_install=c.id_install 
                     AND b.id_user='".$rowComm['id_user']."' ");
                 $resultUser = $queryUser->getResultArray();
-                $rowComm['user'] =  $resultUser[0];
+                $rowComm['user'] =  !empty($resultUser) ? $resultUser[0] : null;
                 $arrComments[] = $rowComm;
             }
             
@@ -362,12 +358,17 @@ class PostModel extends Model
         return $return_array;
     }
 
-    public function allByLimitByIdUserCountry($idUser, $limit=100, $offset=0, $country=ZZ, $status=1) {
+    public function allByLimitByIdUserCountry($idUser, $limit=100, $offset=0, $country='', $status=1) {
         $getlimit = "$offset,$limit";
         //print($getlimit);
         //die();
         
-        $query   = $this->query(" SELECT a.* FROM tb_post a 
+        $query   = $this->query(" SELECT a.*,
+            COALESCE(a.age_min, -1) as age_min,
+            COALESCE(a.age_max, 99) as age_max,
+            COALESCE(a.max_people, 0) as max_people,
+            COALESCE(a.price, 0) as price
+            FROM tb_post a 
             WHERE a.status >='".$status."' 
             AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
             AND a.country='".$country."' 
@@ -383,12 +384,12 @@ class PostModel extends Model
             $query1   = $this->query(" SELECT b.*, c.token_fcm FROM tb_user b, tb_install c WHERE b.id_install=c.id_install 
                 AND b.id_user='".$row['id_user']."' LIMIT 1 ");
             $result1 = $query1->getResultArray();
-            $row['user'] =  $result1[0];
+            $row['user'] =  !empty($result1) ? $result1[0] : null;
 
             $query0   = $this->query(" SELECT a.is_liked FROM tb_liked a WHERE a.id_post='".$row['id_post']."'  
                 AND a.id_user='".$idUser."' ");
             $result0 = $query0->getResultArray();
-            $row['is_liked'] =  $result0[0]['is_liked'];
+            $row['is_liked'] =  !empty($result0) ? $result0[0]['is_liked'] : 0;
 
             //get other user post
             $query2   = $this->query(" SELECT DISTINCT b.*, c.token_fcm
@@ -446,7 +447,7 @@ class PostModel extends Model
                     WHERE b.id_install=c.id_install 
                     AND b.id_user='".$rowComm['id_user']."' ");
                 $resultUser = $queryUser->getResultArray();
-                $rowComm['user'] =  $resultUser[0];
+                $rowComm['user'] =  !empty($resultUser) ? $resultUser[0] : null;
                 $arrComments[] = $rowComm;
             }
             
@@ -471,18 +472,17 @@ class PostModel extends Model
             $query1   = $this->query(" SELECT b.*, c.token_fcm FROM tb_user b, tb_install c WHERE b.id_install=c.id_install 
                 AND b.id_user='".$row['id_user']."' ");
             $result1 = $query1->getResultArray();
-            $row['user'] =  $result1[0];
+            $row['user'] =  !empty($result1) ? $result1[0] : null;
 
             $query0   = $this->query(" SELECT a.is_liked FROM tb_liked a WHERE a.id_post='".$row['id_post']."'  
                 AND a.id_user='".$row['id_user']."' ");
             $result0 = $query0->getResultArray();
-            $row['is_liked'] =  $result0[0]['is_liked'];
+            $row['is_liked'] =  !empty($result0) ? $result0[0]['is_liked'] : 0;
 
             //get other user post
             $query2   = $this->query(" SELECT DISTINCT b.*, c.token_fcm FROM tb_post a, tb_user b, tb_user_post up, tb_install c
             WHERE a.id_post = up.id_post       
             AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
-            AND a.country='".$country."'    
             AND up.id_user = b.id_user
             AND b.id_install=c.id_install 
             AND a.status >='".$status."' 
@@ -495,8 +495,7 @@ class PostModel extends Model
             //get request user post
             $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
-            AND a.country='".$country."'
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
             AND up.id_user = b.id_user
             AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
@@ -528,7 +527,7 @@ class PostModel extends Model
                     WHERE b.id_install=c.id_install 
                     AND b.id_user='".$rowComm['id_user']."' ");
                 $resultUser = $queryUser->getResultArray();
-                $rowComm['user'] =  $resultUser[0];
+                $rowComm['user'] =  !empty($resultUser) ? $resultUser[0] : null;
                 $arrComments[] = $rowComm;
             }
             
@@ -537,10 +536,6 @@ class PostModel extends Model
             $return_array[] = $row;
         }
 
-        //print_r($return_array);
-        //die();
-
-        
         return $return_array;
     }
 
@@ -553,25 +548,25 @@ class PostModel extends Model
                 'id_post'       => $array['id'],
                 'title'   => htmlspecialchars(strip_tags($array['title'])),
                 'description'   => htmlspecialchars(strip_tags($array['ds'])),
-                'id_category'   => $array['ic'],
-                'id_user'       => $array['iu'],
+                'id_category'   => (string)$array['ic'],
+                'id_user'       => (string)$array['iu'],
                 'latitude'      => $array['lat'],
                 'lat'  => $splitLat[0],
                 'lng'  => $splitLat[1],
-                'country'      => $array['cc'],
+                'country'      => (string)$array['cc'],
                 'location'      => $array['loc'],
                 'image'         => $array['img'],
                 'address_detail'   => htmlspecialchars(strip_tags($array['address_detail'])),
                 'address'   => htmlspecialchars(strip_tags($array['address'])),
                 'bring'   => htmlspecialchars(strip_tags($array['bring'])),
                 'cancell'   => htmlspecialchars(strip_tags($array['cancell'])),
-                'max_people'     => $array['max_people'],
-                'price'     => $array['price'],
+                'max_people'     => (string)$array['max_people'],
+                'price'     => (string)$array['price'],
                 'start_date' => $array['start_date'],
                 'end_date' => $array['end_date'],
-                'age_min'     => $array['age_min'],
-                'age_max'     => $array['age_max'],
-                'fun'     => $array['fun'],
+                'age_min'     => (string)$array['age_min'],
+                'age_max'     => (string)$array['age_max'],
+                'fun'     => isset($array['fun']) ? (is_bool($array['fun']) ? ($array['fun'] ? '1' : '0') : (string)$array['fun']) : '0',
             ];
             $this->save($data);
         }
@@ -615,19 +610,18 @@ class PostModel extends Model
             $query1   = $this->query(" SELECT b.*, c.token_fcm FROM tb_user b, tb_install c WHERE b.id_install=c.id_install 
                 AND b.id_user='".$row['id_user']."' ");
             $result1 = $query1->getResultArray();
-            $row['user'] =  $result1[0];
+            $row['user'] =  !empty($result1) ? $result1[0] : null;
 
             $query0   = $this->query(" SELECT a.is_liked FROM tb_liked a WHERE a.id_post='".$row['id_post']."'  
                 AND a.id_user='".$idUser."' ");
             $result0 = $query0->getResultArray();
-            $row['is_liked'] =  $result0[0]['is_liked'];
+            $row['is_liked'] =  !empty($result0) ? $result0[0]['is_liked'] : 0;
 
             //get other user post
             $query2   = $this->query(" SELECT DISTINCT b.*, c.token_fcm
             FROM tb_post a, tb_user b, tb_user_post up, tb_install c
             WHERE a.id_post = up.id_post
             AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
-            AND a.country='".$country."'
             AND up.id_user = b.id_user
             AND b.id_install=c.id_install 
             AND a.status >='".$status."' 
@@ -641,7 +635,6 @@ class PostModel extends Model
             $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
             AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
-            AND a.country='".$country."'
             AND up.id_user = b.id_user
             AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
@@ -673,7 +666,7 @@ class PostModel extends Model
                     WHERE b.id_install=c.id_install 
                     AND b.id_user='".$rowComm['id_user']."' ");
                 $resultUser = $queryUser->getResultArray();
-                $rowComm['user'] =  $resultUser[0];
+                $rowComm['user'] =  !empty($resultUser) ? $resultUser[0] : null;
                 $arrComments[] = $rowComm;
             }
             $row['comments'] = $arrComments;
@@ -708,18 +701,17 @@ class PostModel extends Model
             $query1   = $this->query(" SELECT b.*, c.token_fcm FROM tb_user b, tb_install c WHERE b.id_install=c.id_install 
                 AND b.id_user='".$row['id_user']."' ");
             $result1 = $query1->getResultArray();
-            $row['user'] =  $result1[0];
+            $row['user'] =  !empty($result1) ? $result1[0] : null;
 
             $query0   = $this->query(" SELECT a.is_liked FROM tb_liked a WHERE a.id_post='".$row['id_post']."'  
                 AND a.id_user='".$idUser."' ");
             $result0 = $query0->getResultArray();
-            $row['is_liked'] =  $result0[0]['is_liked'];
+            $row['is_liked'] =  !empty($result0) ? $result0[0]['is_liked'] : 0;
 
             //get other user post
             $query2   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
-            AND a.country='".$country."'
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
             AND up.id_user = b.id_user
             AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
@@ -739,7 +731,7 @@ class PostModel extends Model
                     WHERE b.id_install=c.id_install 
                     AND b.id_user='".$rowComm['id_user']."' ");
                 $resultUser = $queryUser->getResultArray();
-                $rowComm['user'] =  $resultUser[0];
+                $rowComm['user'] =  !empty($resultUser) ? $resultUser[0] : null;
                 $arrComments[] = $rowComm;
             }
             $row['comments'] = $arrComments;
@@ -777,23 +769,22 @@ class PostModel extends Model
             $query1   = $this->query(" SELECT b.*, c.token_fcm FROM tb_user b, tb_install c WHERE b.id_install=c.id_install 
                 AND  b.id_user='".$row['id_user']."' ");
             $result1 = $query1->getResultArray();
-            $row['user'] =  $result1[0];
+            $row['user'] =  !empty($result1) ? $result1[0] : null;
 
             $query0   = $this->query(" SELECT a.is_liked FROM tb_liked a WHERE a.id_post='".$row['id_post']."'  
                 AND a.id_user='".$row['id_user']."' ");
             $result0 = $query0->getResultArray();
-            $row['is_liked'] =  $result0[0]['is_liked'];
+            $row['is_liked'] =  !empty($result0) ? $result0[0]['is_liked'] : 0;
             
             //get other user post
             $query2   = $this->query(" SELECT DISTINCT b.*, c.token_fcm
-            FROM tb_post a, tb_user b, tb_install c
-            WHERE a.id_user=b.id_user
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
-            AND a.country='".$country."'
+            FROM tb_post a, tb_user b, tb_user_post up, tb_install c
+            WHERE a.id_post = up.id_post
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
+            AND up.id_user = b.id_user
             AND b.id_install=c.id_install 
             AND a.status >='".$status."' 
-            AND a.id_user != '".$row['id_user']."'
-            AND a.id_category='".$idCateg."'
+            AND a.id_post=".$row['id_post']."
             AND up.status IN (1,4)
             AND b.status >=1 ");
             $result2 = $query2->getResultArray();
@@ -802,8 +793,7 @@ class PostModel extends Model
             //get request user post
             $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
-            AND a.country='".$country."'
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
             AND up.id_user = b.id_user
             AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
@@ -835,7 +825,7 @@ class PostModel extends Model
                     WHERE b.id_install=c.id_install 
                     AND b.id_user='".$rowComm['id_user']."' ");
                 $resultUser = $queryUser->getResultArray();
-                $rowComm['user'] =  $resultUser[0];
+                $rowComm['user'] =  !empty($resultUser) ? $resultUser[0] : null;
                 $arrComments[] = $rowComm;
             }
             $row['comments'] = $arrComments;
@@ -863,19 +853,18 @@ class PostModel extends Model
             $query1   = $this->query(" SELECT b.*, c.token_fcm FROM tb_user b, tb_install c WHERE b.id_install=c.id_install 
                 AND  b.id_user='".$row['id_user']."' ");
             $result1 = $query1->getResultArray();
-            $row['user'] =  $result1[0];
+            $row['user'] =  !empty($result1) ? $result1[0] : null;
 
             $query0   = $this->query(" SELECT a.is_liked FROM tb_liked a WHERE a.id_post='".$row['id_post']."'  
                 AND a.id_user='".$row['id_user']."' ");
             $result0 = $query0->getResultArray();
-            $row['is_liked'] =  $result0[0]['is_liked'];
+            $row['is_liked'] =  !empty($result0) ? $result0[0]['is_liked'] : 0;
             
             //get other user post
             $query2   = $this->query(" SELECT DISTINCT b.*, c.token_fcm FROM tb_post a, tb_user b, tb_user_post up
             , tb_install c
             WHERE a.id_post = up.id_post
             AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
-            AND a.country='".$country."'
             AND up.id_user = b.id_user
             AND b.id_install=c.id_install 
             AND a.status >='".$status."' 
@@ -889,7 +878,6 @@ class PostModel extends Model
             $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
             AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
-            AND a.country='".$country."'
             AND up.id_user = b.id_user
             AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
@@ -921,7 +909,7 @@ class PostModel extends Model
                     WHERE b.id_install=c.id_install 
                     AND b.id_user='".$rowComm['id_user']."' ");
                 $resultUser = $queryUser->getResultArray();
-                $rowComm['user'] =  $resultUser[0];
+                $rowComm['user'] =  !empty($resultUser) ? $resultUser[0] : null;
                 $arrComments[] = $rowComm;
             }
             $row['comments'] = $arrComments;
@@ -948,19 +936,18 @@ class PostModel extends Model
             $query1   = $this->query(" SELECT b.*, c.token_fcm FROM tb_user b, tb_install c WHERE b.id_install=c.id_install 
                 AND  b.id_user='".$row['id_user']."' ");
             $result1 = $query1->getResultArray();
-            $row['user'] =  $result1[0];
+            $row['user'] =  !empty($result1) ? $result1[0] : null;
 
             $query0   = $this->query(" SELECT a.is_liked FROM tb_liked a WHERE a.id_post='".$row['id_post']."'  
                 AND a.id_user='".$idUser."' ");
             $result0 = $query0->getResultArray();
-            $row['is_liked'] =  $result0[0]['is_liked'];
+            $row['is_liked'] =  !empty($result0) ? $result0[0]['is_liked'] : 0;
             
             //get other user post
             $query2   = $this->query(" SELECT DISTINCT b.*, c.token_fcm FROM tb_post a, tb_user b, tb_user_post up
             , tb_install c            
             WHERE a.id_post = up.id_post
             AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
-            AND a.country='".$country."'
             AND up.id_user = b.id_user    
             AND b.id_install=c.id_install         
             AND a.status >='".$status."' 
@@ -974,7 +961,6 @@ class PostModel extends Model
             $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
             AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
-            AND a.country='".$country."'
             AND up.id_user = b.id_user
             AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
@@ -1006,7 +992,7 @@ class PostModel extends Model
                     WHERE b.id_install=c.id_install 
                     AND b.id_user='".$rowComm['id_user']."' ");
                 $resultUser = $queryUser->getResultArray();
-                $rowComm['user'] =  $resultUser[0];
+                $rowComm['user'] =  !empty($resultUser) ? $resultUser[0] : null;
                 $arrComments[] = $rowComm;
             }
             $row['comments'] = $arrComments;
@@ -1028,15 +1014,13 @@ class PostModel extends Model
         $sql = " SELECT a.* FROM tb_post a 
         WHERE a.status >='".$status."' 
         AND a.id_category='".$idCateg."'
-        AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
-            AND a.country='".$country."'
+        AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
         UNION
         SELECT a.* FROM tb_post a , tb_category b   
         WHERE a.status >='".$status."' 
         AND a.id_category= b.id_category 
         AND b.id_category_up ='".$idCateg."'
-        AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
-            AND a.country='".$country."'
+        AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
         LIMIT ".$getlimit." ";
 
         $query   = $this->query($sql);
@@ -1050,12 +1034,12 @@ class PostModel extends Model
             $query1   = $this->query(" SELECT b.*, c.token_fcm FROM tb_user b, tb_install c WHERE b.id_install=c.id_install 
                 AND b.id_user='".$row['id_user']."' ");
             $result1 = $query1->getResultArray();
-            $row['user'] =  $result1[0];
+            $row['user'] =  !empty($result1) ? $result1[0] : null;
 
             $query0   = $this->query(" SELECT a.is_liked FROM tb_liked a WHERE a.id_post='".$row['id_post']."'  
                 AND a.id_user='".$idUser."' ");
             $result0 = $query0->getResultArray();
-            $row['is_liked'] =  $result0[0]['is_liked'];
+            $row['is_liked'] =  !empty($result0) ? $result0[0]['is_liked'] : 0;
 
             
 
@@ -1063,8 +1047,7 @@ class PostModel extends Model
             $query2   = $this->query(" SELECT DISTINCT b.*, c.token_fcm
             FROM tb_post a, tb_user b, tb_user_post up, tb_install c
             WHERE a.id_post = up.id_post
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
-            AND a.country='".$country."'
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
             AND up.id_user = b.id_user
             AND b.id_install=c.id_install 
             AND a.status >='".$status."' 
@@ -1078,8 +1061,7 @@ class PostModel extends Model
             //get request user post
             $query20   = $this->query(" SELECT DISTINCT b.* FROM tb_post a, tb_user b, tb_user_post up
             WHERE a.id_post = up.id_post
-            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY) 
-            AND a.country='".$country."'
+            AND a.end_date > DATE_ADD(now(), INTERVAL -30 DAY)
             AND up.id_user = b.id_user
             AND a.status >='".$status."' 
             AND a.id_post=".$row['id_post']."
@@ -1112,7 +1094,7 @@ class PostModel extends Model
                     WHERE b.id_install=c.id_install 
                     AND b.id_user='".$rowComm['id_user']."' ");
                 $resultUser = $queryUser->getResultArray();
-                $rowComm['user'] =  $resultUser[0];
+                $rowComm['user'] =  !empty($resultUser) ? $resultUser[0] : null;
                 $arrComments[] = $rowComm;
             }
             $row['comments'] = $arrComments;
@@ -1140,7 +1122,7 @@ class PostModel extends Model
                 WHERE b.id_install=c.id_install 
                 AND b.id_user='".$rowComm['id_user']."' ");
             $resultUser = $queryUser->getResultArray();
-            $rowComm['user'] =  $resultUser[0];
+            $rowComm['user'] =  !empty($resultUser) ? $resultUser[0] : null;
             $arrComments[] = $rowComm;
         }
         
