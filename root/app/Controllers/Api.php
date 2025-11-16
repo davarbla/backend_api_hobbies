@@ -1086,12 +1086,13 @@ class Api extends BaseController
         }
         
         //123456    cfc5902918296762903710e9c9a65580
-        if ($this->postBody['ps'] != '' &&  $this->postBody['em'] != '') {
+        $dataUser = [];
+        if (isset($this->postBody['ps']) && $this->postBody['ps'] != '' && isset($this->postBody['em']) && $this->postBody['em'] != '') {
         $passwrd = $this->generatePassword($this->postBody['ps']);
         $dataUser = $this->userModel->loginByEmail($this->postBody['em'], $passwrd);
         }
 
-        if ($this->postBody['ph'] != '') {
+        if (isset($this->postBody['ph']) && $this->postBody['ph'] != '') {
         $dataUser = $this->userModel->loginByPhone2($this->postBody['ph']);
         }
 
@@ -1101,7 +1102,7 @@ class Api extends BaseController
             $userRecord = $dataUser[0];
         }
 
-        if ($this->postBody['is'] != '' && $userRecord != null && isset($userRecord['id_user']) && $userRecord['id_user'] != '') {
+        if (isset($this->postBody['is']) && $this->postBody['is'] != '' && $userRecord != null && isset($userRecord['id_user']) && $userRecord['id_user'] != '') {
             $this->postBody['id'] = $userRecord['id_user'];
             $this->userModel->updateUser($this->postBody);
         }
