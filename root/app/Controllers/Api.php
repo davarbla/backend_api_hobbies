@@ -1095,9 +1095,14 @@ class Api extends BaseController
         $dataUser = $this->userModel->loginByPhone2($this->postBody['ph']);
         }
 
+        // Extract first user from array if found
+        $userRecord = null;
+        if (is_array($dataUser) && count($dataUser) > 0) {
+            $userRecord = $dataUser[0];
+        }
 
-        if ($this->postBody['is'] != '' && $dataUser['id_user'] != '') {
-            $this->postBody['id'] = $dataUser['id_user'];
+        if ($this->postBody['is'] != '' && $userRecord != null && isset($userRecord['id_user']) && $userRecord['id_user'] != '') {
+            $this->postBody['id'] = $userRecord['id_user'];
             $this->userModel->updateUser($this->postBody);
         }
         
