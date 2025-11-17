@@ -1203,7 +1203,7 @@ class Api extends BaseController
                 // Prepare user data with field names that match UserModel expectations
                 $userData = [
                     'em' => $postData['em'],  // email
-                    'ps' => $postData['ps'],  // password
+                    'ps' => $this->generatePassword($postData['ps']),  // password - MUST BE HASHED
                     'fn' => $postData['fn'] ?? 'New User',  // fullname (required)
                     'is' => $postData['is'] ?? 'web_' . uniqid(),  // id_install (required)
                     'lat' => $postData['lat'] ?? '0,0',
