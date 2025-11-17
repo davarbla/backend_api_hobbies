@@ -332,8 +332,11 @@ class Post extends BaseController
                 ),
             );
 
-            $this->userModel->sendFCMMessage($ownerUser['token_fcm'], $dataFcm);
-            $alreadySent = true;
+            // Only send notification if owner has valid FCM token
+            if (!empty($ownerUser['token_fcm'])) {
+                $this->userModel->sendFCMMessage($ownerUser['token_fcm'], $dataFcm);
+                $alreadySent = true;
+            }
         }
 
         //send notif FCM to category subscription

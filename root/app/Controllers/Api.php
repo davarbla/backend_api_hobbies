@@ -630,6 +630,10 @@ class Api extends BaseController
                     if ($singlePost['id_user'] != '' && $idUser != '') {
                         $actionUser = $this->userModel->getTokenById($idUser);
                         $ownerUser = $this->userModel->getTokenById($singlePost['id_user']);
+                        
+                        // Get category information for the post
+                        $idCateg = $singlePost['id_category'];
+                        $categPost = $this->categModel->getById($idCateg);
                                     
                         $desc = $singlePost['description'];
                         $image = $singlePost['image'];
@@ -650,7 +654,10 @@ class Api extends BaseController
                             ),
                         );
                         
-                        $this->userModel->sendFCMMessage($ownerUser['token_fcm'], $dataFcm);
+                        // Only send notification if owner has valid FCM token
+                        if (!empty($ownerUser['token_fcm'])) {
+                            $this->userModel->sendFCMMessage($ownerUser['token_fcm'], $dataFcm);
+                        }
                         
                         
                     }
@@ -724,7 +731,10 @@ class Api extends BaseController
                             ),
                         );
                         
-                        $this->userModel->sendFCMMessage($targetUser['token_fcm'], $dataFcm);
+                        // Only send notification if target user has valid FCM token
+                        if (!empty($targetUser['token_fcm'])) {
+                            $this->userModel->sendFCMMessage($targetUser['token_fcm'], $dataFcm);
+                        }
                         
                         
                     }
@@ -804,10 +814,14 @@ class Api extends BaseController
            );
 
            if ($isJoined){
-            $this->userModel->sendFCMMessage($actionUser['token_fcm'], $dataFcm);
-              }else{
-            $this->userModel->sendFCMMessage($ownerUser['token_fcm'], $dataFcm);
-        }
+               if (!empty($actionUser['token_fcm'])) {
+                   $this->userModel->sendFCMMessage($actionUser['token_fcm'], $dataFcm);
+               }
+           }else{
+               if (!empty($ownerUser['token_fcm'])) {
+                   $this->userModel->sendFCMMessage($ownerUser['token_fcm'], $dataFcm);
+               }
+           }
            
        }
         }
@@ -885,7 +899,10 @@ class Api extends BaseController
                     ),
                 );
     
-                $this->userModel->sendFCMMessage($actionUser['token_fcm'], $dataFcm);
+                // Only send notification if user has valid FCM token
+                if (!empty($actionUser['token_fcm'])) {
+                    $this->userModel->sendFCMMessage($actionUser['token_fcm'], $dataFcm);
+                }
                 
             }
         }
@@ -966,9 +983,9 @@ class Api extends BaseController
                     ),
                 );
                 if ($singlePost['id_user'] !=  $idUser){
-                    if ($status == '1'){
-                     $this->userModel->sendFCMMessage($actionUser['token_fcm'], $dataFcm);
-                    }elseif ($status == '4'){
+                    if ($status == '1' && !empty($actionUser['token_fcm'])){
+                        $this->userModel->sendFCMMessage($actionUser['token_fcm'], $dataFcm);
+                    }elseif ($status == '4' && !empty($ownerUser['token_fcm'])){
                         $this->userModel->sendFCMMessage($ownerUser['token_fcm'], $dataFcm);
                     }
                 }
