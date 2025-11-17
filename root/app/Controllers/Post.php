@@ -64,10 +64,10 @@ class Post extends BaseController
             
             $dataPost = array();
 
-            $idUser = $this->postBody['iu'];
-            $idCateg = $this->postBody['ic'];
-            $idPost = $this->postBody['ip'];
-            $query = $this->postBody['qy'];
+            $idUser = $this->postBody['iu'] ?? '';
+            $idCateg = $this->postBody['ic'] ?? '';
+            $idPost = $this->postBody['ip'] ?? '';
+            $query = $this->postBody['qy'] ?? '';
 
             if ($query != '') {
                 $dataPost = $this->postModel->searchAllPosts($query, $idUser, $limit, $offset);
