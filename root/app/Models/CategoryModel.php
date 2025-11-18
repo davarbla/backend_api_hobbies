@@ -98,26 +98,24 @@ class CategoryModel extends Model
         $i = 0;
         foreach ($results as $row) {
             
-            //get other user post
-            $query2   = $this->query(" SELECT DISTINCT b.*, c.token_fcm 
-            FROM tb_user_category a, tb_user b, tb_install c
+            //get user count instead of all user data
+            $query2   = $this->query(" SELECT COUNT(DISTINCT b.id_user) as user_count
+            FROM tb_user_category a, tb_user b
             WHERE a.id_user=b.id_user
-            AND b.id_install=c.id_install
             AND a.status='".$status."'             
             AND a.id_category=".$row['id_category']."
             AND b.status=1 ");
             $result2 = $query2->getResultArray();
-            $row['users'] =  $result2;
+            $row['users_count'] =  isset($result2[0]['user_count']) ? (int)$result2[0]['user_count'] : 0;
 
-            $query3   = $this->query(" SELECT b.*, c.token_fcm
-            FROM tb_user_category a, tb_user b, tb_install c
+            $query3   = $this->query(" SELECT COUNT(DISTINCT b.id_user) as pending_count
+            FROM tb_user_category a, tb_user b
             WHERE a.id_user=b.id_user
-            AND b.id_install=c.id_install
             AND a.status>='".$status."'             
             AND a.id_category=".$row['id_category']."
             AND b.status=1 ");
             $result3 = $query3->getResultArray();
-            $row['usersPending'] =  $result3;
+            $row['users_pending_count'] =  isset($result3[0]['pending_count']) ? (int)$result3[0]['pending_count'] : 0;
 
             $queryUser   = $this->query(" SELECT b.*, c.token_fcm FROM tb_user b, tb_install c 
             WHERE b.id_install=c.id_install 
