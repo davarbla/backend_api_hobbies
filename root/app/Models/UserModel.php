@@ -488,22 +488,34 @@ class UserModel extends Model
     public function sendFCMMessage($token, $data_array){
         //$keyServerFCM = 'AAAAInjYsHU:APA91bEirGDQHM1Vdp64CH45KCIEzPXh871At1mOibQpE4hB3uXXWwq7iWPDg-fC9RcKSq0d52LnYH9reILWokvDsqzjL6dFEuzm7MTOgFJ-movuUgcp1p3pQbzTUaKnx9hf3X_xEOg-';
 
+        // Validate token before attempting to send
+        if (empty($token) || $token === null || strlen($token) < 50) {
+            error_log("FCM Error: Invalid or empty token provided - Token: " . substr($token, 0, 20));
+            return array('error' => 'invalid_token', 'message' => 'FCM token is invalid or empty');
+        }
+
+        // Validate required data fields
+        if (!isset($data_array['title']) || !isset($data_array['body'])) {
+            error_log("FCM Error: Missing required fields (title or body)");
+            return array('error' => 'missing_fields', 'message' => 'Title or body is missing');
+        }
+
         $url = 'https://fcm.googleapis.com/fcm/send';
         $data = array(
             'notification' => array(
                 "title" => $data_array['title'],
                 "body"  => $data_array['body'],
-                'image'  => $data_array['image'],
-                'imageUrl' => $data_array['image'],
+                'image'  => $data_array['image'] ?? '',
+                'imageUrl' => $data_array['image'] ?? '',
                 "click_action" => "FLUTTER_NOTIFICATION_CLICK",
                 'priority' =>  'high',
                 'sound' => 'default'
             ),
-            'data' => $data_array['payload'],
+            'data' => $data_array['payload'] ?? array(),
             // Set Android priority to "high"
             'android' => array(
                 'priority'=> "high",
-                'image'  => $data_array['image'],
+                'image'  => $data_array['image'] ?? '',
             ),
             // Add APNS (Apple) config
             'apns' => array(
@@ -535,13 +547,62 @@ class UserModel extends Model
         $context  = stream_context_create( $options );
 
         try {
-            $result =  file_get_contents($url, false, $context);
-            return json_decode($result, true);
+            error_log("FCM: Sending notification to token: " . substr($token, 0, 30) . "...");
+            error_log("FCM: Notification title: " . $data_array['title']);
+            error_log("FCM: Request data: " . json_encode($data));
+            
+            $result =  @file_get_contents($url, false, $context);
+            
+            // Log HTTP response headers
+            if (isset($http_response_header)) {
+                error_log("FCM: HTTP Response Headers: " . json_encode($http_response_header));
+            }
+            
+            // Check for HTTP errors
+            if ($result === false) {
+                $error = error_get_last();
+                error_log("FCM Error: Failed to connect to FCM - " . ($error['message'] ?? 'Unknown error'));
+                error_log("FCM Error: Check if server can reach https://fcm.googleapis.com");
+                return array('error' => 'connection_failed', 'message' => 'Could not connect to FCM server');
+            }
+            
+            // Ensure result is not empty
+            if (empty($result)) {
+                error_log("FCM Error: Empty response from FCM server");
+                error_log("FCM Error: This usually means the server key is invalid or request was blocked");
+                return array('error' => 'empty_response', 'message' => 'Empty response from FCM');
+            }
+            
+            $decoded = json_decode($result, true);
+            
+            // Ensure decoded is an array
+            if (!is_array($decoded)) {
+                error_log("FCM Error: Invalid JSON response from FCM");
+                return array('error' => 'invalid_json', 'message' => 'Invalid response from FCM');
+            }
+            
+            // Log the FCM response for debugging
+            error_log("FCM Response: " . json_encode($decoded));
+            
+            // Check for FCM errors
+            if (isset($decoded['failure']) && $decoded['failure'] > 0) {
+                error_log("FCM Error: Failed to send notification - " . json_encode($decoded['results']));
+            } else if (isset($decoded['success']) && $decoded['success'] > 0) {
+                error_log("FCM Success: Notification sent successfully");
+            }
+            
+            // Return only the decoded array (no resources or objects)
+            return $decoded;
             //send notif fcm to topics
         } catch (Exception $e) {
             // exception is raised and it'll be handled here
-            // $e->getMessage() contains the error message
-            //print("Error " . $e->getMessage());
+            error_log("FCM Exception: " . $e->getMessage());
+            error_log("FCM Exception Trace: " . $e->getTraceAsString());
+            return array('error' => 'exception', 'message' => $e->getMessage());
+        } catch (Throwable $t) {
+            // Catch any other errors including parse errors
+            error_log("FCM Throwable: " . $t->getMessage());
+            return array('error' => 'throwable', 'message' => $t->getMessage());
         }
 
         return array();

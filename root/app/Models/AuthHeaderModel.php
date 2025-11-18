@@ -53,25 +53,23 @@ class AuthHeaderModel extends Model
     public function authHeader($request) {
         $authTokenBase64Encode = "ZXJoYWNvcnBkb3Rjb206YjFzbTFsbDRo";  //base64_encode(erhacorpdotcom:b1sm1ll4h);
 
-        $token = $request->headers(); 
-        //print_r($token);
-        //die();
+        // Get the X-Authentication header value using getHeaderLine
+        $authkey = $request->getHeaderLine('X-Authentication');
         
-        if ($token == '' || $token == null) {
+        if (empty($authkey)) {
+            $authkey = $request->getHeaderLine('x-authentication');
+        }
+        
+        if (empty($authkey)) {
             $this->exitError();
             exit(1);
         }
 
-        $authkey = (string) $token['X-Authentication'];
-        
-
-        if ($authkey == '') {
-            $authkey = (string) $token['x-authentication'];
-        }
-
+        // Split the header value (format: "Bearer <token>")
         $arr_token = explode(" ", $authkey);
         
-        if ($arr_token[1] != $authTokenBase64Encode) { 
+        // Check if we have at least 2 parts and the token matches
+        if (count($arr_token) < 2 || $arr_token[1] != $authTokenBase64Encode) { 
             $this->exitError();
             exit(1);
         }
