@@ -175,9 +175,13 @@ class User extends BaseController
         
         $authkey = (string) $token['X-Authentication'];
         $authTokenBase64Encode = "ZXJoYWNvcnBkb3Rjb206YjFzbTFsbDRo";
-        $arr_token = explode(" ", $authkey);
         
-        if (!isset($arr_token[1]) || $arr_token[1] != $authTokenBase64Encode) {
+        // Support both "Bearer TOKEN" and "TOKEN" formats
+        $arr_token = explode(" ", $authkey);
+        $receivedToken = isset($arr_token[1]) ? $arr_token[1] : $arr_token[0];
+        
+        if ($receivedToken != $authTokenBase64Encode) {
+            error_log("Auth Failed: Expected '$authTokenBase64Encode', Got '$receivedToken'");
             $json = array(
                 "result" => array(),
                 "code" => "99",
