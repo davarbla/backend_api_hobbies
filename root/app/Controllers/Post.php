@@ -165,7 +165,9 @@ class Post extends BaseController
         
         $dataPost = array();
 
-        $dataPost = $this->postModel->allByLimitByIdUserCountry($this->postBody['iu'], $limit, $offset, $this->postBody['cc']);
+        // Get country code with default fallback
+        $country = isset($this->postBody['cc']) ? $this->postBody['cc'] : 'ZZ';
+        $dataPost = $this->postModel->allByLimitByIdUserCountry($this->postBody['iu'], $limit, $offset, $country);
 
         if (count($dataPost) < 1) {
             $json = array(
